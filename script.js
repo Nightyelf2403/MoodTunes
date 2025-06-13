@@ -9,7 +9,6 @@ async function predictMood() {
     return;
   }
 
-  // Show loading spinner
   resultDiv.innerHTML = `<div class="spinner"></div><p>Analyzing mood...</p>`;
 
   try {
