@@ -25,7 +25,8 @@ app.post("/api/predict", async (req, res) => {
 
   try {
     const hfRes = await fetch(
-      "https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english",
+      "https://api-inference.huggingface.co/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english
+",
       {
         method: "POST",
         headers: {
