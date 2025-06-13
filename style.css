@@ -1,81 +1,106 @@
 body {
-  font-family: "Segoe UI", sans-serif;
-  background: #fafafa;
-  color: #333;
-  text-align: center;
   margin: 0;
-  padding: 0;
-  transition: background 0.6s ease;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fefefe;
+  color: #222;
+  overflow-x: hidden;
+  position: relative;
 }
 
-header, footer {
-  padding: 1rem;
-  background-color: #f4f4f4;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+.bg-animation {
+  background: url('https://media.giphy.com/media/xT9IgIc0lryrxvqVGM/giphy.gif') center/cover no-repeat fixed;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.2;
+  animation: fadeIn 3s ease-in;
 }
 
-main {
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 0.2; }
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
   padding: 2rem;
+  text-align: center;
 }
 
-select {
-  margin: 0 5px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 1rem;
+form select {
+  padding: 5px;
+  margin: 4px;
+  border-radius: 8px;
 }
 
 button {
   margin-top: 1rem;
-  padding: 10px 20px;
-  font-size: 1.1rem;
-  background-color: #4caf50;
-  color: white;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
   border: none;
-  border-radius: 8px;
+  background: #4caf50;
+  color: white;
+  border-radius: 6px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background 0.3s;
 }
+
 button:hover {
-  background-color: #45a049;
+  background: #45a049;
 }
 
-.spinner {
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid #4caf50;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  margin: 20px auto;
-  animation: spin 1s linear infinite;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.loader {
+  margin: 1rem auto;
+  font-weight: bold;
 }
 
-.result {
-  margin-top: 1rem;
+.result-box {
+  margin-top: 1.5rem;
   font-size: 1.2rem;
 }
 
-.emoji {
-  font-size: 2.5rem;
-  margin-top: 10px;
+.emoji-display {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
 }
 
-.animation img {
-  max-width: 200px;
+.animation {
   margin-top: 1rem;
-  border-radius: 12px;
 }
 
-body.happy {
-  background-color: #e6ffe6;
+.animation img,
+.animation video {
+  max-width: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
-body.sad {
-  background-color: #ffe6e6;
+
+#songs {
+  margin-top: 2rem;
+  text-align: left;
 }
-body.neutral {
-  background-color: #f0f0f0;
+
+#songs ul {
+  list-style: 🎵;
+  padding-left: 1rem;
+}
+
+audio {
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+footer {
+  margin-top: 4rem;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 1rem;
+  background-color: #111;
+  color: white;
 }
