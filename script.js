@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     moodAudio.style.display = "none";
 
     try {
-      const res = await fetch("https://moodtunes-gjkh.onrender.com/detect-mood", {
+      const res = await fetch("https://moodtunes-gjkh.onrender.com/api/predict", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text })
