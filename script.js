@@ -1,44 +1,53 @@
-// 📁 client/script.js
 async function predictMood() {
   const userInput = document.getElementById("userInput").value;
   const resultDiv = document.getElementById("result");
   const body = document.getElementById("body");
 
-  resultDiv.innerHTML = "Detecting mood...";
+  resultDiv.innerHTML = "<em>Analyzing mood...</em>";
 
   try {
     const response = await fetch("https://moodtunes-gjkh.onrender.com/api/predict", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ text: userInput })
-});
-
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: userInput })
+    });
 
     const data = await response.json();
     const mood = data.mood;
-    displayPlaylist(mood);
+    const confidence = data.confidence;
+
+    const playlists = {
+      happy: { msg: "😊 Happy Vibes", link: "https://open.spotify.com/playlist/37i9dQZF1DXdPec7aLTmlC", color: "#ffe066" },
+      sad: { msg: "😢 Sad Songs", link: "https://open.spotify.com/playlist/37i9dQZF1DX7qK8ma5wgG1", color: "#405070" },
+      energetic: { msg: "⚡ Workout Bangers", link: "https://open.spotify.com/playlist/37i9dQZF1DX70RN3TfWWJh", color: "#ff4d4d" },
+      chill: { msg: "🧘 Chill Beats", link: "https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6", color: "#88d8b0" },
+      romantic: { msg: "💖 Romantic Hits", link: "https://open.spotify.com/playlist/37i9dQZF1DX50QitC6Oqtn", color: "#ff99c8" },
+      focus: { msg: "🧠 Focus Flow", link: "https://open.spotify.com/playlist/37i9dQZF1DX3PFzdbtx1Us", color: "#79b1f3" },
+      angry: { msg: "😡 Hard Rock", link: "https://open.spotify.com/playlist/37i9dQZF1DWZJmo7mlltU6", color: "#900c3f" },
+      sleepy: { msg: "😴 Sleep Sounds", link: "https://open.spotify.com/playlist/37i9dQZF1DWZd79rJ6a7lp", color: "#3a3f58" },
+      confident: { msg: "😎 Boss Vibes", link: "https://open.spotify.com/playlist/37i9dQZF1DX4fpCWaHOned", color: "#20c997" }
+    };
+
+    const playlist = playlists[mood] || { msg: "🤔 Couldn't detect mood.", link: "#", color: "#333" };
+    body.style.backgroundColor = playlist.color;
+
+    let feedback = "";
+    if (confidence >= 0.85) {
+      feedback = "🔍 Very confident in your mood!";
+    } else if (confidence >= 0.6) {
+      feedback = "🙂 Fairly confident mood prediction.";
+    } else {
+      feedback = "⚠️ Low confidence. Try writing a bit more?";
+    }
+
+    resultDiv.innerHTML = `
+      <h2>${playlist.msg}</h2>
+      <p><a href="${playlist.link}" target="_blank">Listen on Spotify</a></p>
+      <p>Mood: <strong>${mood.toUpperCase()}</strong></p>
+      <p>Confidence: ${(confidence * 100).toFixed(1)}%</p>
+      <p>${feedback}</p>
+    `;
   } catch (err) {
-    resultDiv.innerHTML = "Something went wrong. Try again later.";
+    resultDiv.innerHTML = "❌ Something went wrong. Please try again later.";
   }
-}
-
-function displayPlaylist(mood) {
-  const body = document.getElementById("body");
-  const resultDiv = document.getElementById("result");
-
-  const playlists = {
-    happy: { msg: "😊 Happy Vibes: <a href='https://open.spotify.com/playlist/37i9dQZF1DXdPec7aLTmlC'>Listen</a>", color: "#ffe066" },
-    sad: { msg: "😢 Sad Songs: <a href='https://open.spotify.com/playlist/37i9dQZF1DX7qK8ma5wgG1'>Listen</a>", color: "#405070" },
-    energetic: { msg: "⚡ Workout Bangers: <a href='https://open.spotify.com/playlist/37i9dQZF1DX70RN3TfWWJh'>Listen</a>", color: "#ff4d4d" },
-    chill: { msg: "🧘 Chill Beats: <a href='https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6'>Listen</a>", color: "#88d8b0" },
-    romantic: { msg: "💖 Romantic Hits: <a href='https://open.spotify.com/playlist/37i9dQZF1DX50QitC6Oqtn'>Listen</a>", color: "#ff99c8" },
-    focus: { msg: "🧠 Focus Flow: <a href='https://open.spotify.com/playlist/37i9dQZF1DX3PFzdbtx1Us'>Listen</a>", color: "#79b1f3" },
-    angry: { msg: "😡 Hard Rock: <a href='https://open.spotify.com/playlist/37i9dQZF1DWZJmo7mlltU6'>Listen</a>", color: "#900c3f" },
-    sleepy: { msg: "😴 Sleep Sounds: <a href='https://open.spotify.com/playlist/37i9dQZF1DWZd79rJ6a7lp'>Listen</a>", color: "#3a3f58" },
-    confident: { msg: "😎 Boss Vibes: <a href='https://open.spotify.com/playlist/37i9dQZF1DX4fpCWaHOned'>Listen</a>", color: "#20c997" }
-  };
-
-  const playlist = playlists[mood] || { msg: "🤔 Couldn't detect mood.", color: "#222" };
-  resultDiv.innerHTML = playlist.msg;
-  body.style.backgroundColor = playlist.color;
 }
