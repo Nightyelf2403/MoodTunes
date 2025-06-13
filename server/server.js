@@ -37,6 +37,7 @@ Conversation:\n${formatted}`;
 
     const data = await response.json();
     const content = data.choices?.[0]?.text?.trim();
+    console.log("🧠 Full OpenAI API data:", JSON.stringify(data, null, 2));
     console.log("🔎 GPT raw response:", content);
 
     let mood = "uncertain";
