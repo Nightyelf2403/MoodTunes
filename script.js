@@ -1,91 +1,65 @@
 const questions = [
-  "How did you sleep last night?",
-  "What’s something exciting that happened today?",
-  "Are you looking forward to anything soon?",
-  "What’s on your mind right now?",
-  "How do you feel about the past week?",
-  "Anything that's been bothering you lately?"
+  "How do you feel when you wake up?",
+  "Describe your last conversation in a few words.",
+  "What are your thoughts about the day ahead?",
+  "Are you feeling more energized or drained?",
+  "Is your mind more calm or racing right now?",
+  "Would you prefer being around people or alone today?"
 ];
 
-const formDiv = document.getElementById("form");
-const resultDiv = document.getElementById("result");
+let answers = [];
 
-let startTimes = {};
-
-questions.forEach((q, index) => {
-  const label = document.createElement("label");
-  label.textContent = q;
-  label.className = "question";
-
-  const select = document.createElement("select");
-  select.id = `answer-${index}`;
-  select.className = "dropdown";
-  select.onfocus = () => startTimes[index] = Date.now();
-
-  const options = [
-    "",
-    "Very positive",
-    "Somewhat positive",
-    "Neutral",
-    "Somewhat negative",
-    "Very negative"
-  ];
-
-  options.forEach(opt => {
-    const option = document.createElement("option");
-    option.value = opt;
-    option.textContent = opt;
-    select.appendChild(option);
+function createForm() {
+  const formDiv = document.getElementById("form");
+  formDiv.innerHTML = "";
+  questions.forEach((q, i) => {
+    const input = document.createElement("textarea");
+    input.placeholder = q;
+    input.rows = 2;
+    input.className = "fade-in";
+    input.oninput = (e) => answers[i] = e.target.value;
+    formDiv.appendChild(input);
   });
-
-  formDiv.appendChild(label);
-  formDiv.appendChild(select);
-});
-
-function showLoadingSpinner() {
-  resultDiv.innerHTML = "<div class='spinner'></div><p>Analyzing your mood...</p>";
-}
-
-function typeOutText(element, text, speed = 30) {
-  element.textContent = "";
-  let i = 0;
-  const interval = setInterval(() => {
-    if (i < text.length) {
-      element.textContent += text.charAt(i);
-      i++;
-    } else {
-      clearInterval(interval);
-    }
-  }, speed);
 }
 
 async function submitAnswers() {
-  const conversation = questions.map((q, i) => {
-    const input = document.getElementById(`answer-${i}`);
-    const time = startTimes[i] ? (Date.now() - startTimes[i]) / 1000 : 0;
-    return { question: q, answer: input.value, time: time.toFixed(1) };
-  });
+  const text = answers.filter(a => a).join(" ");
+  if (!text) return alert("Please answer at least one question!");
 
-  showLoadingSpinner();
+  document.getElementById("result").innerText = "Detecting mood...";
+  document.body.className = "";
 
   try {
-    const response = await fetch("https://moodtunes-gjkh.onrender.com/api/predict", {
+    const res = await fetch("https://moodtunes-gjkh.onrender.com/detect", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ conversation })
+      body: JSON.stringify({ text })
     });
 
-    const data = await response.json();
-    if (data.mood) {
-      const color = data.mood === "happy" ? "#d1f7c4" : data.mood === "sad" ? "#fcd5ce" : "#e0e0e0";
-      resultDiv.style.backgroundColor = color;
-      const message = `Your mood is: ${data.mood.toUpperCase()} (Confidence: ${Math.round(data.confidence * 100)}%)`;
-      typeOutText(resultDiv, message);
-    } else {
-      resultDiv.textContent = "Unable to detect mood. Please try again.";
-    }
+    const data = await res.json();
+    const mood = data.mood || "neutral";
+    const confidence = Math.round((data.confidence || 0) * 100);
+    const emoji = mood === "happy" ? "😊" : mood === "sad" ? "😢" : "😐";
+
+    document.getElementById("result").innerText = `Your mood is: ${mood.toUpperCase()} (Confidence: ${confidence}%)`;
+    document.getElementById("emoji").innerText = emoji;
+    document.body.className = mood;
+
+    const songList = {
+      happy: ["🎶 'Happy' - Pharrell", "🎵 'Good Life' - OneRepublic", "🌞 'Can't Stop the Feeling' - Justin Timberlake"],
+      sad: ["🎶 'Someone Like You' - Adele", "🎵 'Let Her Go' - Passenger", "💧 'Fix You' - Coldplay"],
+      neutral: ["🎶 'Counting Stars' - OneRepublic", "🎵 'Lost in Japan' - Shawn Mendes", "🌥 'Blinding Lights' - The Weeknd"]
+    };
+
+    const songs = songList[mood] || [];
+    const songsDiv = document.getElementById("songs");
+    songsDiv.innerHTML = `<h3>Recommended Songs:</h3><ul>${songs.map(s => `<li>${s}</li>`).join('')}</ul>`;
+    songsDiv.style.display = "block";
+
   } catch (err) {
-    console.error("Frontend error:", err);
-    resultDiv.textContent = "Something went wrong while detecting mood.";
+    document.getElementById("result").innerText = "Something went wrong. Try again.";
+    console.error("❌", err);
   }
 }
+
+createForm();
