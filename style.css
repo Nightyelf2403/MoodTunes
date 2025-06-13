@@ -1,79 +1,57 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #f2f2f2;
-  color: #333;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  text-align: center;
+  transition: background 0.5s ease-in-out;
+}
+
+header {
   padding: 20px;
 }
 
-h1 {
-  font-size: 2.5em;
-  color: #ff6b6b;
-  margin-bottom: 10px;
-  animation: fadeInDown 1s ease;
-}
-
-.question {
-  margin: 10px 0;
-}
-
-input[type="text"], select.dropdown {
-  padding: 8px;
-  width: 300px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1em;
-}
-
 button {
-  padding: 10px 20px;
-  margin-top: 20px;
-  background: #4a90e2;
-  color: #fff;
+  padding: 12px 24px;
+  background-color: #222;
+  color: white;
   border: none;
-  border-radius: 6px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background 0.3s ease;
+  margin-top: 20px;
+  border-radius: 8px;
 }
 
-button:hover {
-  background: #357ABD;
+.result, .emoji, .songs {
+  margin-top: 20px;
+  font-size: 1.2rem;
 }
 
-.result {
-  margin-top: 30px;
-  font-size: 1.3em;
-  padding: 10px 20px;
-  border-radius: 10px;
-  min-height: 50px;
+body.happy {
+  background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
 }
 
-.spinner {
-  width: 30px;
-  height: 30px;
-  border: 4px solid #ccc;
-  border-top: 4px solid #4a90e2;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 20px auto;
+body.sad {
+  background: linear-gradient(120deg, #bdc3c7 0%, #2c3e50 100%);
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+body.neutral {
+  background: linear-gradient(120deg, #ece9e6 0%, #ffffff 100%);
 }
 
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px); }
+.emoji {
+  font-size: 3rem;
+}
+
+.fade-in {
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 footer {
-  margin-top: 50px;
-  font-size: 0.9em;
-  color: #888;
-  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  color: #333;
 }
