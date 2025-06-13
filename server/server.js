@@ -14,45 +14,50 @@ app.get("/", (req, res) => {
 
 app.post("/api/predict", async (req, res) => {
   const conversation = req.body.conversation;
+
   if (!conversation || !Array.isArray(conversation)) {
     return res.status(400).json({ error: "Invalid conversation data" });
   }
 
-  const messages = conversation.map((item, index) => {
-    return `${index + 1}. Q: ${item.question} A: ${item.answer} (Time: ${item.time}s)`;
-  }).join("\n");
-
-  const prompt = `Based on this conversation, predict the person's mood as one of the following: happy, sad, neutral, anxious, or excited.\nRespond in JSON format: { "mood": "mood_type", "confidence": number between 0 and 1 }\n\n${messages}`;
+  const combinedText = conversation.map((c, i) =>
+    `${i + 1}. ${c.question} ${c.answer}`
+  ).join("\n");
 
   try {
-    const hfRes = await fetch("https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.HF_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ inputs: prompt })
-    });
+    const hfRes = await fetch(
+      "https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.HF_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ inputs: combinedText })
+      }
+    );
 
-    const raw = await hfRes.json();
-    console.log("🔎 HuggingFace raw response:", raw);
-
-    if (raw.error) {
-      return res.status(500).json({ error: raw.error });
+    if (!hfRes.ok) {
+      const errorText = await hfRes.text();
+      console.error("❌ Hugging Face API Error:", errorText);
+      return res.status(500).json({ error: errorText });
     }
 
-    const text = raw.generated_text || "";
-    const jsonMatch = text.match(/\{.*\}/);
-    const parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : null;
+    const data = await hfRes.json();
+    console.log("🔎 Hugging Face response:", data);
 
-    if (parsed?.mood && parsed?.confidence !== undefined) {
-      return res.json(parsed);
+    let mood = "neutral";
+    let confidence = 0.0;
+
+    if (Array.isArray(data) && data[0]?.label) {
+      const label = data[0].label.toLowerCase();
+      confidence = data[0].score || 0.0;
+      mood = label === "positive" ? "happy" : label === "negative" ? "sad" : "neutral";
     }
 
-    res.status(200).json({ mood: "uncertain", confidence: 0 });
+    res.json({ mood, confidence });
   } catch (err) {
-    console.error("❌ API Error:", err);
-    res.status(500).json({ error: "API request failed" });
+    console.error("🔥 Unexpected error:", err);
+    res.status(500).json({ error: "Request failed", details: err.message });
   }
 });
 
