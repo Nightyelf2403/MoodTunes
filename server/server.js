@@ -1,10 +1,8 @@
 // 📁 server/server.js
 import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import fetch from 'node-fetch';
 
-dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -12,62 +10,36 @@ app.use(express.json());
 app.post("/api/predict", async (req, res) => {
   const conversation = req.body.conversation;
 
-  const formatted = conversation.map((c, i) =>
-    `Q${i + 1}: ${c.question}\nA${i + 1}: ${c.answer} (Response time: ${c.time}s)`
-  ).join("\n\n");
-
-  const prompt = `You are a mood analysis assistant. A user answered 6 mood-related multiple-choice questions. Based on their selected answers and response times, predict their overall mood.
-
-Only return a valid JSON object like: {"mood": "happy", "confidence": 0.91}
-
-Conversation:\n${formatted}`;
+  const combinedText = conversation.map((c, i) =>
+    `Q${i + 1}: ${c.question} A${i + 1}: ${c.answer} (time: ${c.time}s)`
+  ).join("\n");
 
   try {
-    const response = await fetch("https://api.openai.com/v1/completions", {
+    const response = await fetch("https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        model: "text-davinci-003",
-        prompt,
-        max_tokens: 150,
-        temperature: 0.4
-      })
+      body: JSON.stringify({ inputs: combinedText })
     });
 
     const data = await response.json();
-    console.log("🧠 Full OpenAI response:", JSON.stringify(data, null, 2));
+    console.log("🔎 HuggingFace raw response:", data);
 
-    if (data.error) {
-      console.error("❌ OpenAI API Error:", data.error);
-      return res.status(500).json({ error: "OpenAI Error", details: data.error.message });
-    }
-
-    const content = data.choices?.[0]?.text?.trim();
-    console.log("🔎 GPT raw response:", content);
-
-    let mood = "uncertain";
+    let mood = "neutral";
     let confidence = 0.0;
 
-    try {
-      if (!content) throw new Error("Empty GPT response");
-      const parsed = JSON.parse(content);
-      mood = parsed.mood || "unknown";
-      confidence = parsed.confidence || 0.0;
-    } catch (e) {
-      console.warn("⚠️ JSON parse failed, trying fallback extraction");
-      const moodMatch = content?.match(/mood\s*[:=\-]?\s*"?(\w+)"?/i);
-      const confidenceMatch = content?.match(/confidence\s*[:=\-]?\s*(\d+(\.\d+)?)/i);
-      if (moodMatch) mood = moodMatch[1].toLowerCase();
-      if (confidenceMatch) confidence = parseFloat(confidenceMatch[1]);
+    if (Array.isArray(data) && data[0]?.label) {
+      const label = data[0].label.toLowerCase();
+      confidence = data[0].score || 0.0;
+      if (label === "positive") mood = "happy";
+      else if (label === "negative") mood = "sad";
     }
 
-    res.json({ mood, confidence, raw: content });
-  } catch (error) {
-    console.error("🔥 Unexpected API call error:", error);
-    res.status(500).json({ error: "Server error", details: error.message });
+    res.json({ mood, confidence, raw: data });
+  } catch (err) {
+    console.error("🔥 API error:", err);
+    res.status(500).json({ error: "Mood analysis failed", details: err.message });
   }
 });
 
