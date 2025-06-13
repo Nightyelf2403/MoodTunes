@@ -94,6 +94,17 @@ button:hover {
   padding: 0.3rem;
 }
 
+.meme-video {
+  display: none;
+  max-width: 100%;
+  width: 320px;
+  height: auto;
+  border-radius: 12px;
+  margin-top: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
 #mood-gif {
   width: 100%;
   max-width: 320px;
