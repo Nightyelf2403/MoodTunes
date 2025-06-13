@@ -7,18 +7,20 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
+  <header class="fade-in">
     <h1>MoodTunes 🎵</h1>
     <p>Answer the questions below to help us understand your mood.</p>
   </header>
 
-  <main>
+  <main class="fade-in">
     <div id="form"></div>
     <button onclick="submitAnswers()">Detect Mood</button>
     <div id="result" class="result"></div>
+    <div id="emoji" class="emoji"></div>
+    <div id="songs" class="songs" style="display: none;"></div>
   </main>
 
-  <footer>Made with ❤️ by Lalith Aditya Chunduri</footer>
+  <footer class="fade-in">Made with ❤️ by Lalith Aditya Chunduri</footer>
 
   <script src="script.js"></script>
 </body>
