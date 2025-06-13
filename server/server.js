@@ -16,13 +16,11 @@ app.post("/api/predict", async (req, res) => {
   const conversation = req.body.conversation;
 
   if (!conversation || !Array.isArray(conversation)) {
+    console.error("❌ Invalid or missing conversation data:", req.body);
     return res.status(400).json({ error: "Invalid conversation data" });
   }
 
-  const combinedText = conversation.map((c, i) =>
-    `${i + 1}. ${c.question} ${c.answer}`
-  ).join("\n");
-
+  const combinedText = conversation.map((c, i) => `${i + 1}. ${c.question} ${c.answer}`).join("\n");
   console.log("🧠 Requesting Hugging Face with text:\n", combinedText);
 
   try {
@@ -55,6 +53,8 @@ app.post("/api/predict", async (req, res) => {
       const label = top.label.toLowerCase();
       confidence = top.score || 0.0;
       mood = label === "positive" ? "happy" : label === "negative" ? "sad" : "neutral";
+    } else {
+      console.warn("⚠️ Unexpected Hugging Face format:", data);
     }
 
     res.json({ mood, confidence });
