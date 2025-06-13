@@ -5,6 +5,7 @@ import fetch from "node-fetch";
 
 dotenv.config();
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
@@ -19,12 +20,11 @@ app.post("/api/predict", async (req, res) => {
     return res.status(400).json({ error: "Invalid conversation format." });
   }
 
-  // Convert the conversation to a string for sentiment analysis
   const combinedText = conversation
     .map((item, index) => `${index + 1}. ${item.question} ${item.answer}`)
     .join(" ");
 
-  console.log("🧠 Requesting Hugging Face with:", combinedText);
+  console.log("🧠 Predicting mood for text:", combinedText);
 
   try {
     const hfResponse = await fetch(
@@ -41,35 +41,33 @@ app.post("/api/predict", async (req, res) => {
 
     if (!hfResponse.ok) {
       const errorText = await hfResponse.text();
-      console.error("❌ HF API error:", errorText);
+      console.error("❌ HuggingFace API error:", errorText);
       return res.status(500).json({ error: "Hugging Face API error", details: errorText });
     }
 
     const result = await hfResponse.json();
-    console.log("✅ HF response:", result);
+    console.log("✅ HuggingFace result:", result);
 
     let mood = "neutral";
     let confidence = 0.0;
 
     if (Array.isArray(result) && Array.isArray(result[0])) {
-      const topLabel = result[0][0]; // top prediction
+      const topLabel = result[0][0];
       confidence = topLabel.score;
-      mood =
-        topLabel.label.toLowerCase() === "positive"
-          ? "happy"
-          : topLabel.label.toLowerCase() === "negative"
-          ? "sad"
-          : "neutral";
+      const label = topLabel.label.toLowerCase();
+
+      if (label === "positive") mood = "happy";
+      else if (label === "negative") mood = "sad";
     }
 
     return res.json({ mood, confidence });
-  } catch (err) {
-    console.error("🔥 Unexpected server error:", err);
-    return res.status(500).json({ error: "Internal server error", details: err.message });
+  } catch (error) {
+    console.error("🔥 Unexpected server error:", error);
+    return res.status(500).json({ error: "Internal server error", details: error.message });
   }
 });
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`🚀 MoodTunes backend live at http://localhost:${PORT}`);
+  console.log(`🚀 MoodTunes backend running at http://localhost:${PORT}`);
 });
