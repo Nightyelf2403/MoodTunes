@@ -1,106 +1,132 @@
-body {
+* {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #fefefe;
-  color: #222;
-  overflow-x: hidden;
-  position: relative;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.bg-animation {
-  background: url('https://media.giphy.com/media/xT9IgIc0lryrxvqVGM/giphy.gif') center/cover no-repeat fixed;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  width: 100vw;
-  height: 100vh;
-  opacity: 0.2;
-  animation: fadeIn 3s ease-in;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 0.2; }
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(to right, #f8f9fa, #d9eaf7);
+  color: #333;
+  text-align: center;
+  padding: 1rem;
+  min-height: 100vh;
 }
 
 .container {
-  max-width: 600px;
+  max-width: 700px;
   margin: auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 1.5rem;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 12px;
 }
 
-form select {
-  padding: 5px;
-  margin: 4px;
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.3rem;
+  color: #4a90e2;
+}
+
+p {
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+}
+
+.story-form select {
+  margin: 0.3rem;
+  padding: 0.5rem;
   border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
 }
 
 button {
   margin-top: 1rem;
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
+  background-color: #28a745;
   border: none;
-  background: #4caf50;
   color: white;
-  border-radius: 6px;
+  padding: 10px 24px;
+  font-size: 1.1rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s ease;
 }
 
 button:hover {
-  background: #45a049;
+  background-color: #218838;
 }
 
-.loader {
-  margin: 1rem auto;
-  font-weight: bold;
+.spinner {
+  margin: 20px auto;
+  border: 8px solid #eee;
+  border-top: 8px solid #28a745;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
 }
 
-.result-box {
-  margin-top: 1.5rem;
-  font-size: 1.2rem;
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.emoji-display {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+.result {
+  margin-top: 1rem;
+  font-size: 1.3rem;
 }
 
-.animation {
+.emoji {
+  font-size: 3rem;
+  margin-top: 10px;
+}
+
+.songs ul {
+  list-style-type: none;
+  padding: 0;
   margin-top: 1rem;
 }
 
-.animation img,
-.animation video {
-  max-width: 90%;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+.songs li {
+  font-size: 1.1rem;
+  padding: 0.3rem;
 }
 
-#songs {
-  margin-top: 2rem;
-  text-align: left;
-}
-
-#songs ul {
-  list-style: 🎵;
-  padding-left: 1rem;
-}
-
-audio {
-  margin-top: 1rem;
+#mood-gif {
   width: 100%;
-  max-width: 400px;
+  max-width: 320px;
+  margin-top: 1rem;
+  border-radius: 10px;
+}
+
+/* Confetti animation */
+#confetti {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url('https://media.giphy.com/media/3ohzdIuqJoo8QdKlnW/giphy.gif') center center / contain no-repeat;
+}
+
+#confetti.active {
+  display: block;
+  animation: burst 1.4s ease-out;
+}
+
+@keyframes burst {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 footer {
-  margin-top: 4rem;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding: 1rem;
-  background-color: #111;
-  color: white;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  font-size: 1rem;
+  color: #666;
+  border-top: 1px solid #ccc;
 }
