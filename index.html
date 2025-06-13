@@ -2,39 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MoodTunes 🎵</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>MoodTunes 🎵</h1>
-      <p>Fill in the story to let us detect your mood!</p>
-    </header>
+  <header>
+    <h1>MoodTunes 🎵</h1>
+    <p>Fill in the story to let us detect your mood!</p>
+  </header>
 
-    <form id="storyForm" class="story-form"></form>
-
-    <div id="loader" class="spinner" style="display: none;"></div>
-    <div id="result" class="result"></div>
-    <div id="emoji" class="emoji"></div>
-
-    <div id="songs" class="songs" style="display: none;"></div>
-
-    <div class="animation" style="display: none;">
-      <img id="mood-gif" alt="Mood animation" />
+  <main>
+    <form id="storyForm"></form>
+    <div id="loader" class="spinner"></div>
+    <div id="result"></div>
+    <div id="emoji"></div>
+    <div id="songs"></div>
+    <div class="animation">
+      <img id="mood-gif" src="" alt="Mood Animation" width="200" style="display:none;" />
     </div>
-
-    <video id="meme-video" class="meme-video" width="320" height="240" controls loop autoplay muted playsinline></video>
-    <audio id="mood-audio" autoplay loop controls style="display: none; margin-top: 1rem;"></audio>
-
-    <!-- Confetti burst -->
+    <video id="meme-video" class="meme-video" width="320" height="240" controls loop autoplay muted playsinline style="display:none;"></video>
+    <audio id="mood-audio" controls autoplay loop style="display:none;"></audio>
     <div id="confetti" class="confetti"></div>
+  </main>
 
-    <footer>
-      Made with ❤️ by <strong>Lalith Aditya</strong>
-    </footer>
-  </div>
+  <footer>
+    <p>Made with ❤️ by <strong>Lalith Aditya Chunduri</strong></p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
