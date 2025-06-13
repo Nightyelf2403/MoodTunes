@@ -4,15 +4,39 @@ body {
   padding: 0;
   text-align: center;
   color: #fff;
+  transition: background 0.5s ease-in-out;
 }
 
 header, footer {
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 main {
   padding: 30px 10px;
+}
+
+textarea {
+  width: 80%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  border: none;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  background-color: #f5560c;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #c24400;
 }
 
 body.happy {
@@ -65,4 +89,12 @@ body.neutral {
 audio {
   margin-top: 20px;
   display: block;
+}
+
+.songs {
+  background: rgba(0, 0, 0, 0.5);
+  margin: 20px auto;
+  padding: 15px;
+  width: 80%;
+  border-radius: 10px;
 }
