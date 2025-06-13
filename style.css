@@ -1,44 +1,35 @@
 body {
-  margin: 0;
   font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
   text-align: center;
-  transition: background 0.5s ease-in-out;
+  color: #fff;
 }
 
-header {
+header, footer {
   padding: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
-button {
-  padding: 12px 24px;
-  background-color: #222;
-  color: white;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-top: 20px;
-  border-radius: 8px;
-}
-
-.result, .emoji, .songs {
-  margin-top: 20px;
-  font-size: 1.2rem;
+main {
+  padding: 30px 10px;
 }
 
 body.happy {
-  background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+  background: url('https://media.giphy.com/media/6VoDJzfRjJNbG/giphy.gif') center/cover no-repeat;
 }
 
 body.sad {
-  background: linear-gradient(120deg, #bdc3c7 0%, #2c3e50 100%);
+  background: url('https://media.giphy.com/media/3oEduSbSGpGaRX2Vri/giphy.gif') center/cover no-repeat;
 }
 
 body.neutral {
-  background: linear-gradient(120deg, #ece9e6 0%, #ffffff 100%);
+  background: url('https://media.giphy.com/media/d2Z9QYzA2aidiWn6/giphy.gif') center/cover no-repeat;
 }
 
 .emoji {
   font-size: 3rem;
+  margin-top: 20px;
 }
 
 .fade-in {
@@ -50,8 +41,28 @@ body.neutral {
   to { opacity: 1; transform: translateY(0); }
 }
 
-footer {
-  padding: 20px;
-  font-size: 0.9rem;
-  color: #333;
+#loader {
+  display: none;
+  margin: 20px auto;
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #fff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animation {
+  margin-top: 20px;
+  display: none;
+}
+
+audio {
+  margin-top: 20px;
+  display: block;
 }
