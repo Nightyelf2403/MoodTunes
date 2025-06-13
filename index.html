@@ -9,12 +9,15 @@
 <body>
   <header class="fade-in">
     <h1>MoodTunes 🎵</h1>
-    <p>Answer the questions below to help us understand your mood.</p>
+    <p>Fill in the story below to help us understand your mood:</p>
   </header>
 
   <main class="fade-in">
-    <div id="form"></div>
-    <button onclick="submitAnswers()">Detect Mood</button>
+    <form id="storyForm">
+      <p>Today, I feel <input type="text" id="q0" required> because something <input type="text" id="q1" required> happened. My energy level is <input type="text" id="q2" required> and I'm feeling more <input type="text" id="q3" required> lately. If I had to describe my mood, my best friend would say I'm <input type="text" id="q4" required>. Today feels like a <input type="text" id="q5" required> kind of song.</p>
+      <button type="submit">Detect Mood</button>
+    </form>
+
     <div id="loader"></div>
     <div id="result" class="result"></div>
     <div id="emoji" class="emoji"></div>
