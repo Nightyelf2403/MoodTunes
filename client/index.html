@@ -1,35 +1,21 @@
+// 📁 client/index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MoodTunes 🎵</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MoodTunes AI 🎵</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body id="body">
   <div class="container">
-    <h1>MoodTunes <span>🎵</span></h1>
-    <p>Select your current mood to get a matching playlist.</p>
-
-    <div class="mood-buttons">
-      <button onclick="suggest('happy')">😊 Happy</button>
-      <button onclick="suggest('sad')">😢 Sad</button>
-      <button onclick="suggest('energetic')">⚡ Energetic</button>
-      <button onclick="suggest('chill')">🧘 Chill</button>
-      <button onclick="suggest('romantic')">💖 Romantic</button>
-      <button onclick="suggest('focus')">🧠 Focus</button>
-      <button onclick="suggest('angry')">😡 Angry</button>
-      <button onclick="suggest('sleepy')">😴 Sleepy</button>
-      <button onclick="suggest('confident')">😎 Confident</button>
-    </div>
-
-    <div id="result" class="result"></div>
+    <h1>MoodTunes AI 🎯</h1>
+    <p>Type how you're feeling right now:</p>
+    <input type="text" id="userInput" placeholder="e.g., I'm tired but happy..." />
+    <button onclick="predictMood()">Detect Mood 🎧</button>
+    <div id="result"></div>
   </div>
-
-  <footer>
-    Made with ❤️ by Lalith Aditya Chunduri
-  </footer>
-
+  <footer>Made by Lalith Aditya Chunduri ❤️</footer>
   <script src="script.js"></script>
 </body>
 </html>
