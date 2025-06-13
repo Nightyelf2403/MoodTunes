@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoodTunes 🎵</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>MoodTunes 🎵</h1>
+    <p>Select your mood to get a matching playlist:</p>
+    <div class="moods">
+      <button onclick="suggest('happy')">😊 Happy</button>
+      <button onclick="suggest('sad')">😢 Sad</button>
+      <button onclick="suggest('energetic')">⚡ Energetic</button>
+      <button onclick="suggest('chill')">🧘 Chill</button>
+    </div>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
