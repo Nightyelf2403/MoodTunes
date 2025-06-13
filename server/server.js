@@ -12,11 +12,13 @@ app.use(express.json());
 app.post("/api/predict", async (req, res) => {
   const conversation = req.body.conversation;
 
-  const formatted = conversation.map((c, i) => `Q${i + 1}: ${c.question}\nA${i + 1}: ${c.answer} (Response time: ${c.time}s)`).join("\n\n");
+  const formatted = conversation.map((c, i) =>
+    `Q${i + 1}: ${c.question}\nA${i + 1}: ${c.answer} (Response time: ${c.time}s)`
+  ).join("\n\n");
 
   const prompt = `You are a mood analysis assistant. A user answered 6 mood-related multiple-choice questions. Based on their selected answers and response times, predict their overall mood.
 
-Only return a valid JSON object like: {\"mood\": \"happy\", \"confidence\": 0.91 }
+Only return a valid JSON object like: {"mood": "happy", "confidence": 0.91}
 
 Conversation:\n${formatted}`;
 
@@ -36,8 +38,14 @@ Conversation:\n${formatted}`;
     });
 
     const data = await response.json();
+    console.log("🧠 Full OpenAI response:", JSON.stringify(data, null, 2));
+
+    if (data.error) {
+      console.error("❌ OpenAI API Error:", data.error);
+      return res.status(500).json({ error: "OpenAI Error", details: data.error.message });
+    }
+
     const content = data.choices?.[0]?.text?.trim();
-    console.log("🧠 Full OpenAI API data:", JSON.stringify(data, null, 2));
     console.log("🔎 GPT raw response:", content);
 
     let mood = "uncertain";
@@ -50,7 +58,7 @@ Conversation:\n${formatted}`;
       confidence = parsed.confidence || 0.0;
     } catch (e) {
       console.warn("⚠️ JSON parse failed, trying fallback extraction");
-      const moodMatch = content?.match(/mood\s*[:=\-]?\s*(\w+)/i);
+      const moodMatch = content?.match(/mood\s*[:=\-]?\s*"?(\w+)"?/i);
       const confidenceMatch = content?.match(/confidence\s*[:=\-]?\s*(\d+(\.\d+)?)/i);
       if (moodMatch) mood = moodMatch[1].toLowerCase();
       if (confidenceMatch) confidence = parseFloat(confidenceMatch[1]);
@@ -58,8 +66,8 @@ Conversation:\n${formatted}`;
 
     res.json({ mood, confidence, raw: content });
   } catch (error) {
-    console.error("🔥 OpenAI API error:", error);
-    res.status(500).json({ error: "API Error", details: error.message });
+    console.error("🔥 Unexpected API call error:", error);
+    res.status(500).json({ error: "Server error", details: error.message });
   }
 });
 
