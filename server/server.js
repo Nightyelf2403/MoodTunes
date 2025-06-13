@@ -12,7 +12,13 @@ app.use(express.json());
 app.post("/api/predict", async (req, res) => {
   const userText = req.body.text;
 
-  const prompt = `Classify the mood of this sentence into one of these: [\"happy\", \"sad\", \"energetic\", \"chill\", \"romantic\", \"focus\", \"angry\", \"sleepy\", \"confident\"]\nSentence: \"${userText}\"\nMood:`;
+  const prompt = `Given the sentence below, classify the user's mood into one of these categories:
+["happy", "sad", "energetic", "chill", "romantic", "focus", "angry", "sleepy", "confident"]
+
+Only return one word — the mood from the list.
+
+Sentence: "${userText}"
+Mood:`;
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
