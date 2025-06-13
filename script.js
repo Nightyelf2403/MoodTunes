@@ -1,59 +1,69 @@
-const questions = [
-  "How do you feel about your day so far?",
-  "Did anything exciting or disappointing happen today?",
-  "How’s your energy level right now?",
-  "Are you feeling more positive or reflective lately?",
-  "How would your best friend describe your mood today?",
-  "If today was a song, what genre would it be?"
-];
-
 document.addEventListener("DOMContentLoaded", () => {
-  const formContainer = document.getElementById("form");
-  const loader = document.getElementById("loader");
-  const resultDiv = document.getElementById("result");
-  const emojiDiv = document.getElementById("emoji");
-  const songsDiv = document.getElementById("songs");
-  const moodGif = document.getElementById("mood-gif");
-  const moodAudio = document.getElementById("mood-audio");
+  const storyVariants = [
+    `Today, I feel <select id="q0">${moods()}</select> because something <select id="q1">${events()}</select> happened. My energy level is <select id="q2">${energy()}</select> and I'm feeling more <select id="q3">${feels()}</select> lately. If I had to describe my mood, my best friend would say I'm <select id="q4">${friends()}</select>. Today feels like a <select id="q5">${genres()}</select> kind of song.`,
 
-  // Load questions
-  questions.forEach((q, i) => {
-    const label = document.createElement("label");
-    label.textContent = `${i + 1}. ${q}`;
-    const textarea = document.createElement("textarea");
-    textarea.rows = 2;
-    textarea.id = `answer-${i}`;
-    formContainer.appendChild(label);
-    formContainer.appendChild(document.createElement("br"));
-    formContainer.appendChild(textarea);
-    formContainer.appendChild(document.createElement("br"));
-  });
+    `I'm currently feeling <select id="q0">${moods()}</select> after a rather <select id="q1">${events()}</select> experience. My motivation is <select id="q2">${energy()}</select>, and I'm more <select id="q3">${feels()}</select> than usual. According to my friend, I'm <select id="q4">${friends()}</select>. If today had a soundtrack, it would be <select id="q5">${genres()}</select>.`,
 
-  // Attach submit function globally so it's available in HTML onclick
-  window.submitAnswers = async function () {
-    const answers = questions.map((_, i) => document.getElementById(`answer-${i}`).value).join(" ");
-    if (!answers.trim()) return alert("Please answer the questions!");
+    `This moment feels <select id="q0">${moods()}</select>. Earlier, something <select id="q1">${events()}</select> occurred. Energy-wise, I'm <select id="q2">${energy()}</select>. Internally, I sense a lot of <select id="q3">${feels()}</select>. I'm probably just being <select id="q4">${friends()}</select>. I'd say it's a <select id="q5">${genres()}</select> day.`,
+
+    `Emotionally, I'm <select id="q0">${moods()}</select> today. An event that felt <select id="q1">${events()}</select> triggered it. Physically, I’m feeling <select id="q2">${energy()}</select>. Mentally, it’s more of a <select id="q3">${feels()}</select> vibe. My friends would call me <select id="q4">${friends()}</select>. The vibe of today sounds like <select id="q5">${genres()}</select>.`,
+
+    `Lately, I’ve been feeling <select id="q0">${moods()}</select>. Something <select id="q1">${events()}</select> just happened. My energy is <select id="q2">${energy()}</select>. My mindset is leaning towards <select id="q3">${feels()}</select>. I'm acting kind of <select id="q4">${friends()}</select>. I'd choose a <select id="q5">${genres()}</select> track for this moment.`,
+
+    `Like a movie, my day feels <select id="q0">${moods()}</select>. The plot twist was <select id="q1">${events()}</select>. I have <select id="q2">${energy()}</select> energy, feeling <select id="q3">${feels()}</select>. I'd probably be seen as <select id="q4">${friends()}</select>. This story plays to a <select id="q5">${genres()}</select> soundtrack.`,
+
+    `Woke up feeling <select id="q0">${moods()}</select>, probably because of the <select id="q1">${events()}</select> dream. I'm operating on <select id="q2">${energy()}</select> energy today. My thoughts are very <select id="q3">${feels()}</select>. If you asked my friend, they’d say I’m <select id="q4">${friends()}</select>. I'd play <select id="q5">${genres()}</select> music right now.`
+  ];
+
+  const randomStory = storyVariants[Math.floor(Math.random() * storyVariants.length)];
+  const storyForm = document.getElementById("storyForm");
+
+  // Animate fade-in
+  storyForm.style.opacity = 0;
+  setTimeout(() => {
+    storyForm.innerHTML = `<p>${randomStory}</p><button type="submit">Detect Mood</button>`;
+    storyForm.style.opacity = 1;
+  }, 300);
+
+  // Form submission
+  storyForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const loader = document.getElementById("loader");
+    const resultDiv = document.getElementById("result");
+    const emojiDiv = document.getElementById("emoji");
+    const songsDiv = document.getElementById("songs");
+    const moodGif = document.getElementById("mood-gif");
+    const moodAudio = document.getElementById("mood-audio");
+
+    const values = [];
+    for (let i = 0; i < 6; i++) {
+      const select = document.getElementById(`q${i}`);
+      values.push(select?.value || "");
+    }
+    const text = values.join(" ");
+
+    if (!text.trim()) return alert("Please complete the story!");
 
     loader.style.display = "block";
     resultDiv.innerHTML = "";
     emojiDiv.innerHTML = "";
     songsDiv.style.display = "none";
     moodGif.src = "";
-    moodGif.parentElement.style.display = "none";
+    moodGif.style.display = "none";
     moodAudio.style.display = "none";
 
     try {
       const res = await fetch("https://moodtunes-gjkh.onrender.com/detect-mood", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: answers })
+        body: JSON.stringify({ text })
       });
 
       const data = await res.json();
       loader.style.display = "none";
 
-      const mood = data.label.toLowerCase();
-      const confidence = (data.score * 100).toFixed(2);
+      const mood = data.label?.toLowerCase() || "uncertain";
+      const confidence = data.score ? (data.score * 100).toFixed(2) : "0";
 
       document.body.className = mood;
       resultDiv.innerHTML = `Your mood is: <strong>${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)`;
@@ -67,33 +77,70 @@ document.addEventListener("DOMContentLoaded", () => {
         neutral: ["Let It Be – Beatles", "Imagine – John Lennon", "Counting Stars – OneRepublic"]
       };
 
-      const audios = {
-        positive: "https://www.fesliyanstudios.com/play-mp3/6552",
-        negative: "https://www.fesliyanstudios.com/play-mp3/6415",
-        neutral: "https://www.fesliyanstudios.com/play-mp3/6724"
-      };
-
       const gifs = {
         positive: "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif",
         negative: "https://media.giphy.com/media/j2pOGeGYKe2xCCKwfi/giphy.gif",
         neutral: "https://media.giphy.com/media/d2Z9QYzA2aidiWn6/giphy.gif"
       };
 
+      const audios = {
+        positive: "https://www.fesliyanstudios.com/play-mp3/6552",
+        negative: "https://www.fesliyanstudios.com/play-mp3/6415",
+        neutral: "https://www.fesliyanstudios.com/play-mp3/6724"
+      };
+
       songsDiv.innerHTML = "<h3>Top songs for your mood:</h3><ul>" +
-        songs[mood].map(song => `<li>${song}</li>`).join("") + "</ul>";
+        (songs[mood] || []).map(song => `<li>${song}</li>`).join("") + "</ul>";
       songsDiv.style.display = "block";
 
       moodGif.src = gifs[mood];
-      moodGif.parentElement.style.display = "block";
+      moodGif.style.display = "block";
 
       moodAudio.src = audios[mood];
       moodAudio.style.display = "block";
       moodAudio.play();
-
     } catch (err) {
       loader.style.display = "none";
       resultDiv.innerHTML = "⚠️ Something went wrong.";
-      console.error(err);
+      console.error("API Error:", err);
     }
-  };
+  });
+
+  // Option generators
+  function moods() {
+    return `<option value="happy">happy</option>
+            <option value="sad">sad</option>
+            <option value="neutral">neutral</option>
+            <option value="anxious">anxious</option>`;
+  }
+  function events() {
+    return `<option value="exciting">exciting</option>
+            <option value="stressful">stressful</option>
+            <option value="unexpected">unexpected</option>
+            <option value="routine">routine</option>`;
+  }
+  function energy() {
+    return `<option value="high">high</option>
+            <option value="low">low</option>
+            <option value="moderate">moderate</option>
+            <option value="drained">drained</option>`;
+  }
+  function feels() {
+    return `<option value="positive">positive</option>
+            <option value="reflective">reflective</option>
+            <option value="overwhelmed">overwhelmed</option>
+            <option value="content">content</option>`;
+  }
+  function friends() {
+    return `<option value="cheerful">cheerful</option>
+            <option value="moody">moody</option>
+            <option value="calm">calm</option>
+            <option value="irritated">irritated</option>`;
+  }
+  function genres() {
+    return `<option value="pop">pop</option>
+            <option value="lofi">lofi</option>
+            <option value="classical">classical</option>
+            <option value="rock">rock</option>`;
+  }
 });
