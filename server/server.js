@@ -49,7 +49,7 @@ app.post("/api/predict", async (req, res) => {
     let confidence = 0.0;
 
     if (Array.isArray(data) && data[0]?.label) {
-      const label = data[0].label.toLowerCase();
+      const top = data[0][0]; 
       confidence = data[0].score || 0.0;
       mood = label === "positive" ? "happy" : label === "negative" ? "sad" : "neutral";
     }
