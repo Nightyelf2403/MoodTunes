@@ -1,28 +1,81 @@
+:root {
+  --bg: #121212;
+  --text: #ffffff;
+  --accent: #f5560c;
+  --button-bg: #1f1f1f;
+  --hover: #f5560c;
+  --radius: 12px;
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background: #1e1e2f;
-  color: #fff;
+  background-color: var(--bg);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
   text-align: center;
-  padding: 50px;
+  padding: 20px;
 }
 
 .container {
   max-width: 600px;
-  margin: auto;
+  width: 100%;
 }
 
-.moods button {
-  margin: 10px;
-  padding: 15px 25px;
+h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color: var(--accent);
+  animation: fadeIn 1.2s ease;
+}
+
+p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  color: #ccc;
+}
+
+.mood-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+button {
+  padding: 15px 20px;
   font-size: 18px;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius);
+  background-color: var(--button-bg);
+  color: var(--text);
   cursor: pointer;
-  background: #f5560c;
-  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: var(--shadow);
+}
+
+button:hover {
+  background-color: var(--hover);
+  transform: scale(1.05);
 }
 
 .result {
-  margin-top: 30px;
-  font-size: 20px;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  color: #ccc;
+  animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
