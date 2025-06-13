@@ -1,51 +1,57 @@
-
 body {
-  background: #1e1e2f;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(-45deg, #1e1e2f, #2c3e50, #1abc9c, #f5560c);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
   color: #fff;
   font-family: 'Segoe UI', sans-serif;
   text-align: center;
-  padding: 50px;
-  transition: background-color 0.4s ease;
+  transition: background-color 1s ease;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .container {
   max-width: 600px;
-  margin: auto;
+  margin: 80px auto;
+  padding: 40px 20px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease;
 }
 
 input {
-  padding: 10px;
-  font-size: 16px;
-  width: 80%;
-  margin-bottom: 20px;
+  padding: 12px;
   border-radius: 8px;
   border: none;
+  width: 80%;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  background: #f4f4f4;
+  color: #333;
 }
 
 button {
-  padding: 12px 25px;
-  background-color: #f5560c;
+  background: #f5560c;
   color: white;
-  font-size: 16px;
   border: none;
-  border-radius: 8px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 16px;
   cursor: pointer;
-  margin-top: 10px;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  background-color: #ff764e;
-}
-
-#result {
-  margin-top: 30px;
-  font-size: 1.2rem;
-}
-
-footer {
-  margin-top: 60px;
-  font-size: 0.9rem;
-  color: #ccc;
+  background: #ff764e;
+  transform: scale(1.05);
 }
 
 .spinner {
@@ -63,7 +69,6 @@ footer {
   100% { transform: rotate(360deg); }
 }
 
-
 .fade-in {
   animation: fadeIn 1s ease-in forwards;
   opacity: 0;
@@ -73,4 +78,26 @@ footer {
   to {
     opacity: 1;
   }
+}
+
+.result-box {
+  margin-top: 30px;
+  padding: 20px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+footer {
+  margin-top: 50px;
+  font-size: 0.85rem;
+  color: #ddd;
+  text-align: center;
+  opacity: 0.8;
+  animation: fadeIn 1s ease forwards;
 }
