@@ -13,7 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
     `☕ Just spilled my coffee but still feeling <select id="q0">${moods()}</select>. A <select id="q1">${events()}</select> thing just happened. ⚡ Energy is <select id="q2">${energy()}</select> and I’m <select id="q3">${feels()}</select> AF. Friends say I’m <select id="q4">${friends()}</select>. Queue the <select id="q5">${genres()}</select> playlist! 🔥`
   ];
 
-  const storyForm = document.getElementById("storyForm");
+  
+const storyForm = document.getElementById("storyForm");
   const loader = document.getElementById("loader");
   const resultDiv = document.getElementById("result");
   const emojiDiv = document.getElementById("emoji");
@@ -43,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     resultDiv.textContent = "";
     emojiDiv.textContent = "";
     songsDiv.style.display = "none";
-    moodGif.src = "";
+    moodGif.style.display = "none";
     memeVideo.src = "";
     memeVideo.style.display = "none";
     moodAudio.pause();
@@ -95,18 +96,27 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       const memes = {
-        happy: ["https://media.giphy.com/media/26xBIygOcC3bAWgIE/giphy.mp4", "https://media.giphy.com/media/3o7abldj0b3rxrZUxW/giphy.mp4"],
-        sad: ["https://media.giphy.com/media/xT9IgIc0lryrxvqVGM/giphy.mp4", "https://media.giphy.com/media/13borq7Zo2kulO/giphy.mp4"],
-        neutral: ["https://media.giphy.com/media/fAnEC88LccN7a/giphy.mp4"]
+        happy: [
+          "https://media.giphy.com/media/26xBIygOcC3bAWgIE/giphy.mp4",
+          "https://media.giphy.com/media/3o7abldj0b3rxrZUxW/giphy.mp4"
+        ],
+        sad: [
+          "https://media.giphy.com/media/xT9IgIc0lryrxvqVGM/giphy.mp4",
+          "https://media.giphy.com/media/13borq7Zo2kulO/giphy.mp4"
+        ],
+        neutral: [
+          "https://media.giphy.com/media/fAnEC88LccN7a/giphy.mp4"
+        ]
       };
 
       const selectedMeme = memes[mood][Math.floor(Math.random() * memes[mood].length)];
 
+      // Inject content
       songsDiv.innerHTML = `<h3>🎵 Top Mood Picks:</h3><ul>${songs[mood].map(song => `<li>${song}</li>`).join("")}</ul>`;
       songsDiv.style.display = "block";
 
       moodGif.src = gifs[mood];
-      document.querySelector(".animation").style.display = "block";
+      moodGif.style.display = "block";
 
       memeVideo.src = selectedMeme;
       memeVideo.style.display = "block";
@@ -117,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (mood === "happy") {
         confetti.style.display = "block";
-        confetti.classList.add("active");
+        confetti.classList.add("explode");
       }
 
     } catch (err) {
@@ -127,22 +137,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Select option builders
   function moods() {
-    return `<option disabled selected value="">Select</option><option value="happy">Happy</option><option value="sad">Sad</option><option value="neutral">Neutral</option>`;
+    return `<option disabled selected value="">Select</option>
+      <option value="happy">Happy</option>
+      <option value="sad">Sad</option>
+      <option value="neutral">Neutral</option>`;
   }
   function events() {
-    return `<option disabled selected value="">Select</option><option value="exciting">Exciting</option><option value="stressful">Stressful</option><option value="unexpected">Unexpected</option>`;
+    return `<option disabled selected value="">Select</option>
+      <option value="exciting">Exciting</option>
+      <option value="stressful">Stressful</option>
+      <option value="unexpected">Unexpected</option>`;
   }
   function energy() {
-    return `<option disabled selected value="">Select</option><option value="high">High</option><option value="low">Low</option><option value="moderate">Moderate</option>`;
+    return `<option disabled selected value="">Select</option>
+      <option value="high">High</option>
+      <option value="low">Low</option>
+      <option value="moderate">Moderate</option>`;
   }
   function feels() {
-    return `<option disabled selected value="">Select</option><option value="positive">Positive</option><option value="reflective">Reflective</option><option value="overwhelmed">Overwhelmed</option>`;
+    return `<option disabled selected value="">Select</option>
+      <option value="positive">Positive</option>
+      <option value="reflective">Reflective</option>
+      <option value="overwhelmed">Overwhelmed</option>`;
   }
   function friends() {
-    return `<option disabled selected value="">Select</option><option value="cheerful">Cheerful</option><option value="moody">Moody</option><option value="calm">Calm</option>`;
+    return `<option disabled selected value="">Select</option>
+      <option value="cheerful">Cheerful</option>
+      <option value="moody">Moody</option>
+      <option value="calm">Calm</option>`;
   }
   function genres() {
-    return `<option disabled selected value="">Select</option><option value="pop">Pop</option><option value="lofi">Lofi</option><option value="classical">Classical</option>`;
+    return `<option disabled selected value="">Select</option>
+      <option value="pop">Pop</option>
+      <option value="lofi">Lofi</option>
+      <option value="classical">Classical</option>`;
   }
 });
+
