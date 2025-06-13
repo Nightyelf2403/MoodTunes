@@ -43,13 +43,16 @@ Conversation:\n${formatted}`;
     let confidence = 0.0;
 
     try {
+      if (!content) throw new Error("Empty GPT response");
       const parsed = JSON.parse(content);
       mood = parsed.mood || "unknown";
       confidence = parsed.confidence || 0.0;
     } catch (e) {
-      console.error("❌ JSON parse failed:", e.message);
-      mood = "uncertain";
-      confidence = 0.0;
+      console.warn("⚠️ JSON parse failed, trying fallback extraction");
+      const moodMatch = content?.match(/mood\s*[:=\-]?\s*(\w+)/i);
+      const confidenceMatch = content?.match(/confidence\s*[:=\-]?\s*(\d+(\.\d+)?)/i);
+      if (moodMatch) mood = moodMatch[1].toLowerCase();
+      if (confidenceMatch) confidence = parseFloat(confidenceMatch[1]);
     }
 
     res.json({ mood, confidence, raw: content });
