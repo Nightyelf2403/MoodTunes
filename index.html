@@ -2,34 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MoodTunes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MoodTunes 🎶</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="fade-in">
+  <header>
     <h1>MoodTunes 🎵</h1>
-    <p>Fill in the story below to help us understand your mood:</p>
+    <p>Fill in the story to let us detect your mood!</p>
   </header>
 
-  <main class="fade-in">
-    <form id="storyForm">
-      <p>Today, I feel <input type="text" id="q0" required> because something <input type="text" id="q1" required> happened. My energy level is <input type="text" id="q2" required> and I'm feeling more <input type="text" id="q3" required> lately. If I had to describe my mood, my best friend would say I'm <input type="text" id="q4" required>. Today feels like a <input type="text" id="q5" required> kind of song.</p>
-      <button type="submit">Detect Mood</button>
-    </form>
+  <main>
+    <form id="storyForm"></form>
 
-    <div id="loader"></div>
+    <div id="loader" class="spinner" style="display: none;"></div>
     <div id="result" class="result"></div>
     <div id="emoji" class="emoji"></div>
     <div id="songs" class="songs" style="display: none;"></div>
-    <div id="animation" class="animation">
+    <div class="animation" style="display: none;">
       <img id="mood-gif" src="" alt="Mood animation" width="200" />
     </div>
-    <audio id="mood-audio" controls autoplay loop style="display:none;"></audio>
+    <audio id="mood-audio" controls autoplay loop style="display: none;"></audio>
   </main>
 
-  <footer class="fade-in">Made with ❤️ by Lalith Aditya Chunduri</footer>
-
+  <footer>Made with ❤️ by Lalith Aditya Chunduri</footer>
   <script src="script.js"></script>
 </body>
 </html>
