@@ -23,6 +23,8 @@ app.post("/api/predict", async (req, res) => {
     `${i + 1}. ${c.question} ${c.answer}`
   ).join("\n");
 
+  console.log("🧠 Requesting Hugging Face with text:\n", combinedText);
+
   try {
     const hfRes = await fetch(
       "https://api-inference.huggingface.co/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english",
@@ -48,10 +50,10 @@ app.post("/api/predict", async (req, res) => {
     let mood = "neutral";
     let confidence = 0.0;
 
-    if (Array.isArray(data) && data[0]?.label) {
-      const top = data[0][0]; 
+    if (Array.isArray(data) && Array.isArray(data[0])) {
+      const top = data[0][0];
       const label = top.label.toLowerCase();
-      confidence = data[0].score || 0.0;
+      confidence = top.score || 0.0;
       mood = label === "positive" ? "happy" : label === "negative" ? "sad" : "neutral";
     }
 
