@@ -1,9 +1,16 @@
 async function predictMood() {
-  const userInput = document.getElementById("userInput").value;
+  const userInput = document.getElementById("userInput").value.trim();
   const resultDiv = document.getElementById("result");
   const body = document.getElementById("body");
+  const inputBox = document.getElementById("userInput");
 
-  resultDiv.innerHTML = "<em>Analyzing mood...</em>";
+  if (!userInput) {
+    resultDiv.innerHTML = "<em>Please enter how you're feeling...</em>";
+    return;
+  }
+
+  // Show loading spinner
+  resultDiv.innerHTML = `<div class="spinner"></div><p>Analyzing mood...</p>`;
 
   try {
     const response = await fetch("https://moodtunes-gjkh.onrender.com/api/predict", {
@@ -29,6 +36,7 @@ async function predictMood() {
     };
 
     const playlist = playlists[mood] || { msg: "🤔 Couldn't detect mood.", link: "#", color: "#333" };
+    body.style.transition = "background-color 1s ease";
     body.style.backgroundColor = playlist.color;
 
     let feedback = "";
@@ -41,12 +49,16 @@ async function predictMood() {
     }
 
     resultDiv.innerHTML = `
-      <h2>${playlist.msg}</h2>
-      <p><a href="${playlist.link}" target="_blank">Listen on Spotify</a></p>
-      <p>Mood: <strong>${mood.toUpperCase()}</strong></p>
-      <p>Confidence: ${(confidence * 100).toFixed(1)}%</p>
-      <p>${feedback}</p>
+      <div class="fade-in">
+        <h2>${playlist.msg}</h2>
+        <p><a href="${playlist.link}" target="_blank">Listen on Spotify</a></p>
+        <p>Mood: <strong>${mood.toUpperCase()}</strong></p>
+        <p>Confidence: ${(confidence * 100).toFixed(1)}%</p>
+        <p>${feedback}</p>
+      </div>
     `;
+
+    inputBox.value = "";
   } catch (err) {
     resultDiv.innerHTML = "❌ Something went wrong. Please try again later.";
   }
