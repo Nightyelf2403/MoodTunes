@@ -9,22 +9,25 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("MoodTunes API is live 🎶");
+  res.send("🎧 MoodTunes backend is running!");
 });
 
 app.post("/api/predict", async (req, res) => {
-  const conversation = req.body.conversation;
+  const { conversation } = req.body;
 
   if (!conversation || !Array.isArray(conversation)) {
-    console.error("❌ Invalid or missing conversation data:", req.body);
-    return res.status(400).json({ error: "Invalid conversation data" });
+    return res.status(400).json({ error: "Invalid conversation format." });
   }
 
-  const combinedText = conversation.map((c, i) => `${i + 1}. ${c.question} ${c.answer}`).join("\n");
-  console.log("🧠 Requesting Hugging Face with text:\n", combinedText);
+  // Convert the conversation to a string for sentiment analysis
+  const combinedText = conversation
+    .map((item, index) => `${index + 1}. ${item.question} ${item.answer}`)
+    .join(" ");
+
+  console.log("🧠 Requesting Hugging Face with:", combinedText);
 
   try {
-    const hfRes = await fetch(
+    const hfResponse = await fetch(
       "https://api-inference.huggingface.co/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english",
       {
         method: "POST",
@@ -36,33 +39,37 @@ app.post("/api/predict", async (req, res) => {
       }
     );
 
-    if (!hfRes.ok) {
-      const errorText = await hfRes.text();
-      console.error("❌ Hugging Face API Error:", errorText);
-      return res.status(500).json({ error: errorText });
+    if (!hfResponse.ok) {
+      const errorText = await hfResponse.text();
+      console.error("❌ HF API error:", errorText);
+      return res.status(500).json({ error: "Hugging Face API error", details: errorText });
     }
 
-    const data = await hfRes.json();
-    console.log("🔎 Hugging Face response:", data);
+    const result = await hfResponse.json();
+    console.log("✅ HF response:", result);
 
     let mood = "neutral";
     let confidence = 0.0;
 
-    if (Array.isArray(data) && Array.isArray(data[0])) {
-      const top = data[0][0];
-      const label = top.label.toLowerCase();
-      confidence = top.score || 0.0;
-      mood = label === "positive" ? "happy" : label === "negative" ? "sad" : "neutral";
-    } else {
-      console.warn("⚠️ Unexpected Hugging Face format:", data);
+    if (Array.isArray(result) && Array.isArray(result[0])) {
+      const topLabel = result[0][0]; // top prediction
+      confidence = topLabel.score;
+      mood =
+        topLabel.label.toLowerCase() === "positive"
+          ? "happy"
+          : topLabel.label.toLowerCase() === "negative"
+          ? "sad"
+          : "neutral";
     }
 
-    res.json({ mood, confidence });
+    return res.json({ mood, confidence });
   } catch (err) {
-    console.error("🔥 Unexpected error:", err);
-    res.status(500).json({ error: "Request failed", details: err.message });
+    console.error("🔥 Unexpected server error:", err);
+    return res.status(500).json({ error: "Internal server error", details: err.message });
   }
 });
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`🎧 Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`🚀 MoodTunes backend live at http://localhost:${PORT}`);
+});
