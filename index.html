@@ -3,27 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MoodTunes 🎶</title>
+  <title>MoodTunes 🎧</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>MoodTunes 🎵</h1>
-    <p>Fill in the story to let us detect your mood!</p>
-  </header>
+  <div class="bg-animation"></div>
 
-  <main>
+  <main class="container">
+    <h1>🎭 MoodTunes</h1>
+    <p>Answer this fun story to detect your mood and enjoy your personalized tunes + memes!</p>
+    
     <form id="storyForm"></form>
+    <div id="loader" class="loader" style="display:none;">🔄 Detecting mood...</div>
 
-    <div id="loader" class="spinner" style="display: none;"></div>
-    <div id="result" class="result"></div>
-    <div id="emoji" class="emoji"></div>
-    <div id="songs" class="songs" style="display: none;"></div>
-    <div class="animation" style="display: none;">
-      <img id="mood-gif" src="" alt="Mood animation" width="200" />
+    <div class="result-box">
+      <div id="emoji" class="emoji-display"></div>
+      <div id="result"></div>
     </div>
-    <audio id="mood-audio" controls autoplay loop style="display: none;"></audio>
+
+    <div class="animation">
+      <img id="mood-gif" src="" alt="Mood GIF" />
+      <video id="meme-video" autoplay loop muted playsinline></video>
+      <audio id="mood-audio" controls style="display:none;"></audio>
+    </div>
+
+    <div id="songs" class="songs-box" style="display:none;"></div>
   </main>
+
 
   <footer>Made with ❤️ by Lalith Aditya Chunduri</footer>
   <script src="script.js"></script>
