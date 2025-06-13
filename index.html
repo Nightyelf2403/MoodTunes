@@ -6,10 +6,10 @@
   <title>MoodTunes 🎵</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body id="body">
   <div class="container">
     <h1>MoodTunes <span>🎵</span></h1>
-    <p>Pick your mood and get a playlist that matches your vibe.</p>
+    <p>Select your current mood to get a matching playlist.</p>
 
     <div class="mood-buttons">
       <button onclick="suggest('happy')">😊 Happy</button>
@@ -18,10 +18,17 @@
       <button onclick="suggest('chill')">🧘 Chill</button>
       <button onclick="suggest('romantic')">💖 Romantic</button>
       <button onclick="suggest('focus')">🧠 Focus</button>
+      <button onclick="suggest('angry')">😡 Angry</button>
+      <button onclick="suggest('sleepy')">😴 Sleepy</button>
+      <button onclick="suggest('confident')">😎 Confident</button>
     </div>
 
     <div id="result" class="result"></div>
   </div>
+
+  <footer>
+    Made with ❤️ by Lalith Aditya Chunduri
+  </footer>
 
   <script src="script.js"></script>
 </body>
