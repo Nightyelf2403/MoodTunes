@@ -9,16 +9,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// New route for conversation-based mood detection
 app.post("/api/predict", async (req, res) => {
   const conversation = req.body.conversation;
 
   const formatted = conversation.map((c, i) => `Q${i + 1}: ${c.question}\nA${i + 1}: ${c.answer} (Response time: ${c.time}s)`).join("\n\n");
 
-  const prompt = `You are a mood analysis assistant. A user answered a series of questions. Based on their responses and how quickly they answered, infer their current mood from the list:
-[\"happy\", \"sad\", \"energetic\", \"chill\", \"romantic\", \"focus\", \"angry\", \"sleepy\", \"confident\"].
+  const prompt = `You are a mood analysis assistant. A user answered 6 mood-related multiple-choice questions. Based on their selected answers and response times, predict their overall mood.
 
-Return a JSON object like this: {\"mood\": \"happy\", \"confidence\": 0.92 }
+Only return a valid JSON object like: {\"mood\": \"happy\", \"confidence\": 0.91 }
 
 Conversation:
 ${formatted}`;
@@ -38,16 +36,18 @@ ${formatted}`;
     });
 
     const data = await response.json();
-    const content = data.choices[0].message.content.trim();
+    const content = data.choices?.[0]?.message?.content?.trim();
 
     let mood = "unknown";
     let confidence = 0.0;
     try {
       const parsed = JSON.parse(content);
-      mood = parsed.mood;
-      confidence = parsed.confidence;
+      mood = parsed.mood || "unknown";
+      confidence = parsed.confidence || 0.0;
     } catch (e) {
-      console.error("Failed to parse GPT response:", content);
+      console.error("❌ Failed to parse GPT response:", content);
+      mood = "uncertain";
+      confidence = 0.0;
     }
 
     res.json({ mood, confidence });
