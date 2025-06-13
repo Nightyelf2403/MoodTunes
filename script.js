@@ -22,7 +22,6 @@ window.onload = () => {
     const textarea = document.createElement("textarea");
     textarea.rows = 2;
     textarea.id = `answer-${i}`;
-    textarea.required = true;
     formContainer.appendChild(label);
     formContainer.appendChild(document.createElement("br"));
     formContainer.appendChild(textarea);
@@ -70,9 +69,9 @@ async function submitAnswers() {
     };
 
     const audios = {
-      positive: "https://www.fesliyanstudios.com/play-mp3/6552", // upbeat
-      negative: "https://www.fesliyanstudios.com/play-mp3/6415", // sad piano
-      neutral: "https://www.fesliyanstudios.com/play-mp3/6724"   // calm
+      positive: "https://www.fesliyanstudios.com/play-mp3/6552",
+      negative: "https://www.fesliyanstudios.com/play-mp3/6415",
+      neutral: "https://www.fesliyanstudios.com/play-mp3/6724"
     };
 
     const gifs = {
