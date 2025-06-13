@@ -1,4 +1,4 @@
-// 📁 client/style.css
+
 body {
   background: #1e1e2f;
   color: #fff;
@@ -46,4 +46,31 @@ footer {
   margin-top: 60px;
   font-size: 0.9rem;
   color: #ccc;
+}
+
+.spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #f5560c;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+.fade-in {
+  animation: fadeIn 1s ease-in forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
 }
