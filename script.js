@@ -17,15 +17,47 @@ questions.forEach((q, index) => {
   label.textContent = q;
   label.className = "question";
 
-  const input = document.createElement("input");
-  input.type = "text";
-  input.id = `answer-${index}`;
-  input.placeholder = "Type your answer...";
-  input.onfocus = () => startTimes[index] = Date.now();
+  const select = document.createElement("select");
+  select.id = `answer-${index}`;
+  select.className = "dropdown";
+  select.onfocus = () => startTimes[index] = Date.now();
+
+  const options = [
+    "",
+    "Very positive",
+    "Somewhat positive",
+    "Neutral",
+    "Somewhat negative",
+    "Very negative"
+  ];
+
+  options.forEach(opt => {
+    const option = document.createElement("option");
+    option.value = opt;
+    option.textContent = opt;
+    select.appendChild(option);
+  });
 
   formDiv.appendChild(label);
-  formDiv.appendChild(input);
+  formDiv.appendChild(select);
 });
+
+function showLoadingSpinner() {
+  resultDiv.innerHTML = "<div class='spinner'></div><p>Analyzing your mood...</p>";
+}
+
+function typeOutText(element, text, speed = 30) {
+  element.textContent = "";
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      i++;
+    } else {
+      clearInterval(interval);
+    }
+  }, speed);
+}
 
 async function submitAnswers() {
   const conversation = questions.map((q, i) => {
@@ -34,7 +66,7 @@ async function submitAnswers() {
     return { question: q, answer: input.value, time: time.toFixed(1) };
   });
 
-  resultDiv.innerHTML = "Detecting mood... ⏳";
+  showLoadingSpinner();
 
   try {
     const response = await fetch("https://moodtunes-gjkh.onrender.com/api/predict", {
@@ -47,7 +79,8 @@ async function submitAnswers() {
     if (data.mood) {
       const color = data.mood === "happy" ? "#d1f7c4" : data.mood === "sad" ? "#fcd5ce" : "#e0e0e0";
       resultDiv.style.backgroundColor = color;
-      resultDiv.textContent = `Your mood is: ${data.mood.toUpperCase()} (Confidence: ${Math.round(data.confidence * 100)}%)`;
+      const message = `Your mood is: ${data.mood.toUpperCase()} (Confidence: ${Math.round(data.confidence * 100)}%)`;
+      typeOutText(resultDiv, message);
     } else {
       resultDiv.textContent = "Unable to detect mood. Please try again.";
     }
