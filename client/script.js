@@ -1,46 +1,45 @@
-const playlists = {
-  happy: {
-    msg: `😊 You're feeling happy! Check out <a href="https://open.spotify.com/playlist/37i9dQZF1DXdPec7aLTmlC" target="_blank">Happy Vibes</a>`,
-    color: "#ffe066"
-  },
-  sad: {
-    msg: `😢 Feeling low? Here's <a href="https://open.spotify.com/playlist/37i9dQZF1DX7qK8ma5wgG1" target="_blank">Sad Songs</a>`,
-    color: "#405070"
-  },
-  energetic: {
-    msg: `⚡ Need energy? Try <a href="https://open.spotify.com/playlist/37i9dQZF1DX70RN3TfWWJh" target="_blank">Workout Bangers</a>`,
-    color: "#ff4d4d"
-  },
-  chill: {
-    msg: `🧘 Take it easy with <a href="https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6" target="_blank">Lo-Fi Chill Beats</a>`,
-    color: "#88d8b0"
-  },
-  romantic: {
-    msg: `💖 Feel the love with <a href="https://open.spotify.com/playlist/37i9dQZF1DX50QitC6Oqtn" target="_blank">Romantic Hits</a>`,
-    color: "#ff99c8"
-  },
-  focus: {
-    msg: `🧠 Stay sharp with <a href="https://open.spotify.com/playlist/37i9dQZF1DX3PFzdbtx1Us" target="_blank">Focus Flow</a>`,
-    color: "#79b1f3"
-  },
-  angry: {
-    msg: `😡 Let it out with <a href="https://open.spotify.com/playlist/37i9dQZF1DWZJmo7mlltU6" target="_blank">Hard Rock Hits</a>`,
-    color: "#900c3f"
-  },
-  sleepy: {
-    msg: `😴 Time to relax with <a href="https://open.spotify.com/playlist/37i9dQZF1DWZd79rJ6a7lp" target="_blank">Sleepy Sounds</a>`,
-    color: "#3a3f58"
-  },
-  confident: {
-    msg: `😎 Walk with style! Here's <a href="https://open.spotify.com/playlist/37i9dQZF1DX4fpCWaHOned" target="_blank">Boss Vibes</a>`,
-    color: "#20c997"
-  }
-};
-
-function suggest(mood) {
-  const result = document.getElementById("result");
+// 📁 client/script.js
+async function predictMood() {
+  const userInput = document.getElementById("userInput").value;
+  const resultDiv = document.getElementById("result");
   const body = document.getElementById("body");
 
-  result.innerHTML = playlists[mood].msg;
-  body.style.backgroundColor = playlists[mood].color;
+  resultDiv.innerHTML = "Detecting mood...";
+
+  try {
+    const response = await fetch("https://your-render-backend.onrender.com/api/predict", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ text: userInput })
+    });
+
+    const data = await response.json();
+    const mood = data.mood;
+    displayPlaylist(mood);
+  } catch (err) {
+    resultDiv.innerHTML = "Something went wrong. Try again later.";
+  }
+}
+
+function displayPlaylist(mood) {
+  const body = document.getElementById("body");
+  const resultDiv = document.getElementById("result");
+
+  const playlists = {
+    happy: { msg: "😊 Happy Vibes: <a href='https://open.spotify.com/playlist/37i9dQZF1DXdPec7aLTmlC'>Listen</a>", color: "#ffe066" },
+    sad: { msg: "😢 Sad Songs: <a href='https://open.spotify.com/playlist/37i9dQZF1DX7qK8ma5wgG1'>Listen</a>", color: "#405070" },
+    energetic: { msg: "⚡ Workout Bangers: <a href='https://open.spotify.com/playlist/37i9dQZF1DX70RN3TfWWJh'>Listen</a>", color: "#ff4d4d" },
+    chill: { msg: "🧘 Chill Beats: <a href='https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6'>Listen</a>", color: "#88d8b0" },
+    romantic: { msg: "💖 Romantic Hits: <a href='https://open.spotify.com/playlist/37i9dQZF1DX50QitC6Oqtn'>Listen</a>", color: "#ff99c8" },
+    focus: { msg: "🧠 Focus Flow: <a href='https://open.spotify.com/playlist/37i9dQZF1DX3PFzdbtx1Us'>Listen</a>", color: "#79b1f3" },
+    angry: { msg: "😡 Hard Rock: <a href='https://open.spotify.com/playlist/37i9dQZF1DWZJmo7mlltU6'>Listen</a>", color: "#900c3f" },
+    sleepy: { msg: "😴 Sleep Sounds: <a href='https://open.spotify.com/playlist/37i9dQZF1DWZd79rJ6a7lp'>Listen</a>", color: "#3a3f58" },
+    confident: { msg: "😎 Boss Vibes: <a href='https://open.spotify.com/playlist/37i9dQZF1DX4fpCWaHOned'>Listen</a>", color: "#20c997" }
+  };
+
+  const playlist = playlists[mood] || { msg: "🤔 Couldn't detect mood.", color: "#222" };
+  resultDiv.innerHTML = playlist.msg;
+  body.style.backgroundColor = playlist.color;
 }
