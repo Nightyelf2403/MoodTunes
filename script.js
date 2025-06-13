@@ -32,34 +32,43 @@ let startTime;
 function loadQuestion() {
   const q = questions[current];
   document.getElementById("question-text").innerText = q.q;
+  document.getElementById("counter").innerText = `🟢 Question ${current + 1} of ${questions.length}`;
+
   const optionsDiv = document.getElementById("options");
   optionsDiv.innerHTML = "";
 
   q.options.forEach(opt => {
     const btn = document.createElement("button");
     btn.innerText = opt;
-    btn.onclick = () => handleAnswer(opt);
+    btn.className = "option-btn";
+    btn.onclick = () => handleAnswer(opt, btn);
     optionsDiv.appendChild(btn);
   });
 
   startTime = Date.now();
 }
 
-function handleAnswer(answer) {
+function handleAnswer(answer, btn) {
   const timeTaken = (Date.now() - startTime) / 1000;
+
+  // Highlight selected button
+  document.querySelectorAll(".option-btn").forEach(b => b.disabled = true);
+  btn.classList.add("selected");
+
   responses.push({
     question: questions[current].q,
     answer,
     time: timeTaken.toFixed(2)
   });
 
-  current++;
-
-  if (current < questions.length) {
-    loadQuestion();
-  } else {
-    submitResponses();
-  }
+  setTimeout(() => {
+    current++;
+    if (current < questions.length) {
+      loadQuestion();
+    } else {
+      submitResponses();
+    }
+  }, 600);
 }
 
 async function submitResponses() {
