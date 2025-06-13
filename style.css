@@ -1,75 +1,49 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #f2f2f2;
+  color: #333;
   text-align: center;
-  color: #fff;
-  transition: background 0.5s ease-in-out;
+  transition: background 0.8s ease;
 }
 
-header, footer {
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.7);
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
-main {
-  padding: 30px 10px;
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 
-textarea {
-  width: 80%;
-  padding: 10px;
+select {
+  margin: 0 6px;
+  padding: 4px 10px;
   font-size: 1rem;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  border: none;
+  border-radius: 6px;
 }
 
 button {
   padding: 10px 20px;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  background-color: #4caf50;
   border: none;
-  background-color: #f5560c;
+  border-radius: 8px;
   color: white;
-  border-radius: 6px;
+  margin-top: 1rem;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 button:hover {
-  background-color: #c24400;
+  background-color: #45a049;
 }
 
-body.happy {
-  background: url('https://media.giphy.com/media/6VoDJzfRjJNbG/giphy.gif') center/cover no-repeat;
-}
-
-body.sad {
-  background: url('https://media.giphy.com/media/3oEduSbSGpGaRX2Vri/giphy.gif') center/cover no-repeat;
-}
-
-body.neutral {
-  background: url('https://media.giphy.com/media/d2Z9QYzA2aidiWn6/giphy.gif') center/cover no-repeat;
-}
-
-.emoji {
-  font-size: 3rem;
-  margin-top: 20px;
-}
-
-.fade-in {
-  animation: fadeIn 1.2s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-#loader {
-  display: none;
+.spinner {
   margin: 20px auto;
-  border: 8px solid #f3f3f3;
-  border-top: 8px solid #fff;
+  border: 8px solid #eee;
+  border-top: 8px solid #4caf50;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -81,20 +55,13 @@ body.neutral {
   100% { transform: rotate(360deg); }
 }
 
-.animation {
-  margin-top: 20px;
-  display: none;
+#emoji {
+  font-size: 3rem;
+  margin-top: 10px;
 }
 
-audio {
-  margin-top: 20px;
-  display: block;
-}
-
-.songs {
-  background: rgba(0, 0, 0, 0.5);
-  margin: 20px auto;
-  padding: 15px;
-  width: 80%;
-  border-radius: 10px;
+#mood-gif {
+  max-width: 300px;
+  border-radius: 12px;
+  margin-top: 1rem;
 }
