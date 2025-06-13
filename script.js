@@ -18,15 +18,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const randomStory = storyVariants[Math.floor(Math.random() * storyVariants.length)];
   const storyForm = document.getElementById("storyForm");
 
-  // Animate fade-in
   storyForm.style.opacity = 0;
   setTimeout(() => {
-    storyForm.innerHTML = `<p>${randomStory}</p><button type="submit">Detect Mood</button>`;
+    storyForm.innerHTML = `
+      <form id="moodForm">
+        <p>${randomStory}</p>
+        <button type="submit">Detect Mood</button>
+      </form>
+    `;
     storyForm.style.opacity = 1;
+
+    const moodForm = document.getElementById("moodForm");
+    moodForm.addEventListener("submit", handleSubmit);
   }, 300);
 
-  // Form submission
-  storyForm.addEventListener("submit", async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     const loader = document.getElementById("loader");
     const resultDiv = document.getElementById("result");
@@ -38,11 +44,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const values = [];
     for (let i = 0; i < 6; i++) {
       const select = document.getElementById(`q${i}`);
-      values.push(select?.value || "");
+      if (!select || !select.value) {
+        alert("Please complete all fields.");
+        return;
+      }
+      values.push(select.value);
     }
     const text = values.join(" ");
-
-    if (!text.trim()) return alert("Please complete the story!");
 
     loader.style.display = "block";
     resultDiv.innerHTML = "";
@@ -104,41 +112,46 @@ document.addEventListener("DOMContentLoaded", () => {
       resultDiv.innerHTML = "⚠️ Something went wrong.";
       console.error("API Error:", err);
     }
-  });
+  }
 
-  // Option generators
   function moods() {
-    return `<option value="happy">happy</option>
+    return `<option disabled selected value="">Select</option>
+            <option value="happy">happy</option>
             <option value="sad">sad</option>
             <option value="neutral">neutral</option>
             <option value="anxious">anxious</option>`;
   }
   function events() {
-    return `<option value="exciting">exciting</option>
+    return `<option disabled selected value="">Select</option>
+            <option value="exciting">exciting</option>
             <option value="stressful">stressful</option>
             <option value="unexpected">unexpected</option>
             <option value="routine">routine</option>`;
   }
   function energy() {
-    return `<option value="high">high</option>
+    return `<option disabled selected value="">Select</option>
+            <option value="high">high</option>
             <option value="low">low</option>
             <option value="moderate">moderate</option>
             <option value="drained">drained</option>`;
   }
   function feels() {
-    return `<option value="positive">positive</option>
+    return `<option disabled selected value="">Select</option>
+            <option value="positive">positive</option>
             <option value="reflective">reflective</option>
             <option value="overwhelmed">overwhelmed</option>
             <option value="content">content</option>`;
   }
   function friends() {
-    return `<option value="cheerful">cheerful</option>
+    return `<option disabled selected value="">Select</option>
+            <option value="cheerful">cheerful</option>
             <option value="moody">moody</option>
             <option value="calm">calm</option>
             <option value="irritated">irritated</option>`;
   }
   function genres() {
-    return `<option value="pop">pop</option>
+    return `<option disabled selected value="">Select</option>
+            <option value="pop">pop</option>
             <option value="lofi">lofi</option>
             <option value="classical">classical</option>
             <option value="rock">rock</option>`;
