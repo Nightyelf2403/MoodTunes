@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
   const storyTemplates = [
-    `Today, I feel <select id="q0">${moods()}</select> because something <select id="q1">${events()}</select> happened. My energy level is <select id="q2">${energy()}</select> and I'm feeling more <select id="q3">${feels()}</select> lately. My best friend would say I'm <select id="q4">${friends()}</select>. It feels like a <select id="q5">${genres()}</select> kind of day.`,
+    `🌞 Today, I feel <select id="q0">${moods()}</select> because something <select id="q1">${events()}</select> happened. ⚡ My energy level is <select id="q2">${energy()}</select> and I'm feeling more <select id="q3">${feels()}</select> lately. 🧸 My best friend would say I'm <select id="q4">${friends()}</select>. 🎶 It feels like a <select id="q5">${genres()}</select> kind of day.`,
 
-    `Woke up feeling <select id="q0">${moods()}</select>. A <select id="q1">${events()}</select> moment occurred. I’m <select id="q2">${energy()}</select> energy-wise and <select id="q3">${feels()}</select> in thoughts. I'd describe myself as <select id="q4">${friends()}</select>. This moment calls for <select id="q5">${genres()}</select> music.`,
+    `🌅 Woke up feeling <select id="q0">${moods()}</select>. A <select id="q1">${events()}</select> moment occurred. ☕ I’m <select id="q2">${energy()}</select> energy-wise and <select id="q3">${feels()}</select> in thoughts. 😅 I'd describe myself as <select id="q4">${friends()}</select>. This moment calls for <select id="q5">${genres()}</select> music.`,
 
-    `Like a cartoon character, I'm <select id="q0">${moods()}</select> after a <select id="q1">${events()}</select> morning. Energy is <select id="q2">${energy()}</select>, vibes are <select id="q3">${feels()}</select>. My buddy calls me <select id="q4">${friends()}</select>. Guess it’s <select id="q5">${genres()}</select> o'clock!`,
+    `😂 Like a cartoon character, I'm <select id="q0">${moods()}</select> after a <select id="q1">${events()}</select> morning. 💥 Energy is <select id="q2">${energy()}</select>, vibes are <select id="q3">${feels()}</select>. My buddy calls me <select id="q4">${friends()}</select>. Guess it’s <select id="q5">${genres()}</select> o'clock! 🕺`,
 
-    `In a galaxy not so far away, I’m <select id="q0">${moods()}</select>. After a(n) <select id="q1">${events()}</select> mission, my power level is <select id="q2">${energy()}</select>. Mentally I feel <select id="q3">${feels()}</select>. Captain Mood says I’m <select id="q4">${friends()}</select>. Let’s vibe to <select id="q5">${genres()}</select>.`,
+    `🚀 In a galaxy not so far away, I’m <select id="q0">${moods()}</select>. After a(n) <select id="q1">${events()}</select> mission, 🛰 my power level is <select id="q2">${energy()}</select>. Mentally I feel <select id="q3">${feels()}</select>. Captain Mood says I’m <select id="q4">${friends()}</select>. Let’s vibe to <select id="q5">${genres()}</select>. 🌌`,
 
-    `Today started <select id="q0">${moods()}</select> because of a <select id="q1">${events()}</select> twist. Energy? <select id="q2">${energy()}</select>. I’m feeling <select id="q3">${feels()}</select>, and people call me <select id="q4">${friends()}</select>. What I need now is some <select id="q5">${genres()}</select>.`,
+    `🎢 Today started <select id="q0">${moods()}</select> because of a <select id="q1">${events()}</select> twist. 🎯 Energy? <select id="q2">${energy()}</select>. I’m feeling <select id="q3">${feels()}</select>, and people call me <select id="q4">${friends()}</select>. What I need now is some <select id="q5">${genres()}</select>. 🎧`,
 
-    `Just spilled my coffee but still feeling <select id="q0">${moods()}</select>. A <select id="q1">${events()}</select> thing just happened. Energy is <select id="q2">${energy()}</select> and I’m <select id="q3">${feels()}</select> AF. Friends say I’m <select id="q4">${friends()}</select>. Queue the <select id="q5">${genres()}</select> playlist!`
+    `☕ Just spilled my coffee but still feeling <select id="q0">${moods()}</select>. A <select id="q1">${events()}</select> thing just happened. ⚡ Energy is <select id="q2">${energy()}</select> and I’m <select id="q3">${feels()}</select> AF. Friends say I’m <select id="q4">${friends()}</select>. Queue the <select id="q5">${genres()}</select> playlist! 🔥`
   ];
 
   const storyForm = document.getElementById("storyForm");
@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const emojiDiv = document.getElementById("emoji");
   const songsDiv = document.getElementById("songs");
   const moodGif = document.getElementById("mood-gif");
+  const memeVideo = document.getElementById("meme-video");
   const moodAudio = document.getElementById("mood-audio");
 
   const randomStory = storyTemplates[Math.floor(Math.random() * storyTemplates.length)];
@@ -37,12 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
       values.push(val);
     }
 
-    const text = values.join(" ");
     loader.style.display = "block";
     resultDiv.textContent = "";
     emojiDiv.textContent = "";
     songsDiv.style.display = "none";
     moodGif.src = "";
+    memeVideo.src = "";
+    memeVideo.style.display = "none";
     moodAudio.pause();
     moodAudio.style.display = "none";
 
@@ -70,12 +72,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       document.body.className = mood;
       resultDiv.innerHTML = `Your mood is: <strong>${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)`;
-      emojiDiv.textContent = mood === "happy" ? "😄" : mood === "sad" ? "😢" : "😐";
+      emojiDiv.textContent = mood === "happy" ? "🐶" : mood === "sad" ? "😭" : "🌿";
 
       const songs = {
-        happy: ["🎶 Happy – Pharrell", "🎉 Good Day – Nappy Roots", "🔥 Uptown Funk – Bruno Mars"],
-        sad: ["💔 Someone Like You – Adele", "🕯 Fix You – Coldplay", "😞 Let Her Go – Passenger"],
-        neutral: ["🎵 Let It Be – Beatles", "🎧 Imagine – John Lennon", "🌌 Counting Stars – OneRepublic"]
+        happy: ["Levitating – Dua Lipa", "Blinding Lights – The Weeknd", "Peaches – Justin Bieber"],
+        sad: ["Jealous – Labrinth", "Let Me Down Slowly – Alec Benjamin", "Lose You To Love Me – Selena Gomez"],
+        neutral: ["Circles – Post Malone", "Memories – Maroon 5", "Watermelon Sugar – Harry Styles"]
       };
 
       const audios = {
@@ -85,16 +87,25 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       const gifs = {
-        happy: "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif",
-        sad: "https://media.giphy.com/media/j2pOGeGYKe2xCCKwfi/giphy.gif",
-        neutral: "https://media.giphy.com/media/d2Z9QYzA2aidiWn6/giphy.gif"
+        happy: "https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif",
+        sad: "https://media.giphy.com/media/d2lcHJTG5Tscg/giphy.gif",
+        neutral: "https://media.giphy.com/media/l0K4kWJirrp1JX8sY/giphy.gif"
       };
 
-      songsDiv.innerHTML = `<h3>🎵 Mood-Based Playlist:</h3><ul>${songs[mood].map(song => `<li>${song}</li>`).join("")}</ul>`;
+      const memes = {
+        happy: "https://www.youtube.com/embed/xUNqsfFUwhY?autoplay=1",
+        sad: "https://www.youtube.com/embed/d-diB65scQU?autoplay=1",  // cat fails
+        neutral: "https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1"
+      };
+
+      songsDiv.innerHTML = `<h3>🎵 Top Mood Picks:</h3><ul>${songs[mood].map(song => `<li>${song}</li>`).join("")}</ul>`;
       songsDiv.style.display = "block";
 
       moodGif.src = gifs[mood];
       document.querySelector(".animation").style.display = "block";
+
+      memeVideo.src = memes[mood];
+      memeVideo.style.display = "block";
 
       moodAudio.src = audios[mood];
       moodAudio.style.display = "block";
