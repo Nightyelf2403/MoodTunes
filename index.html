@@ -1,28 +1,17 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MoodTunes AI 🎯</title>
+  <title>MoodTunes</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body id="body">
-  <header>
-    <h1 class="glow">🎵 MoodTunes AI</h1>
-    <p class="subtitle">Let your answers reveal your vibe</p>
-  </header>
-  <div class="container">
-    <div id="question-box">
-      <p id="counter"></p>
-      <p id="question-text"></p>
-      <div id="options"></div>
-    </div>
-    <div id="result" class="result-box"></div>
-  </div>
-  <footer>
-    Made with ❤️ by <strong>Lalith Aditya Chunduri</strong><br>
-    <small>Powered by OpenAI • Hosted on Render • Frontend via GitHub Pages</small>
-  </footer>
+<body>
+  <h1>MoodTunes 🎵</h1>
+  <div id="form"></div>
+  <button onclick="submitAnswers()">Detect Mood</button>
+  <div id="result" class="result"></div>
+
+  <footer>Made with ❤️ by Lalith Aditya Chunduri</footer>
   <script src="script.js"></script>
 </body>
 </html>
