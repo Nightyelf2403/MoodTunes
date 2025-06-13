@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (mood === "happy") {
         confetti.style.display = "block";
-        confetti.classList.add("explode");
+        confetti.classList.add("active");
       }
 
     } catch (err) {
@@ -127,41 +127,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Select option builders
   function moods() {
-    return `<option disabled selected value="">Select</option>
-      <option value="happy">Happy</option>
-      <option value="sad">Sad</option>
-      <option value="neutral">Neutral</option>`;
+    return `<option disabled selected value="">Select</option><option value="happy">Happy</option><option value="sad">Sad</option><option value="neutral">Neutral</option>`;
   }
   function events() {
-    return `<option disabled selected value="">Select</option>
-      <option value="exciting">Exciting</option>
-      <option value="stressful">Stressful</option>
-      <option value="unexpected">Unexpected</option>`;
+    return `<option disabled selected value="">Select</option><option value="exciting">Exciting</option><option value="stressful">Stressful</option><option value="unexpected">Unexpected</option>`;
   }
   function energy() {
-    return `<option disabled selected value="">Select</option>
-      <option value="high">High</option>
-      <option value="low">Low</option>
-      <option value="moderate">Moderate</option>`;
+    return `<option disabled selected value="">Select</option><option value="high">High</option><option value="low">Low</option><option value="moderate">Moderate</option>`;
   }
   function feels() {
-    return `<option disabled selected value="">Select</option>
-      <option value="positive">Positive</option>
-      <option value="reflective">Reflective</option>
-      <option value="overwhelmed">Overwhelmed</option>`;
+    return `<option disabled selected value="">Select</option><option value="positive">Positive</option><option value="reflective">Reflective</option><option value="overwhelmed">Overwhelmed</option>`;
   }
   function friends() {
-    return `<option disabled selected value="">Select</option>
-      <option value="cheerful">Cheerful</option>
-      <option value="moody">Moody</option>
-      <option value="calm">Calm</option>`;
+    return `<option disabled selected value="">Select</option><option value="cheerful">Cheerful</option><option value="moody">Moody</option><option value="calm">Calm</option>`;
   }
   function genres() {
-    return `<option disabled selected value="">Select</option>
-      <option value="pop">Pop</option>
-      <option value="lofi">Lofi</option>
-      <option value="classical">Classical</option>`;
+    return `<option disabled selected value="">Select</option><option value="pop">Pop</option><option value="lofi">Lofi</option><option value="classical">Classical</option>`;
   }
 });
