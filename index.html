@@ -2,33 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MoodTunes 🎵</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
+  <div class="container">
     <h1>MoodTunes 🎵</h1>
-    <p>Fill in the story to let us detect your mood!</p>
-  </header>
-
-  <main>
-    <form id="storyForm"></form>
+    <p>Answer a fun story to detect your mood and get music + memes!</p>
+    <form id="storyForm" class="story-large"></form>
     <div id="loader" class="spinner"></div>
-    <div id="result"></div>
-    <div id="emoji"></div>
-    <div id="songs"></div>
-    <div class="media">
-  <img id="mood-gif" src="" alt="Mood Animation" />
-  <video id="meme-video" class="meme-video" autoplay loop muted playsinline></video>
-</div>
+    <div id="result" class="result"></div>
+    <div id="emoji" class="emoji"></div>
+    <div id="songs" class="songs"></div>
 
+    <div class="media" id="mediaContent">
+      <img id="mood-gif" alt="Mood GIF" />
+      <video id="meme-video" width="320" height="240" autoplay loop muted playsinline></video>
     </div>
+
     <div id="confetti" class="confetti"></div>
-  </main>
+  </div>
 
   <footer>
-    <p>Made with ❤️ by <strong>Lalith Aditya Chunduri</strong></p>
+    Made with ❤️ by <strong>Lalith Aditya</strong>
   </footer>
 
   <script src="script.js"></script>
