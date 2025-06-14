@@ -2,32 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MoodTunes 🎵</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <h1>MoodTunes 🎵</h1>
+    <p id="greeting">Good Day!</p>
     <p>Fill in the story to let us detect your mood!</p>
   </header>
 
-  <main>
+  <main class="container">
     <form id="storyForm" class="story-large"></form>
     <div id="loader" class="spinner"></div>
-    <div id="result"></div>
-    <div id="emoji"></div>
-    <div id="quote"></div>
-    <div id="songs"></div>
-    <div class="media" id="mediaContent">
-      <img id="mood-gif" alt="Mood Animation" />
-      <video id="meme-video" controls loop muted autoplay playsinline></video>
+    <div id="result" class="result"></div>
+    <div id="emoji" class="emoji"></div>
+    <div id="quote" class="quote"></div>
+    <div id="songs" class="songs"></div>
+
+    <div class="media show" id="mediaContent">
+      <img id="mood-gif" src="" alt="Mood Animation" />
+      <video id="meme-video" class="meme-video" width="320" height="240" muted playsinline loop autoplay></video>
     </div>
-    <div id="confetti-container"></div>
+
+    <div id="confetti" class="confetti"></div>
+    <div id="rain" class="rain"></div>
+    <div id="leaves" class="leaves"></div>
   </main>
 
   <footer>
-    <p>Made with ❤️ by <strong>Lalith Aditya Chunduri</strong></p>
+    <p>Made with ❤️ by <strong>Lalith Aditya</strong></p>
   </footer>
 
   <script src="script.js"></script>
