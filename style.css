@@ -69,10 +69,12 @@ button:hover {
   animation: spin 1s linear infinite;
 }
 
-
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+#loader {
+  display: none;
 }
 
 #result {
@@ -107,6 +109,7 @@ button:hover {
 #mood-gif {
   max-width: 320px;
   width: 90%;
+  margin-top: 1rem;
   border-radius: 10px;
   display: none;
 }
@@ -117,11 +120,6 @@ button:hover {
   border-radius: 10px;
   display: none;
 }
-
-#loader {
-  display: none;
-}
-
 
 #confetti {
   display: none;
