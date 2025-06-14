@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -14,29 +13,20 @@ body {
   min-height: 100vh;
 }
 
-.container {
-  max-width: 800px;
-  margin: auto;
-  padding: 1rem;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  border-radius: 12px;
-}
-
 h1 {
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   margin-bottom: 0.5rem;
   color: #0077cc;
 }
 
 p {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin-bottom: 1rem;
 }
 
 form select {
   margin: 0.4rem;
-  padding: 0.6rem;
+  padding: 0.5rem;
   border-radius: 8px;
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -48,8 +38,8 @@ button {
   background-color: #28a745;
   border: none;
   color: white;
-  padding: 12px 26px;
-  font-size: 1.2rem;
+  padding: 10px 24px;
+  font-size: 1.1rem;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s ease;
@@ -74,55 +64,64 @@ button:hover {
   to { transform: rotate(360deg); }
 }
 
-#loader {
-  display: none;
-}
-
-.result, .quote {
+#result, #emoji, #quote {
   margin-top: 1rem;
-  font-size: 1.4rem;
-  font-weight: bold;
+  font-size: 1.3rem;
 }
 
-.emoji {
-  font-size: 3.5rem;
-  margin-top: 10px;
-}
-
-.songs ul {
-  list-style-type: none;
+#songs ul {
+  list-style: none;
   padding: 0;
   margin-top: 1rem;
 }
 
-.songs li {
-  font-size: 1.3rem;
-  padding: 0.3rem;
+#songs li {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
 }
 
-.songs a {
-  text-decoration: none;
+#songs a {
   color: #0077cc;
-  font-size: 1.3rem;
-  display: block;
-  margin-top: 0.5rem;
   font-weight: bold;
+  text-decoration: none;
+  font-size: 1.25rem;
+}
+
+#songs a:hover {
+  text-decoration: underline;
+}
+
+#loader {
+  display: none;
+}
+
+.story-large {
+  font-size: 1.3rem;
+  transition: font-size 0.4s ease;
+}
+
+.story-small {
+  font-size: 1rem;
+  opacity: 0.7;
+  transition: font-size 0.4s ease, opacity 0.3s ease;
 }
 
 .media {
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
   margin-top: 1rem;
 }
 
+.media.show {
+  display: flex;
+}
+
 #mood-gif, #meme-video {
   max-width: 320px;
   width: 90%;
-  margin-top: 1rem;
   border-radius: 10px;
-  display: none;
 }
 
 .confetti, .rain, .leaves {
@@ -131,41 +130,32 @@ button:hover {
   top: 0; left: 0;
   width: 100%;
   height: 100%;
-  z-index: 9999;
+  z-index: 999;
+  background-repeat: repeat;
   pointer-events: none;
 }
 
-.confetti {
-  background: url('https://media.giphy.com/media/l3vR85PnGsBwu1PFK/giphy.gif') center center / cover no-repeat;
+#confetti-happy {
+  background-image: url('https://media.giphy.com/media/3ohzdIuqJoo8QdKlnW/giphy.gif');
 }
-.rain {
-  background: url('https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif') center center / cover no-repeat;
+
+#confetti-sad {
+  background-image: url('https://media.giphy.com/media/l0MYB8Ory7Hqefo9a/giphy.gif');
 }
-.leaves {
-  background: url('https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif') center center / cover no-repeat;
+
+#confetti-neutral {
+  background-image: url('https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif');
 }
 
 footer {
   margin-top: 2rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #555;
 }
 
+/* Mobile */
 @media (max-width: 600px) {
-  h1 {
-    font-size: 1.7rem;
-  }
-
-  p, .quote {
-    font-size: 1rem;
-  }
-
-  button {
-    width: 100%;
-    font-size: 1rem;
-  }
-
-  .songs a {
-    font-size: 1.1rem;
-  }
+  h1 { font-size: 1.6rem; }
+  p, #result, #quote { font-size: 1rem; }
+  form select, button { width: 100%; font-size: 1rem; }
 }
