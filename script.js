@@ -21,10 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const moodGif = document.getElementById("mood-gif");
   const memeVideo = document.getElementById("meme-video");
   const confetti = document.getElementById("confetti");
+  const mediaDiv = document.getElementById("mediaContent");
 
   const story = storyTemplates[Math.floor(Math.random() * storyTemplates.length)];
   storyForm.innerHTML = `
-    <p>${story}</p>
+    <p class="story-large">${story}</p>
     <button type="submit">🎯 Detect Mood</button>
   `;
 
@@ -46,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     memeVideo.src = "";
     memeVideo.style.display = "none";
     confetti.style.display = "none";
+    mediaDiv.classList.remove("show");
 
     try {
       const res = await fetch("https://moodtunes-gjkh.onrender.com/api/predict", {
@@ -96,13 +98,18 @@ document.addEventListener("DOMContentLoaded", () => {
       moodGif.src = gifs[mood];
       moodGif.style.display = "block";
 
-      const selectedMeme = memes[mood][Math.floor(Math.random() * memes[mood].length)];
-      memeVideo.src = selectedMeme;
+      memeVideo.src = memes[mood][0];
       memeVideo.style.display = "block";
 
       if (mood === "happy") {
         confetti.style.display = "block";
       }
+
+      // Shrink story after mood detection
+      storyForm.querySelector("p").classList.remove("story-large");
+      storyForm.querySelector("p").classList.add("story-small");
+
+      mediaDiv.classList.add("show");
 
     } catch (err) {
       loader.style.display = "none";
@@ -112,39 +119,21 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function moods() {
-    return `<option disabled selected value="">Select</option>
-      <option value="happy">Happy</option>
-      <option value="sad">Sad</option>
-      <option value="neutral">Neutral</option>`;
+    return `<option disabled selected value="">Select</option><option value="happy">Happy</option><option value="sad">Sad</option><option value="neutral">Neutral</option>`;
   }
   function events() {
-    return `<option disabled selected value="">Select</option>
-      <option value="exciting">Exciting</option>
-      <option value="stressful">Stressful</option>
-      <option value="unexpected">Unexpected</option>`;
+    return `<option disabled selected value="">Select</option><option value="exciting">Exciting</option><option value="stressful">Stressful</option><option value="unexpected">Unexpected</option>`;
   }
   function energy() {
-    return `<option disabled selected value="">Select</option>
-      <option value="high">High</option>
-      <option value="low">Low</option>
-      <option value="moderate">Moderate</option>`;
+    return `<option disabled selected value="">Select</option><option value="high">High</option><option value="low">Low</option><option value="moderate">Moderate</option>`;
   }
   function feels() {
-    return `<option disabled selected value="">Select</option>
-      <option value="positive">Positive</option>
-      <option value="reflective">Reflective</option>
-      <option value="overwhelmed">Overwhelmed</option>`;
+    return `<option disabled selected value="">Select</option><option value="positive">Positive</option><option value="reflective">Reflective</option><option value="overwhelmed">Overwhelmed</option>`;
   }
   function friends() {
-    return `<option disabled selected value="">Select</option>
-      <option value="cheerful">Cheerful</option>
-      <option value="moody">Moody</option>
-      <option value="calm">Calm</option>`;
+    return `<option disabled selected value="">Select</option><option value="cheerful">Cheerful</option><option value="moody">Moody</option><option value="calm">Calm</option>`;
   }
   function genres() {
-    return `<option disabled selected value="">Select</option>
-      <option value="pop">Pop</option>
-      <option value="lofi">Lofi</option>
-      <option value="classical">Classical</option>`;
+    return `<option disabled selected value="">Select</option><option value="pop">Pop</option><option value="lofi">Lofi</option><option value="classical">Classical</option>`;
   }
 });
