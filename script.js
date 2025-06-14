@@ -139,6 +139,9 @@ document.addEventListener("DOMContentLoaded", () => {
       memeVideo.src = memeList[Math.floor(Math.random() * memeList.length)];
       memeVideo.style.display = "block";
 
+      const data = await res.json();
+      console.log("💬 Server returned:", data);
+
       // Add falling animation
       if (mood === "happy") animationDiv.classList.add("confetti");
       else if (mood === "sad") animationDiv.classList.add("rain");
