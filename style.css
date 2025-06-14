@@ -131,6 +131,33 @@ button:hover {
   background: url('https://media.giphy.com/media/3ohzdIuqJoo8QdKlnW/giphy.gif') center center / contain no-repeat;
 }
 
+.story-large {
+  font-size: 1.3rem;
+  transition: font-size 0.4s ease;
+}
+
+.story-small {
+  font-size: 0.9rem;
+  opacity: 0.6;
+  transition: font-size 0.4s ease, opacity 0.3s ease;
+}
+
+.media {
+  display: none;
+  margin-top: 1rem;
+  animation: fadeIn 0.8s ease-in-out forwards;
+}
+
+.media.show {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
 footer {
   margin-top: 2rem;
   font-size: 0.9rem;
