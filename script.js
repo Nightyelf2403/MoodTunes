@@ -20,14 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const songsDiv = document.getElementById("songs");
   const moodGif = document.getElementById("mood-gif");
   const memeVideo = document.getElementById("meme-video");
-  const confetti = document.getElementById("confetti");
-  const mediaDiv = document.getElementById("mediaContent");
+  const media = document.getElementById("mediaContent");
+  const confettiCanvas = document.getElementById("confettiCanvas");
 
   const story = storyTemplates[Math.floor(Math.random() * storyTemplates.length)];
-  storyForm.innerHTML = `
-    <p class="story-large">${story}</p>
-    <button type="submit">🎯 Detect Mood</button>
-  `;
+  storyForm.innerHTML = `<p>${story}</p><button type="submit">🎯 Detect Mood</button>`;
 
   storyForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -35,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const values = [];
     for (let i = 0; i < 6; i++) {
       const val = document.getElementById(`q${i}`).value;
-      if (!val) return alert("Please fill all fields!");
+      if (!val) return alert("Please select all options.");
       values.push(val);
     }
 
@@ -46,8 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
     moodGif.style.display = "none";
     memeVideo.src = "";
     memeVideo.style.display = "none";
-    confetti.style.display = "none";
-    mediaDiv.classList.remove("show");
+    confettiCanvas.style.display = "none";
+    media.classList.remove("show");
 
     try {
       const res = await fetch("https://moodtunes-gjkh.onrender.com/api/predict", {
@@ -75,9 +72,21 @@ document.addEventListener("DOMContentLoaded", () => {
       emojiDiv.textContent = mood === "happy" ? "😄" : mood === "sad" ? "😢" : "😐";
 
       const songs = {
-        happy: ["Levitating – Dua Lipa", "Blinding Lights – The Weeknd", "Peaches – Justin Bieber"],
-        sad: ["Jealous – Labrinth", "Let Me Down Slowly – Alec Benjamin", "Lose You To Love Me – Selena Gomez"],
-        neutral: ["Circles – Post Malone", "Memories – Maroon 5", "Watermelon Sugar – Harry Styles"]
+        happy: [
+          { title: "Levitating – Dua Lipa", url: "https://www.youtube.com/watch?v=TUVcZfQe-Kw" },
+          { title: "Blinding Lights – The Weeknd", url: "https://www.youtube.com/watch?v=4NRXx6U8ABQ" },
+          { title: "Peaches – Justin Bieber", url: "https://www.youtube.com/watch?v=tQ0yjYUFKAE" }
+        ],
+        sad: [
+          { title: "Jealous – Labrinth", url: "https://www.youtube.com/watch?v=50VWOBi0Vfs" },
+          { title: "Let Me Down Slowly – Alec Benjamin", url: "https://www.youtube.com/watch?v=50VNCymT-Cs" },
+          { title: "Lose You To Love Me – Selena Gomez", url: "https://www.youtube.com/watch?v=zlJDTxahav0" }
+        ],
+        neutral: [
+          { title: "Circles – Post Malone", url: "https://www.youtube.com/watch?v=wXhTHyIgQ_U" },
+          { title: "Memories – Maroon 5", url: "https://www.youtube.com/watch?v=SlPhMPnQ58k" },
+          { title: "Watermelon Sugar – Harry Styles", url: "https://www.youtube.com/watch?v=E07s5ZYygMg" }
+        ]
       };
 
       const gifs = {
@@ -87,53 +96,124 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       const memes = {
-        happy: ["https://media.giphy.com/media/3o7abldj0b3rxrZUxW/giphy.mp4"],
+        happy: [],
         sad: ["https://media.giphy.com/media/13borq7Zo2kulO/giphy.mp4"],
         neutral: ["https://media.giphy.com/media/fAnEC88LccN7a/giphy.mp4"]
       };
 
-      songsDiv.innerHTML = `<h3>🎵 Top Songs for You:</h3><ul>${songs[mood].map(song => `<li>${song}</li>`).join("")}</ul>`;
+      // Inject music
+      songsDiv.innerHTML = `<h3>🎵 Top Songs for You:</h3><ul>${
+        songs[mood].map(song => `<li><a href="${song.url}" target="_blank">${song.title}</a></li>`).join("")
+      }</ul>`;
       songsDiv.style.display = "block";
 
       moodGif.src = gifs[mood];
       moodGif.style.display = "block";
 
-      memeVideo.src = memes[mood][0];
-      memeVideo.style.display = "block";
-
-      if (mood === "happy") {
-        confetti.style.display = "block";
+      const memeList = memes[mood];
+      if (memeList && memeList.length > 0) {
+        memeVideo.src = memeList[Math.floor(Math.random() * memeList.length)];
+        memeVideo.style.display = "block";
       }
 
-      // Shrink story after mood detection
-      storyForm.querySelector("p").classList.remove("story-large");
-      storyForm.querySelector("p").classList.add("story-small");
+      media.classList.add("show");
+      storyForm.classList.remove("story-large");
+      storyForm.classList.add("story-small");
 
-      mediaDiv.classList.add("show");
+      if (mood === "happy") {
+        launchConfetti();
+      }
 
     } catch (err) {
       loader.style.display = "none";
       resultDiv.textContent = "⚠️ Error detecting mood. Please try again.";
-      console.error("Mood Detection Failed:", err);
+      console.error("Mood detection failed:", err);
     }
   });
 
   function moods() {
-    return `<option disabled selected value="">Select</option><option value="happy">Happy</option><option value="sad">Sad</option><option value="neutral">Neutral</option>`;
+    return `<option disabled selected value="">Select</option>
+      <option value="happy">Happy</option>
+      <option value="sad">Sad</option>
+      <option value="neutral">Neutral</option>`;
   }
   function events() {
-    return `<option disabled selected value="">Select</option><option value="exciting">Exciting</option><option value="stressful">Stressful</option><option value="unexpected">Unexpected</option>`;
+    return `<option disabled selected value="">Select</option>
+      <option value="exciting">Exciting</option>
+      <option value="stressful">Stressful</option>
+      <option value="unexpected">Unexpected</option>`;
   }
   function energy() {
-    return `<option disabled selected value="">Select</option><option value="high">High</option><option value="low">Low</option><option value="moderate">Moderate</option>`;
+    return `<option disabled selected value="">Select</option>
+      <option value="high">High</option>
+      <option value="low">Low</option>
+      <option value="moderate">Moderate</option>`;
   }
   function feels() {
-    return `<option disabled selected value="">Select</option><option value="positive">Positive</option><option value="reflective">Reflective</option><option value="overwhelmed">Overwhelmed</option>`;
+    return `<option disabled selected value="">Select</option>
+      <option value="positive">Positive</option>
+      <option value="reflective">Reflective</option>
+      <option value="overwhelmed">Overwhelmed</option>`;
   }
   function friends() {
-    return `<option disabled selected value="">Select</option><option value="cheerful">Cheerful</option><option value="moody">Moody</option><option value="calm">Calm</option>`;
+    return `<option disabled selected value="">Select</option>
+      <option value="cheerful">Cheerful</option>
+      <option value="moody">Moody</option>
+      <option value="calm">Calm</option>`;
   }
   function genres() {
-    return `<option disabled selected value="">Select</option><option value="pop">Pop</option><option value="lofi">Lofi</option><option value="classical">Classical</option>`;
+    return `<option disabled selected value="">Select</option>
+      <option value="pop">Pop</option>
+      <option value="lofi">Lofi</option>
+      <option value="classical">Classical</option>`;
+  }
+
+  // Confetti launch (basic example using canvas)
+  function launchConfetti() {
+    const canvas = document.getElementById("confettiCanvas");
+    canvas.style.display = "block";
+    const ctx = canvas.getContext("2d");
+    const particles = [];
+
+    for (let i = 0; i < 150; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        r: Math.random() * 4 + 1,
+        d: Math.random() * 50,
+        color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+        tilt: Math.random() * 10 - 10
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.fillStyle = p.color;
+        ctx.ellipse(p.x, p.y, p.r, p.r, Math.PI / 4, 0, 2 * Math.PI);
+        ctx.fill();
+      });
+      update();
+    }
+
+    function update() {
+      particles.forEach(p => {
+        p.y += Math.cos(p.d) + 1 + p.r / 2;
+        p.x += Math.sin(p.d) * 2;
+      });
+    }
+
+    function animate() {
+      draw();
+      if (canvas.style.display === "block") requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    setTimeout(() => {
+      canvas.style.display = "none";
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }, 3000);
   }
 });
