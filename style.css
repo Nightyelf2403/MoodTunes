@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -13,19 +14,29 @@ body {
   min-height: 100vh;
 }
 
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 1rem;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 12px;
+}
+
 h1 {
-  font-size: 2.2rem;
+  font-size: 2.4rem;
+  margin-bottom: 0.5rem;
   color: #0077cc;
 }
 
 p {
+  font-size: 1.2rem;
   margin-bottom: 1rem;
-  font-size: 1rem;
 }
 
 form select {
   margin: 0.4rem;
-  padding: 0.5rem;
+  padding: 0.6rem;
   border-radius: 8px;
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -37,8 +48,8 @@ button {
   background-color: #28a745;
   border: none;
   color: white;
-  padding: 10px 24px;
-  font-size: 1.1rem;
+  padding: 12px 26px;
+  font-size: 1.2rem;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s ease;
@@ -58,99 +69,103 @@ button:hover {
   height: 40px;
   animation: spin 1s linear infinite;
 }
+
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-#result {
+#loader {
+  display: none;
+}
+
+.result, .quote {
   margin-top: 1rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.emoji {
+  font-size: 3.5rem;
+  margin-top: 10px;
+}
+
+.songs ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.songs li {
   font-size: 1.3rem;
-}
-
-#emoji {
-  font-size: 2rem;
-  margin-top: 0.5rem;
-}
-
-#quote {
-  margin-top: 0.3rem;
-  font-style: italic;
-  font-size: 1.1rem;
-  color: #555;
-}
-
-#songs ul {
-  list-style: none;
-  margin-top: 1rem;
-}
-#songs li {
-  font-size: 1.1rem;
   padding: 0.3rem;
 }
-#songs a {
-  color: #0077cc;
+
+.songs a {
   text-decoration: none;
-}
-#songs a:hover {
-  text-decoration: underline;
+  color: #0077cc;
+  font-size: 1.3rem;
+  display: block;
+  margin-top: 0.5rem;
+  font-weight: bold;
 }
 
 .media {
-  display: none;
-  margin-top: 1rem;
+  display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
 }
-.media.show {
-  display: flex;
-}
+
 #mood-gif, #meme-video {
   max-width: 320px;
   width: 90%;
-  margin: 1rem auto;
+  margin-top: 1rem;
   border-radius: 10px;
+  display: none;
 }
 
-.story-large { font-size: 1.3rem; }
-.story-small {
-  font-size: 0.9rem;
-  opacity: 0.6;
-  transition: font-size 0.4s ease, opacity 0.4s ease;
+.confetti, .rain, .leaves {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.confetti {
+  background: url('https://media.giphy.com/media/l3vR85PnGsBwu1PFK/giphy.gif') center center / cover no-repeat;
+}
+.rain {
+  background: url('https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif') center center / cover no-repeat;
+}
+.leaves {
+  background: url('https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif') center center / cover no-repeat;
 }
 
 footer {
   margin-top: 2rem;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #555;
 }
 
-/* Confetti */
-#confetti-container {
-  pointer-events: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  overflow: hidden;
-  z-index: 9999;
-}
-
-/* Confetti paper */
-.confetti-piece {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: #f39c12;
-  opacity: 0.7;
-  border-radius: 50%;
-  animation: fall linear infinite;
-}
-@keyframes fall {
-  0% { transform: translateY(-10%); }
-  100% { transform: translateY(100vh); }
-}
-
 @media (max-width: 600px) {
-  h1 { font-size: 1.6rem; }
-  form select, button { width: 100%; margin-bottom: 0.6rem; }
-  #emoji { font-size: 1.6rem; }
+  h1 {
+    font-size: 1.7rem;
+  }
+
+  p, .quote {
+    font-size: 1rem;
+  }
+
+  button {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .songs a {
+    font-size: 1.1rem;
+  }
 }
