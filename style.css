@@ -13,18 +13,9 @@ body {
   min-height: 100vh;
 }
 
-.container {
-  max-width: 800px;
-  margin: auto;
-  padding: 1rem;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  border-radius: 12px;
-}
-
 h1 {
   font-size: 2.2rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
   color: #0077cc;
 }
 
@@ -51,7 +42,6 @@ button {
   font-size: 1.1rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease;
 }
 
 button:hover {
@@ -73,27 +63,34 @@ button:hover {
   to { transform: rotate(360deg); }
 }
 
-#loader {
-  display: none;
+.story-large {
+  font-size: 1.2rem;
+  transition: font-size 0.4s ease;
 }
 
-.result {
+.story-small {
+  font-size: 0.9rem;
+  opacity: 0.6;
+  transition: font-size 0.4s ease, opacity 0.3s ease;
+}
+
+#result {
   margin-top: 1rem;
   font-size: 1.3rem;
 }
 
-.emoji {
+#emoji {
   font-size: 3rem;
   margin-top: 10px;
 }
 
-.songs ul {
+#songs ul {
   list-style-type: none;
   padding: 0;
   margin-top: 1rem;
 }
 
-.songs li {
+#songs li {
   font-size: 1.1rem;
   padding: 0.3rem;
 }
@@ -104,48 +101,34 @@ button:hover {
   align-items: center;
   gap: 1rem;
   margin-top: 1rem;
-  animation: fadeIn 0.8s ease-in-out forwards;
 }
 
 .media.show {
   display: flex;
+  animation: fadeIn 0.8s ease-in-out forwards;
 }
 
 #mood-gif, #meme-video {
   max-width: 320px;
   width: 90%;
-  margin-top: 1rem;
   border-radius: 10px;
   display: none;
 }
 
-#confetti {
-  display: none;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Confetti canvas */
+#confettiCanvas {
   position: fixed;
   top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
   z-index: 9999;
-  background: url('https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif') center center / cover no-repeat;
-  opacity: 0.9;
-  animation: popFade 2s ease forwards;
-}
-
-@keyframes popFade {
-  0% { opacity: 0; transform: scale(0.5); }
-  50% { opacity: 1; transform: scale(1.1); }
-  100% { opacity: 0.9; transform: scale(1); }
-}
-
-.story-large {
-  font-size: 1.3rem;
-  transition: font-size 0.4s ease;
-}
-
-.story-small {
-  font-size: 0.9rem;
-  opacity: 0.6;
-  transition: font-size 0.4s ease, opacity 0.3s ease;
+  display: none;
 }
 
 footer {
@@ -174,15 +157,11 @@ footer {
     font-size: 1rem;
   }
 
-  .result {
+  #result {
     font-size: 1.1rem;
   }
 
-  .emoji {
+  #emoji {
     font-size: 2rem;
-  }
-
-  #mood-gif, #meme-video {
-    max-width: 90%;
   }
 }
