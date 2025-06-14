@@ -9,30 +9,28 @@
 <body>
   <header>
     <h1>MoodTunes 🎵</h1>
-    <p id="greeting">Good Day!</p>
     <p>Fill in the story to let us detect your mood!</p>
   </header>
 
-  <main class="container">
+  <main>
     <form id="storyForm" class="story-large"></form>
     <div id="loader" class="spinner"></div>
-    <div id="result" class="result"></div>
-    <div id="emoji" class="emoji"></div>
-    <div id="quote" class="quote"></div>
-    <div id="songs" class="songs"></div>
-
-    <div class="media show" id="mediaContent">
-      <img id="mood-gif" src="" alt="Mood Animation" />
-      <video id="meme-video" class="meme-video" width="320" height="240" muted playsinline loop autoplay></video>
+    <div id="greeting"></div>
+    <div id="result"></div>
+    <div id="emoji"></div>
+    <div id="quote"></div>
+    <div id="songs"></div>
+    <div class="media" id="mediaContent">
+      <img id="mood-gif" alt="Mood GIF" />
+      <video id="meme-video" autoplay loop muted playsinline></video>
     </div>
-
-    <div id="confetti" class="confetti"></div>
-    <div id="rain" class="rain"></div>
-    <div id="leaves" class="leaves"></div>
+    <div id="confetti-happy" class="confetti"></div>
+    <div id="confetti-sad" class="rain"></div>
+    <div id="confetti-neutral" class="leaves"></div>
   </main>
 
   <footer>
-    <p>Made with ❤️ by <strong>Lalith Aditya</strong></p>
+    <p>Made with ❤️ by <strong>Lalith Aditya Chunduri</strong></p>
   </footer>
 
   <script src="script.js"></script>
