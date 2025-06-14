@@ -7,25 +7,27 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
+  <header>
     <h1>MoodTunes 🎵</h1>
-    <p>Answer a fun story to detect your mood and get music + memes!</p>
+    <p>Fill in the story to let us detect your mood!</p>
+  </header>
+
+  <main>
     <form id="storyForm" class="story-large"></form>
     <div id="loader" class="spinner"></div>
-    <div id="result" class="result"></div>
-    <div id="emoji" class="emoji"></div>
-    <div id="songs" class="songs"></div>
-
+    <div id="result"></div>
+    <div id="emoji"></div>
+    <div id="quote"></div>
+    <div id="songs"></div>
     <div class="media" id="mediaContent">
-      <img id="mood-gif" alt="Mood GIF" />
-      <video id="meme-video" width="320" height="240" autoplay loop muted playsinline></video>
+      <img id="mood-gif" alt="Mood Animation" />
+      <video id="meme-video" controls loop muted autoplay playsinline></video>
     </div>
-
-    <div id="confetti" class="confetti"></div>
-  </div>
+    <div id="confetti-container"></div>
+  </main>
 
   <footer>
-    Made with ❤️ by <strong>Lalith Aditya</strong>
+    <p>Made with ❤️ by <strong>Lalith Aditya Chunduri</strong></p>
   </footer>
 
   <script src="script.js"></script>
