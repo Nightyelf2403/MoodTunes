@@ -29,7 +29,7 @@ h1 {
 }
 
 p {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   margin-bottom: 1rem;
 }
 
@@ -73,19 +73,9 @@ button:hover {
   to { transform: rotate(360deg); }
 }
 
-#loader {
-  display: none;
-}
-
-#result {
-  margin-top: 1rem;
-  font-size: 1.3rem;
-}
-
-#emoji {
-  font-size: 3rem;
-  margin-top: 10px;
-}
+#loader { display: none; }
+#result { margin-top: 1rem; font-size: 1.3rem; }
+#emoji { font-size: 3rem; margin-top: 10px; }
 
 #songs ul {
   list-style-type: none;
@@ -99,26 +89,27 @@ button:hover {
 }
 
 .media {
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
   margin-top: 1rem;
 }
 
-#mood-gif {
-  max-width: 320px;
-  width: 90%;
-  margin-top: 1rem;
-  border-radius: 10px;
-  display: none;
+.media.show {
+  display: flex;
+  animation: fadeIn 0.6s ease;
 }
 
-#meme-video {
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#mood-gif, #meme-video {
   max-width: 320px;
-  width: 90%;
+  width: 100%;
   border-radius: 10px;
-  display: none;
 }
 
 #confetti {
@@ -131,6 +122,13 @@ button:hover {
   background: url('https://media.giphy.com/media/3ohzdIuqJoo8QdKlnW/giphy.gif') center center / contain no-repeat;
 }
 
+footer {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Shrink story */
 .story-large {
   font-size: 1.3rem;
   transition: font-size 0.4s ease;
@@ -142,57 +140,12 @@ button:hover {
   transition: font-size 0.4s ease, opacity 0.3s ease;
 }
 
-.media {
-  display: none;
-  margin-top: 1rem;
-  animation: fadeIn 0.8s ease-in-out forwards;
-}
-
-.media.show {
-  display: block;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-
-footer {
-  margin-top: 2rem;
-  font-size: 0.9rem;
-  color: #555;
-}
-
 /* Mobile */
 @media (max-width: 600px) {
-  h1 {
-    font-size: 1.6rem;
-  }
-
-  p {
-    font-size: 0.95rem;
-  }
-
-  form select {
-    width: 100%;
-    margin-bottom: 0.6rem;
-  }
-
-  button {
-    width: 100%;
-    font-size: 1rem;
-  }
-
-  #result {
-    font-size: 1.1rem;
-  }
-
-  #emoji {
-    font-size: 2rem;
-  }
-
-  #mood-gif, #meme-video {
-    max-width: 90%;
-  }
+  h1 { font-size: 1.6rem; }
+  p { font-size: 1rem; }
+  form select { width: 100%; margin-bottom: 0.5rem; }
+  button { width: 100%; font-size: 1rem; }
+  #result { font-size: 1.1rem; }
+  #emoji { font-size: 2rem; }
 }
