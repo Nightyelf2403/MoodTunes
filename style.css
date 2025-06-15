@@ -1,3 +1,4 @@
+/* Reset & Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -11,6 +12,7 @@ body {
   text-align: center;
   padding: 1rem;
   min-height: 100vh;
+  transition: background 0.8s ease;
 }
 
 .container {
@@ -61,11 +63,18 @@ button {
   font-size: 1.1rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
   background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  transform: scale(0.97);
+  box-shadow: none;
 }
 
 #loader {
@@ -139,7 +148,6 @@ button:hover {
   display: none;
 }
 
-/* Mood animations */
 #mood-effect {
   position: fixed;
   top: 0; left: 0;
@@ -151,8 +159,8 @@ button:hover {
 }
 
 @keyframes fall {
-  0% { transform: translateY(-100px) rotate(0deg); }
-  100% { transform: translateY(100vh) rotate(360deg); }
+  0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
 }
 
 .particle {
@@ -161,6 +169,9 @@ button:hover {
   height: 20px;
   background-size: cover;
   animation: fall 3s linear infinite;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.9;
 }
 
 footer {
@@ -169,50 +180,34 @@ footer {
   color: #555;
 }
 
-/* Mobile */
 @media (max-width: 600px) {
   h1 {
     font-size: 1.6rem;
   }
-
   p {
     font-size: 1rem;
   }
-
   form select {
     width: 100%;
     margin-bottom: 0.6rem;
   }
-
   button {
     width: 100%;
     font-size: 1rem;
   }
-
   #result {
     font-size: 1.1rem;
   }
-
   #emoji {
     font-size: 2rem;
   }
 }
 
-/* Apply mood-effect visibility */
 #mood-effect.confetti,
 #mood-effect.rain {
   display: block;
 }
 
-.particle {
-  position: absolute;
-  animation: fall 2.5s linear infinite;
-  pointer-events: none;
-  user-select: none;
-  opacity: 0.9;
-}
-
-/* Confetti for happy mood */
 .confetti .particle {
   width: 8px;
   height: 8px;
@@ -221,7 +216,6 @@ footer {
   animation-duration: 3s;
 }
 
-/* Rain for sad mood */
 .rain .particle {
   width: 2px;
   height: 15px;
@@ -231,15 +225,7 @@ footer {
   animation-duration: 1.5s;
 }
 
-/* Common fall animation */
-@keyframes fall {
-  0% {
-    transform: translateY(-100px) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh) rotate(360deg);
-    opacity: 0;
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
