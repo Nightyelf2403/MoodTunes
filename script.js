@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `🎭 Drama alert! I'm feeling <select id="q0">${moods()}</select> after this <select id="q1">${events()}</select> situation. ⚡ Energy: <select id="q2">${energy()}</select>. Mental state? <select id="q3">${feels()}</select>. Nicknamed <select id="q4">${friends()}</select>. Cue the <select id="q5">${genres()}</select> vibes! 🎬`
   ];
 
+
   const storyForm = document.getElementById("storyForm");
   const loader = document.getElementById("loader");
   const resultDiv = document.getElementById("result");
@@ -91,10 +92,18 @@ document.addEventListener("DOMContentLoaded", () => {
       audio.src = sound;
       audio.play();
 
+      const moodMessage = `I'm feeling ${mood} today thanks to MoodTunes! 🎶`;
+      const encodedMsg = encodeURIComponent(moodMessage);
+      const twitterURL = `https://twitter.com/intent/tweet?text=${encodedMsg}`;
+      const whatsappURL = `https://api.whatsapp.com/send?text=${encodedMsg}`;
+      const mailtoURL = `mailto:?subject=My Mood Today&body=${encodedMsg}`;
+
       resultDiv.innerHTML = `
         <div style="font-size: 1.5rem; margin-top: 1rem; animation: fadeIn 1s ease-in-out; text-align:center;">
           Your mood is: <strong style="color:${highlightColor}">${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)<br><br>
-          <a href="https://twitter.com/intent/tweet?text=I'm feeling ${mood} today thanks to MoodTunes! 🎶" target="_blank" style="color: ${highlightColor}; font-weight: bold;">Share on Twitter</a>
+          <a href="${twitterURL}" target="_blank" style="color: ${highlightColor}; font-weight: bold; margin-right: 10px;">Share on Twitter</a>
+          <a href="${whatsappURL}" target="_blank" style="color: ${highlightColor}; font-weight: bold; margin-right: 10px;">Share on WhatsApp</a>
+          <a href="${mailtoURL}" target="_blank" style="color: ${highlightColor}; font-weight: bold;">Share via Email</a>
         </div>`;
 
       emojiDiv.textContent = mood === "happy" ? "😄" : mood === "sad" ? "😢" : "😐";
