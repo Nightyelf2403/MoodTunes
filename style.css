@@ -28,6 +28,7 @@ h1 {
   font-size: 2.4rem;
   margin-bottom: 0.5rem;
   color: #0077cc;
+  animation: slideDownFade 1.2s ease-out both;
 }
 
 p {
@@ -155,11 +156,20 @@ button:active {
   height: 100%;
   pointer-events: none;
   z-index: 9999;
-  display: none;
+  display: block;
+  overflow: hidden;
 }
 
 @keyframes fall {
-  0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
   100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
 }
 
@@ -178,6 +188,11 @@ footer {
   margin-top: 2rem;
   font-size: 0.9rem;
   color: #555;
+}
+
+@keyframes slideDownFade {
+  0% { opacity: 0; transform: translateY(-30px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 600px) {
