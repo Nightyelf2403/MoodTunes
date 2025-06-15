@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const songsDiv = document.getElementById("songs");
   const moodGif = document.getElementById("mood-gif");
   const memeVideo = document.getElementById("meme-video");
-  const animationDiv = document.getElementById("falling-anim");
+  const animationDiv = document.getElementById("mood-effect");
 
   const story = storyTemplates[Math.floor(Math.random() * storyTemplates.length)];
   storyForm.innerHTML = `
