@@ -198,20 +198,40 @@ footer {
   }
 }
 
-/* Mood animation states */
+/* Apply mood-effect visibility */
 #mood-effect.confetti,
-#mood-effect.rain,
-#mood-effect.leaves {
+#mood-effect.rain {
   display: block;
 }
 
 .particle {
   position: absolute;
-  animation: fall 3s linear infinite;
+  animation: fall 2.5s linear infinite;
   pointer-events: none;
   user-select: none;
+  opacity: 0.9;
 }
 
+/* Confetti for happy mood */
+.confetti .particle {
+  width: 8px;
+  height: 8px;
+  transform: rotateZ(45deg);
+  background-color: hsl(calc(360 * var(--hue)), 90%, 60%);
+  animation-duration: 3s;
+}
+
+/* Rain for sad mood */
+.rain .particle {
+  width: 2px;
+  height: 15px;
+  background: rgba(0, 136, 255, 0.6);
+  border-radius: 50%;
+  filter: blur(0.5px);
+  animation-duration: 1.5s;
+}
+
+/* Common fall animation */
 @keyframes fall {
   0% {
     transform: translateY(-100px) rotate(0deg);
@@ -219,7 +239,7 @@ footer {
   }
   100% {
     transform: translateY(100vh) rotate(360deg);
-    opacity: 0.2;
+    opacity: 0;
   }
 }
 
