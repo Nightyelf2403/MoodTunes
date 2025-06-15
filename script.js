@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const moodGif = document.getElementById("mood-gif");
   const memeVideo = document.getElementById("meme-video");
   const animationDiv = document.getElementById("mood-effect");
-
   const audio = new Audio();
 
   const heading = document.createElement("h1");
@@ -93,9 +92,8 @@ document.addEventListener("DOMContentLoaded", () => {
       audio.play();
 
       resultDiv.innerHTML = `
-        <div style="font-size: 1.5rem; margin-top: 1rem; animation: fadeIn 1s ease-in-out;">
-          Your mood is: <strong style="color:${highlightColor}">${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)
-          <br><br>
+        <div style="font-size: 1.5rem; margin-top: 1rem; animation: fadeIn 1s ease-in-out; text-align:center;">
+          Your mood is: <strong style="color:${highlightColor}">${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)<br><br>
           <a href="https://twitter.com/intent/tweet?text=I'm feeling ${mood} today thanks to MoodTunes! 🎶" target="_blank" style="color: ${highlightColor}; font-weight: bold;">Share on Twitter</a>
         </div>`;
 
@@ -118,17 +116,32 @@ document.addEventListener("DOMContentLoaded", () => {
         ]
       };
 
+      const memes = {
+        happy: [
+          "https://media.giphy.com/media/3o7abldj0b3rxrZUxW/giphy.mp4",
+          "https://media.giphy.com/media/l0ExncehJzexFpRHq/giphy.mp4"
+        ],
+        sad: [
+          "https://media.giphy.com/media/13borq7Zo2kulO/giphy.mp4",
+          "https://media.giphy.com/media/VbnUQpnihPSIgIXuZv/giphy.mp4"
+        ]
+      };
+
       quoteDiv.textContent = moodQuotes[mood];
       songsDiv.innerHTML = `<h3 style="margin-top: 1rem;">🎵 Your Songs:</h3><ul>${songs[mood].map(song => `<li><a href="${song.link}" target="_blank">${song.name}</a></li>`).join("")}</ul>`;
       songsDiv.style.display = "block";
+
+      const memeList = memes[mood];
+      memeVideo.src = memeList[Math.floor(Math.random() * memeList.length)];
+      memeVideo.style.display = "block";
 
       animationDiv.className = "";
       animationDiv.innerHTML = "";
       let moodClass = "";
       if (mood === "happy") moodClass = "confetti";
       else if (mood === "sad") moodClass = "rain";
-
       animationDiv.classList.add(moodClass);
+
       for (let i = 0; i < 35; i++) {
         const p = document.createElement("div");
         p.className = "particle";
