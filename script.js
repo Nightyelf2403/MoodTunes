@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `🎭 Drama alert! I'm feeling <select id="q0">${moods()}</select> after this <select id="q1">${events()}</select> situation. ⚡ Energy: <select id="q2">${energy()}</select>. Mental state? <select id="q3">${feels()}</select>. Nicknamed <select id="q4">${friends()}</select>. Cue the <select id="q5">${genres()}</select> vibes! 🎬`
   ];
 
+
   const storyForm = document.getElementById("storyForm");
   const loader = document.getElementById("loader");
   const resultDiv = document.getElementById("result");
@@ -45,7 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
     moodGif.style.display = "none";
     memeVideo.src = "";
     memeVideo.style.display = "none";
-    animationDiv.className = ""; // Reset animation
+    animationDiv.className = "";
+    animationDiv.innerHTML = "";
 
     try {
       const res = await fetch("https://moodtunes-gjkh.onrender.com/api/predict", {
@@ -139,13 +141,31 @@ document.addEventListener("DOMContentLoaded", () => {
       memeVideo.src = memeList[Math.floor(Math.random() * memeList.length)];
       memeVideo.style.display = "block";
 
-     
-      console.log("💬 Server returned:", data);
+      // 🎉 Emoji particle animation
+      let moodClass = "", emojiChar = "";
+      if (mood === "happy") {
+        moodClass = "confetti";
+        emojiChar = "🎉";
+      } else if (mood === "sad") {
+        moodClass = "rain";
+        emojiChar = "💧";
+      } else {
+        moodClass = "leaves";
+        emojiChar = "🍃";
+      }
 
-      // Add falling animation
-      if (mood === "happy") animationDiv.classList.add("confetti");
-      else if (mood === "sad") animationDiv.classList.add("rain");
-      else if (mood === "neutral") animationDiv.classList.add("leaves");
+      animationDiv.className = moodClass;
+      animationDiv.innerHTML = "";
+
+      for (let i = 0; i < 30; i++) {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        particle.textContent = emojiChar;
+        particle.style.left = Math.random() * 100 + "vw";
+        particle.style.top = "-" + Math.random() * 20 + "vh";
+        particle.style.fontSize = Math.random() * 12 + 16 + "px";
+        animationDiv.appendChild(particle);
+      }
 
       // Shrink story and show media
       document.querySelector(".story-text").classList.replace("story-large", "story-small");
@@ -158,40 +178,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  function moods() {
-    return `<option disabled selected value="">Select</option>
-      <option value="happy">Happy</option>
-      <option value="sad">Sad</option>
-      <option value="neutral">Neutral</option>`;
-  }
-  function events() {
-    return `<option disabled selected value="">Select</option>
-      <option value="exciting">Exciting</option>
-      <option value="stressful">Stressful</option>
-      <option value="unexpected">Unexpected</option>`;
-  }
-  function energy() {
-    return `<option disabled selected value="">Select</option>
-      <option value="high">High</option>
-      <option value="low">Low</option>
-      <option value="moderate">Moderate</option>`;
-  }
-  function feels() {
-    return `<option disabled selected value="">Select</option>
-      <option value="positive">Positive</option>
-      <option value="reflective">Reflective</option>
-      <option value="overwhelmed">Overwhelmed</option>`;
-  }
-  function friends() {
-    return `<option disabled selected value="">Select</option>
-      <option value="cheerful">Cheerful</option>
-      <option value="moody">Moody</option>
-      <option value="calm">Calm</option>`;
-  }
-  function genres() {
-    return `<option disabled selected value="">Select</option>
-      <option value="pop">Pop</option>
-      <option value="lofi">Lofi</option>
-      <option value="classical">Classical</option>`;
-  }
+  // dropdown options
+  function moods() { return `<option disabled selected value="">Select</option><option value="happy">Happy</option><option value="sad">Sad</option><option value="neutral">Neutral</option>`; }
+  function events() { return `<option disabled selected value="">Select</option><option value="exciting">Exciting</option><option value="stressful">Stressful</option><option value="unexpected">Unexpected</option>`; }
+  function energy() { return `<option disabled selected value="">Select</option><option value="high">High</option><option value="low">Low</option><option value="moderate">Moderate</option>`; }
+  function feels() { return `<option disabled selected value="">Select</option><option value="positive">Positive</option><option value="reflective">Reflective</option><option value="overwhelmed">Overwhelmed</option>`; }
+  function friends() { return `<option disabled selected value="">Select</option><option value="cheerful">Cheerful</option><option value="moody">Moody</option><option value="calm">Calm</option>`; }
+  function genres() { return `<option disabled selected value="">Select</option><option value="pop">Pop</option><option value="lofi">Lofi</option><option value="classical">Classical</option>`; }
 });
+
