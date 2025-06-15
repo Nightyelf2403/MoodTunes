@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     `🎭 Drama alert! I'm feeling <select id="q0">${moods()}</select> after this <select id="q1">${events()}</select> situation. ⚡ Energy: <select id="q2">${energy()}</select>. Mental state? <select id="q3">${feels()}</select>. Nicknamed <select id="q4">${friends()}</select>. Cue the <select id="q5">${genres()}</select> vibes! 🎬`
   ];
 
-
   const storyForm = document.getElementById("storyForm");
   const loader = document.getElementById("loader");
   const resultDiv = document.getElementById("result");
@@ -29,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   storyForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-
     const values = [];
     for (let i = 0; i < 6; i++) {
       const val = document.getElementById(`q${i}`).value;
@@ -54,14 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          conversation: [
-            { question: "Mood?", answer: values[0] },
-            { question: "Event?", answer: values[1] },
-            { question: "Energy?", answer: values[2] },
-            { question: "Mental?", answer: values[3] },
-            { question: "Friend?", answer: values[4] },
-            { question: "Genre?", answer: values[5] }
-          ]
+          conversation: values.map((v, i) => ({ question: `Q${i}`, answer: v }))
         })
       });
 
@@ -70,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const mood = data.mood || "neutral";
       const confidence = (data.confidence * 100).toFixed(1);
-
       resultDiv.innerHTML = `Your mood is: <strong>${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)`;
       emojiDiv.textContent = mood === "happy" ? "😄" : mood === "sad" ? "😢" : "😐";
 
@@ -78,36 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
         happy: "Happiness is a direction, not a place. 😊",
         sad: "Tears come from the heart and not from the brain. 💧",
         neutral: "Sometimes not feeling anything is a feeling too. 🍃"
-      };
-
-      const gifs = {
-        happy: [
-          "https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif",
-          "https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif"
-        ],
-        sad: [
-          "https://media.giphy.com/media/d2lcHJTG5Tscg/giphy.gif",
-          "https://media.giphy.com/media/fT0X0RPKgq4x2/giphy.gif"
-        ],
-        neutral: [
-          "https://media.giphy.com/media/l0K4kWJirrp1JX8sY/giphy.gif",
-          "https://media.giphy.com/media/xUPGcjGy8I928yIlAQ/giphy.gif"
-        ]
-      };
-
-      const memes = {
-        happy: [
-          "https://media.giphy.com/media/3o7abldj0b3rxrZUxW/giphy.mp4",
-          "https://media.giphy.com/media/l0ExncehJzexFpRHq/giphy.mp4"
-        ],
-        sad: [
-          "https://media.giphy.com/media/13borq7Zo2kulO/giphy.mp4",
-          "https://media.giphy.com/media/VbnUQpnihPSIgIXuZv/giphy.mp4"
-        ],
-        neutral: [
-          "https://media.giphy.com/media/fAnEC88LccN7a/giphy.mp4",
-          "https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.mp4"
-        ]
       };
 
       const songs = {
@@ -118,59 +78,34 @@ document.addEventListener("DOMContentLoaded", () => {
         sad: [
           { name: "Let Me Down Slowly – Alec Benjamin", link: "https://www.youtube.com/watch?v=50VNCymT-Cs" },
           { name: "Lose You To Love Me – Selena Gomez", link: "https://www.youtube.com/watch?v=zlJDTxahav0" }
-        ],
-        neutral: [
-          { name: "Circles – Post Malone", link: "https://www.youtube.com/watch?v=wXhTHyIgQ_U" },
-          { name: "Memories – Maroon 5", link: "https://www.youtube.com/watch?v=SlPhMPnQ58k" }
         ]
       };
 
       quoteDiv.textContent = moodQuotes[mood];
-
-      const songLinks = songs[mood]
-        .map(song => `<li><a href="${song.link}" target="_blank">${song.name}</a></li>`)
-        .join("");
-      songsDiv.innerHTML = `<h3>🎵 Your Songs:</h3><ul>${songLinks}</ul>`;
+      songsDiv.innerHTML = `<h3>🎵 Your Songs:</h3><ul>${songs[mood].map(song => `<li><a href="${song.link}" target="_blank">${song.name}</a></li>`).join("")}</ul>`;
       songsDiv.style.display = "block";
 
-      const gifList = gifs[mood];
-      moodGif.src = gifList[Math.floor(Math.random() * gifList.length)];
-      moodGif.style.display = "block";
-
-      const memeList = memes[mood];
-      memeVideo.src = memeList[Math.floor(Math.random() * memeList.length)];
-      memeVideo.style.display = "block";
-
-      // 🎉 Emoji particle animation
-      let moodClass = "", emojiChar = "";
-      if (mood === "happy") {
-        moodClass = "confetti";
-        emojiChar = "🎉";
-      } else if (mood === "sad") {
-        moodClass = "rain";
-        emojiChar = "💧";
-      } else {
-        moodClass = "leaves";
-        emojiChar = "🍃";
-      }
-
-      animationDiv.className = moodClass;
+      // Mood visual
+      animationDiv.className = "";
       animationDiv.innerHTML = "";
+      let moodClass = "";
+      if (mood === "happy") moodClass = "confetti";
+      else if (mood === "sad") moodClass = "rain";
 
-      for (let i = 0; i < 30; i++) {
-        const particle = document.createElement("div");
-        particle.className = "particle";
-        particle.textContent = emojiChar;
-        particle.style.left = Math.random() * 100 + "vw";
-        particle.style.top = "-" + Math.random() * 20 + "vh";
-        particle.style.fontSize = Math.random() * 12 + 16 + "px";
-        animationDiv.appendChild(particle);
+      animationDiv.classList.add(moodClass);
+      for (let i = 0; i < 35; i++) {
+        const p = document.createElement("div");
+        p.className = "particle";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.top = "-" + Math.random() * 20 + "vh";
+        if (mood === "happy") {
+          p.style.setProperty("--hue", Math.random().toFixed(2));
+        }
+        animationDiv.appendChild(p);
       }
 
-      // Shrink story and show media
       document.querySelector(".story-text").classList.replace("story-large", "story-small");
       document.querySelector(".media").classList.add("show");
-
     } catch (err) {
       loader.style.display = "none";
       resultDiv.textContent = "⚠️ Error detecting mood. Please try again.";
@@ -178,12 +113,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // dropdown options
-  function moods() { return `<option disabled selected value="">Select</option><option value="happy">Happy</option><option value="sad">Sad</option><option value="neutral">Neutral</option>`; }
-  function events() { return `<option disabled selected value="">Select</option><option value="exciting">Exciting</option><option value="stressful">Stressful</option><option value="unexpected">Unexpected</option>`; }
-  function energy() { return `<option disabled selected value="">Select</option><option value="high">High</option><option value="low">Low</option><option value="moderate">Moderate</option>`; }
-  function feels() { return `<option disabled selected value="">Select</option><option value="positive">Positive</option><option value="reflective">Reflective</option><option value="overwhelmed">Overwhelmed</option>`; }
-  function friends() { return `<option disabled selected value="">Select</option><option value="cheerful">Cheerful</option><option value="moody">Moody</option><option value="calm">Calm</option>`; }
-  function genres() { return `<option disabled selected value="">Select</option><option value="pop">Pop</option><option value="lofi">Lofi</option><option value="classical">Classical</option>`; }
+  function moods() {
+    return `<option disabled selected value="">Select</option><option value="happy">Happy</option><option value="sad">Sad</option><option value="neutral">Neutral</option>`;
+  }
+  function events() {
+    return `<option disabled selected value="">Select</option><option value="exciting">Exciting</option><option value="stressful">Stressful</option><option value="unexpected">Unexpected</option>`;
+  }
+  function energy() {
+    return `<option disabled selected value="">Select</option><option value="high">High</option><option value="low">Low</option><option value="moderate">Moderate</option>`;
+  }
+  function feels() {
+    return `<option disabled selected value="">Select</option><option value="positive">Positive</option><option value="reflective">Reflective</option><option value="overwhelmed">Overwhelmed</option>`;
+  }
+  function friends() {
+    return `<option disabled selected value="">Select</option><option value="cheerful">Cheerful</option><option value="moody">Moody</option><option value="calm">Calm</option>`;
+  }
+  function genres() {
+    return `<option disabled selected value="">Select</option><option value="pop">Pop</option><option value="lofi">Lofi</option><option value="classical">Classical</option>`;
+  }
 });
-
