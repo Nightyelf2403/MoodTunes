@@ -1,5 +1,3 @@
-// MoodTunes Script with Genre-Based Audio and Volume Slider + Mood Detection Audio + Animated UI
-
 document.addEventListener("DOMContentLoaded", () => {
   const audio = new Audio();
   const volumeSlider = document.createElement("input");
@@ -26,12 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
     pop: "https://dl.sndup.net/q6p7/pop-ambience.mp3",
     lofi: "https://dl.sndup.net/t5mk/lofi-bg.mp3",
     classical: "https://dl.sndup.net/8xdp/classical-soft.mp3"
-  };
-
-  const moodAudios = {
-    happy: "https://dl.sndup.net/62yw/happy-tone.mp3",
-    sad: "https://dl.sndup.net/y4w3/sad-tone.mp3",
-    neutral: "https://dl.sndup.net/xzgt/neutral-tone.mp3"
   };
 
   const storyForm = document.getElementById("storyForm");
@@ -68,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
   storyForm.innerHTML = `
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 90vw; margin: auto;">
       <p class="story-text story-large" style="text-align:center">${story}</p>
-      <button type="submit" style="margin-top: 1rem; font-size: 1.2rem; animation: popIn 0.5s ease-in-out;">🎯 Detect Mood</button>
+      <button type="submit" style="margin-top: 1rem; font-size: 1.2rem;">🎯 Detect Mood</button>
     </div>
   `;
 
@@ -108,7 +100,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const confidence = (data.confidence * 100).toFixed(1);
 
       document.body.style.background = mood === "happy" ? "#eaffea" : mood === "sad" ? "#fceaea" : "#f4f4f4";
-      audio.src = moodAudios[mood] || moodAudios.neutral;
+      audio.src = genreAudios[genre] || genreAudios.lofi;
+      audio.loop = true;
       audio.play();
 
       resultDiv.innerHTML = `
@@ -125,6 +118,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
       songsDiv.innerHTML = `<h3 style="margin-top: 1rem;">🎵 Recommended Tracks:</h3><ul><li><a href="#">Explore more on YouTube</a></li></ul>`;
       songsDiv.style.display = "block";
+
+      const memes = {
+        happy: [
+          "https://media.giphy.com/media/3o7abldj0b3rxrZUxW/giphy.mp4",
+          "https://media.giphy.com/media/l0ExncehJzexFpRHq/giphy.mp4"
+        ],
+        sad: [
+          "https://media.giphy.com/media/13borq7Zo2kulO/giphy.mp4",
+          "https://media.giphy.com/media/VbnUQpnihPSIgIXuZv/giphy.mp4"
+        ],
+        neutral: [
+          "https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.mp4",
+          "https://media.giphy.com/media/fAnEC88LccN7a/giphy.mp4"
+        ]
+      };
+
+      const memeList = memes[mood];
+      memeVideo.src = memeList[Math.floor(Math.random() * memeList.length)];
+      memeVideo.style.display = "block";
 
       const effect = mood === "happy" ? "confetti" : mood === "sad" ? "rain" : "";
       animationDiv.className = effect;
