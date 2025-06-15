@@ -20,10 +20,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const memeVideo = document.getElementById("meme-video");
   const animationDiv = document.getElementById("mood-effect");
 
+  const audio = new Audio();
+
+  const heading = document.createElement("h1");
+  heading.textContent = "🎧 Welcome to MoodTunes!";
+  heading.style.margin = "20px auto";
+  heading.style.color = "#0077cc";
+  heading.style.textAlign = "center";
+  heading.style.fontSize = "2rem";
+  document.body.insertBefore(heading, document.body.firstChild);
+
   const story = storyTemplates[Math.floor(Math.random() * storyTemplates.length)];
   storyForm.innerHTML = `
-    <p class="story-text story-large">${story}</p>
-    <button type="submit">🎯 Detect Mood</button>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 90vw; margin: auto;">
+      <p class="story-text story-large" style="text-align:center">${story}</p>
+      <button type="submit" style="margin-top: 1rem; font-size: 1.2rem;">🎯 Detect Mood</button>
+    </div>
   `;
 
   storyForm.addEventListener("submit", async (e) => {
@@ -61,7 +73,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const mood = data.mood || "neutral";
       const confidence = (data.confidence * 100).toFixed(1);
-      resultDiv.innerHTML = `Your mood is: <strong>${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)`;
+
+      let highlightColor = "#333", bgColor = "#fff", sound = "";
+      if (mood === "happy") {
+        highlightColor = "#28a745";
+        bgColor = "#eaffea";
+        sound = "./sounds/happy.mp3";
+      } else if (mood === "sad") {
+        highlightColor = "#dc3545";
+        bgColor = "#fceaea";
+        sound = "./sounds/sad.mp3";
+      } else {
+        bgColor = "#f4f4f4";
+        sound = "./sounds/neutral.mp3";
+      }
+
+      document.body.style.background = bgColor;
+      audio.src = sound;
+      audio.play();
+
+      resultDiv.innerHTML = `
+        <div style="font-size: 1.5rem; margin-top: 1rem; animation: fadeIn 1s ease-in-out;">
+          Your mood is: <strong style="color:${highlightColor}">${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)
+          <br><br>
+          <a href="https://twitter.com/intent/tweet?text=I'm feeling ${mood} today thanks to MoodTunes! 🎶" target="_blank" style="color: ${highlightColor}; font-weight: bold;">Share on Twitter</a>
+        </div>`;
+
       emojiDiv.textContent = mood === "happy" ? "😄" : mood === "sad" ? "😢" : "😐";
 
       const moodQuotes = {
@@ -82,10 +119,9 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       quoteDiv.textContent = moodQuotes[mood];
-      songsDiv.innerHTML = `<h3>🎵 Your Songs:</h3><ul>${songs[mood].map(song => `<li><a href="${song.link}" target="_blank">${song.name}</a></li>`).join("")}</ul>`;
+      songsDiv.innerHTML = `<h3 style="margin-top: 1rem;">🎵 Your Songs:</h3><ul>${songs[mood].map(song => `<li><a href="${song.link}" target="_blank">${song.name}</a></li>`).join("")}</ul>`;
       songsDiv.style.display = "block";
 
-      // Mood visual
       animationDiv.className = "";
       animationDiv.innerHTML = "";
       let moodClass = "";
