@@ -13,18 +13,18 @@ document.addEventListener("DOMContentLoaded", () => {
     audio.volume = volumeSlider.value;
   });
 
-  let isMuted = false;
   const muteBtn = document.createElement("button");
   muteBtn.textContent = "🔇 Mute";
+  let isMuted = false;
   muteBtn.onclick = () => {
     isMuted = !isMuted;
     audio.muted = isMuted;
     muteBtn.textContent = isMuted ? "🔈 Unmute" : "🔇 Mute";
   };
 
-  let isPaused = false;
   const pauseBtn = document.createElement("button");
   pauseBtn.textContent = "⏸️ Pause";
+  let isPaused = false;
   pauseBtn.onclick = () => {
     isPaused = !isPaused;
     if (isPaused) {
@@ -36,16 +36,37 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  const nowPlaying = document.createElement("div");
+  nowPlaying.id = "nowPlaying";
+  nowPlaying.textContent = "🎵 Now Playing: None";
+
   const audioControls = document.getElementById("audio-controls");
-  audioControls.appendChild(document.createElement("label")).textContent = "🔊 Volume: ";
+  audioControls.innerHTML = "";
+  audioControls.appendChild(nowPlaying);
   audioControls.appendChild(volumeSlider);
   audioControls.appendChild(muteBtn);
   audioControls.appendChild(pauseBtn);
+  audioControls.style.display = "none";
 
   const genreAudios = {
     pop: "https://dl.sndup.net/q6p7/pop-ambience.mp3",
     lofi: "https://dl.sndup.net/t5mk/lofi-bg.mp3",
     classical: "https://dl.sndup.net/8xdp/classical-soft.mp3"
+  };
+
+  const recommendedTracks = {
+    pop: [
+      { title: "Blinding Lights", url: "https://www.youtube.com/watch?v=fHI8X4OXluQ" },
+      { title: "Levitating", url: "https://www.youtube.com/watch?v=TUVcZfQe-Kw" }
+    ],
+    lofi: [
+      { title: "Chillhop Essentials", url: "https://www.youtube.com/watch?v=5qap5aO4i9A" },
+      { title: "Lofi Hip Hop Radio", url: "https://www.youtube.com/watch?v=jfKfPfyJRdk" }
+    ],
+    classical: [
+      { title: "Moonlight Sonata", url: "https://www.youtube.com/watch?v=4Tr0otuiQuU" },
+      { title: "Clair de Lune", url: "https://www.youtube.com/watch?v=CvFH_6DNRCY" }
+    ]
   };
 
   const storyForm = document.getElementById("storyForm");
@@ -113,7 +134,8 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.style.background = mood === "happy" ? "#eaffea" : mood === "sad" ? "#fceaea" : "#f4f4f4";
       audio.src = genreAudios[genre] || genreAudios.lofi;
       audio.play();
-      audioControls.classList.add("show");
+      audioControls.style.display = "flex";
+      nowPlaying.textContent = `🎵 Now Playing: ${genre.charAt(0).toUpperCase() + genre.slice(1)}`;
 
       resultDiv.innerHTML = `
         <div>Your mood is: <strong>${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)</div>`;
@@ -124,7 +146,10 @@ document.addEventListener("DOMContentLoaded", () => {
         ? "Tears come from the heart and not from the brain."
         : "Sometimes not feeling anything is a feeling too.";
 
-      songsDiv.innerHTML = `<h3>🎵 Recommended Tracks:</h3><ul><li><a href="https://www.youtube.com/results?search_query=${genre}+music" target="_blank">Explore more on YouTube</a></li></ul>`;
+      const tracks = recommendedTracks[genre] || [];
+      songsDiv.innerHTML = `<h3>🎵 Recommended Tracks:</h3><ul>` +
+        tracks.map(track => `<li><a href="${track.url}" target="_blank">${track.title}</a></li>`).join("") +
+        `</ul>`;
       songsDiv.style.display = "block";
 
       const memes = {
@@ -149,6 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         animationDiv.appendChild(p);
       }
+
     } catch (err) {
       loader.style.display = "none";
       resultDiv.textContent = "⚠️ Error detecting mood. Please try again.";
@@ -175,3 +201,4 @@ document.addEventListener("DOMContentLoaded", () => {
     return `<option disabled selected value="">Select</option><option value="pop">Pop</option><option value="lofi">Lofi</option><option value="classical">Classical</option>`;
   }
 });
+
