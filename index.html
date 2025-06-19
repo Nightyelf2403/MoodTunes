@@ -1,45 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MoodTunes 🎧</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
+    <h1>🎧 Welcome to MoodTunes!<span style="color: red">❤️</span></h1>
 
-
-    <!-- Story Form Generated Dynamically -->
     <form id="storyForm" class="story-large"></form>
 
-    <!-- Loader -->
     <div id="loader" class="spinner"></div>
-
-    <!-- Mood Result -->
     <div id="result"></div>
     <div id="emoji"></div>
     <div id="quote"></div>
 
-    <!-- Media (GIFs / Memes) -->
     <div id="mediaContent" class="media">
       <img id="mood-gif" alt="Mood GIF" />
       <video id="meme-video" autoplay muted loop playsinline></video>
     </div>
 
-    <!-- Songs -->
     <div id="songs"></div>
 
+    <div id="audio-controls">
+      <span>🔊 Volume:</span>
+      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.6">
+      <button type="button" id="muteBtn">🔇 Mute</button>
+      <button type="button" id="pauseBtn">⏸️ Pause</button>
+    </div>
 
-
-    <!-- Footer -->
     <footer>Made with ❤️ by Lalith Aditya Chunduri</footer>
   </div>
 
-  <!-- Mood Visual Effects (confetti/rain) -->
   <div id="mood-effect"></div>
-
-  <!-- Main Script -->
   <script src="script.js"></script>
 </body>
 </html>
