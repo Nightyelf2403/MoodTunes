@@ -1,58 +1,46 @@
-// Full Enhanced script.js for MoodTunes with Story Options, Audio Controls, and Mood-Based Memes
-
 document.addEventListener("DOMContentLoaded", () => {
   const audio = new Audio();
   audio.loop = true;
+  audio.volume = 0.6;
 
-  const nowPlaying = document.getElementById("nowPlaying") || document.createElement("div");
-  nowPlaying.id = "nowPlaying";
-
-  const volumeSlider = document.getElementById("volumeSlider") || document.createElement("input");
+  const volumeSlider = document.createElement("input");
   volumeSlider.type = "range";
   volumeSlider.min = 0;
   volumeSlider.max = 1;
   volumeSlider.step = 0.01;
   volumeSlider.value = 0.6;
-  audio.volume = volumeSlider.value;
+  volumeSlider.addEventListener("input", () => {
+    audio.volume = volumeSlider.value;
+  });
 
-  const muteBtn = document.getElementById("muteBtn") || document.createElement("button");
-  muteBtn.id = "muteBtn";
+  let isMuted = false;
+  const muteBtn = document.createElement("button");
   muteBtn.textContent = "🔇 Mute";
-
-  const pauseBtn = document.getElementById("pauseBtn") || document.createElement("button");
-  pauseBtn.id = "pauseBtn";
-  pauseBtn.textContent = "⏸️ Pause";
-
   muteBtn.onclick = () => {
-    audio.muted = !audio.muted;
-    muteBtn.textContent = audio.muted ? "🔈 Unmute" : "🔇 Mute";
+    isMuted = !isMuted;
+    audio.muted = isMuted;
+    muteBtn.textContent = isMuted ? "🔈 Unmute" : "🔇 Mute";
   };
 
+  let isPaused = false;
+  const pauseBtn = document.createElement("button");
+  pauseBtn.textContent = "⏸️ Pause";
   pauseBtn.onclick = () => {
-    if (audio.paused) {
-      audio.play();
-      pauseBtn.textContent = "⏸️ Pause";
-    } else {
+    isPaused = !isPaused;
+    if (isPaused) {
       audio.pause();
       pauseBtn.textContent = "▶️ Resume";
+    } else {
+      audio.play();
+      pauseBtn.textContent = "⏸️ Pause";
     }
   };
 
-  volumeSlider.oninput = () => {
-    audio.volume = volumeSlider.value;
-  };
-
-  let audioControls = document.getElementById("audio-controls");
-  if (!audioControls) {
-    audioControls = document.createElement("div");
-    audioControls.id = "audio-controls";
-
-    const label = document.createElement("label");
-    label.textContent = "🔊 Volume: ";
-
-    audioControls.append(nowPlaying, label, volumeSlider, muteBtn, pauseBtn);
-    document.body.appendChild(audioControls);
-  }
+  const audioControls = document.getElementById("audio-controls");
+  audioControls.appendChild(document.createElement("label")).textContent = "🔊 Volume: ";
+  audioControls.appendChild(volumeSlider);
+  audioControls.appendChild(muteBtn);
+  audioControls.appendChild(pauseBtn);
 
   const genreAudios = {
     pop: "https://dl.sndup.net/q6p7/pop-ambience.mp3",
@@ -60,60 +48,15 @@ document.addEventListener("DOMContentLoaded", () => {
     classical: "https://dl.sndup.net/8xdp/classical-soft.mp3"
   };
 
-  const recommendedTracks = {
-    pop: [
-      { title: "Blinding Lights", url: "https://www.youtube.com/watch?v=fHI8X4OXluQ" },
-      { title: "Levitating", url: "https://www.youtube.com/watch?v=TUVcZfQe-Kw" }
-    ],
-    lofi: [
-      { title: "Chillhop Essentials", url: "https://www.youtube.com/watch?v=5qap5aO4i9A" },
-      { title: "Lofi Hip Hop Radio", url: "https://www.youtube.com/watch?v=jfKfPfyJRdk" }
-    ],
-    classical: [
-      { title: "Moonlight Sonata", url: "https://www.youtube.com/watch?v=4Tr0otuiQuU" },
-      { title: "Clair de Lune", url: "https://www.youtube.com/watch?v=CvFH_6DNRCY" }
-    ]
-  };
-
-  const memes = {
-    happy: [
-      "https://media.giphy.com/media/3o7abldj0b3rxrZUxW/giphy.gif",
-      "https://media.giphy.com/media/l0ExncehJzexFpRHq/giphy.gif"
-    ],
-    sad: [
-      "https://media.giphy.com/media/13borq7Zo2kulO/giphy.gif",
-      "https://media.giphy.com/media/VbnUQpnihPSIgIXuZv/giphy.gif"
-    ],
-    neutral: [
-      "https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.gif",
-      "https://media.giphy.com/media/fAnEC88LccN7a/giphy.gif"
-    ]
-  };
-
-  window.updateMoodAudio = function (genre, mood) {
-    audio.src = genreAudios[genre] || genreAudios.lofi;
-    nowPlaying.innerHTML = `🎵 Now Playing: <em>${genre.charAt(0).toUpperCase() + genre.slice(1)}</em>`;
-    audio.play();
-
-    const songsDiv = document.getElementById("songs");
-    const tracks = recommendedTracks[genre] || [];
-    songsDiv.innerHTML = `<h3 style="margin-top: 1rem;">🎧 Recommended Songs:</h3><ul>` +
-      tracks.map(t => `<li><a href="${t.url}" target="_blank">${t.title}</a></li>`).join('') +
-      `</ul>`;
-
-    const media = document.getElementById("mediaContent") || document.createElement("div");
-    media.id = "mediaContent";
-    const gif = document.getElementById("mood-gif") || document.createElement("img");
-    gif.id = "mood-gif";
-    gif.src = memes[mood]?.[Math.floor(Math.random() * memes[mood].length)] || "";
-    gif.alt = "Mood GIF";
-    gif.style.maxWidth = "90vw";
-    gif.style.borderRadius = "12px";
-    media.appendChild(gif);
-    document.body.appendChild(media);
-  };
-
   const storyForm = document.getElementById("storyForm");
+  const loader = document.getElementById("loader");
+  const resultDiv = document.getElementById("result");
+  const emojiDiv = document.getElementById("emoji");
+  const quoteDiv = document.getElementById("quote");
+  const songsDiv = document.getElementById("songs");
+  const memeVideo = document.getElementById("meme-video");
+  const animationDiv = document.getElementById("mood-effect");
+
   const storyTemplates = [
     `🌞 Today, I feel <select id="q0">${moods()}</select> because something <select id="q1">${events()}</select> happened. ⚡ My energy level is <select id="q2">${energy()}</select> and I'm feeling more <select id="q3">${feels()}</select> lately. 🧸 My best friend would say I'm <select id="q4">${friends()}</select>. 🎶 It feels like a <select id="q5">${genres()}</select> kind of day.`,
     `🌅 Woke up feeling <select id="q0">${moods()}</select>. A <select id="q1">${events()}</select> moment occurred. ☕ I’m <select id="q2">${energy()}</select> energy-wise and <select id="q3">${feels()}</select> in thoughts. 😅 I'd describe myself as <select id="q4">${friends()}</select>. This moment calls for <select id="q5">${genres()}</select> music.`,
@@ -127,36 +70,108 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const story = storyTemplates[Math.floor(Math.random() * storyTemplates.length)];
   storyForm.innerHTML = `
-    <div style="display: flex; flex-direction: column; align-items: center;">
-      <p class="story-text story-large">${story}</p>
-      <button type="submit" style="margin-top: 1rem; font-size: 1.1rem;">🎯 Detect Mood</button>
+    <div class="story-large">
+      <p class="story-text">${story}</p>
+      <button type="submit">🎯 Detect Mood</button>
     </div>
   `;
 
-  storyForm.addEventListener("submit", (e) => {
+  storyForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const mood = document.getElementById("q0").value;
-    const genre = document.getElementById("q5").value;
-    if (!mood || !genre) return alert("Please select mood and genre!");
-    updateMoodAudio(genre, mood);
+    const values = [];
+    for (let i = 0; i < 6; i++) {
+      const val = document.getElementById(`q${i}`).value;
+      if (!val) return alert("Please fill all fields!");
+      values.push(val);
+    }
+
+    loader.style.display = "block";
+    resultDiv.textContent = "";
+    emojiDiv.textContent = "";
+    quoteDiv.textContent = "";
+    songsDiv.innerHTML = "";
+    memeVideo.src = "";
+    memeVideo.style.display = "none";
+    animationDiv.className = "";
+    animationDiv.innerHTML = "";
+
+    try {
+      const res = await fetch("https://moodtunes-gjkh.onrender.com/api/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          conversation: values.map((v, i) => ({ question: `Q${i}`, answer: v }))
+        })
+      });
+      const data = await res.json();
+      loader.style.display = "none";
+
+      const mood = data.mood || "neutral";
+      const genre = values[5].toLowerCase();
+      const confidence = (data.confidence * 100).toFixed(1);
+
+      document.body.style.background = mood === "happy" ? "#eaffea" : mood === "sad" ? "#fceaea" : "#f4f4f4";
+      audio.src = genreAudios[genre] || genreAudios.lofi;
+      audio.play();
+      audioControls.classList.add("show");
+
+      resultDiv.innerHTML = `
+        <div>Your mood is: <strong>${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)</div>`;
+      emojiDiv.textContent = mood === "happy" ? "😄" : mood === "sad" ? "😢" : "😐";
+      quoteDiv.textContent = mood === "happy"
+        ? "Happiness is a direction, not a place."
+        : mood === "sad"
+        ? "Tears come from the heart and not from the brain."
+        : "Sometimes not feeling anything is a feeling too.";
+
+      songsDiv.innerHTML = `<h3>🎵 Recommended Tracks:</h3><ul><li><a href="https://www.youtube.com/results?search_query=${genre}+music" target="_blank">Explore more on YouTube</a></li></ul>`;
+      songsDiv.style.display = "block";
+
+      const memes = {
+        happy: ["https://media.giphy.com/media/3o7abldj0b3rxrZUxW/giphy.mp4"],
+        sad: ["https://media.giphy.com/media/13borq7Zo2kulO/giphy.mp4"],
+        neutral: ["https://media.giphy.com/media/U3qYN8S0j3bpK/giphy.mp4"]
+      };
+
+      const memeList = memes[mood];
+      memeVideo.src = memeList[Math.floor(Math.random() * memeList.length)];
+      memeVideo.style.display = "block";
+
+      const effect = mood === "happy" ? "confetti" : mood === "sad" ? "rain" : "";
+      animationDiv.className = effect;
+      for (let i = 0; i < 35; i++) {
+        const p = document.createElement("div");
+        p.className = "particle";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.top = "-" + Math.random() * 20 + "vh";
+        if (effect === "confetti") {
+          p.style.setProperty("--hue", Math.random().toFixed(2));
+        }
+        animationDiv.appendChild(p);
+      }
+    } catch (err) {
+      loader.style.display = "none";
+      resultDiv.textContent = "⚠️ Error detecting mood. Please try again.";
+      console.error("Error:", err);
+    }
   });
 
   function moods() {
-    return `<option value="happy">Happy</option><option value="sad">Sad</option><option value="neutral">Neutral</option>`;
+    return `<option disabled selected value="">Select</option><option value="happy">Happy</option><option value="sad">Sad</option><option value="neutral">Neutral</option>`;
   }
   function events() {
-    return `<option value="exciting">Exciting</option><option value="stressful">Stressful</option><option value="unexpected">Unexpected</option>`;
+    return `<option disabled selected value="">Select</option><option value="exciting">Exciting</option><option value="stressful">Stressful</option><option value="unexpected">Unexpected</option>`;
   }
   function energy() {
-    return `<option value="high">High</option><option value="moderate">Moderate</option><option value="low">Low</option>`;
+    return `<option disabled selected value="">Select</option><option value="high">High</option><option value="low">Low</option><option value="moderate">Moderate</option>`;
   }
   function feels() {
-    return `<option value="positive">Positive</option><option value="reflective">Reflective</option><option value="overwhelmed">Overwhelmed</option>`;
+    return `<option disabled selected value="">Select</option><option value="positive">Positive</option><option value="reflective">Reflective</option><option value="overwhelmed">Overwhelmed</option>`;
   }
   function friends() {
-    return `<option value="cheerful">Cheerful</option><option value="moody">Moody</option><option value="calm">Calm</option>`;
+    return `<option disabled selected value="">Select</option><option value="cheerful">Cheerful</option><option value="moody">Moody</option><option value="calm">Calm</option>`;
   }
   function genres() {
-    return `<option value="pop">Pop</option><option value="lofi">Lofi</option><option value="classical">Classical</option>`;
+    return `<option disabled selected value="">Select</option><option value="pop">Pop</option><option value="lofi">Lofi</option><option value="classical">Classical</option>`;
   }
 });
