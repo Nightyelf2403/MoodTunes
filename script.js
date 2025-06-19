@@ -1,3 +1,5 @@
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const audio = new Audio();
   audio.loop = true;
@@ -132,8 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
       audioControls.style.display = "flex";
       nowPlaying.textContent = `🎵 Now Playing: ${genre.charAt(0).toUpperCase() + genre.slice(1)}`;
 
-      resultDiv.innerHTML = `
-        <div>Your mood is: <strong>${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)</div>`;
+      resultDiv.innerHTML = `<div>Your mood is: <strong>${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)</div>`;
       emojiDiv.textContent = mood === "happy" ? "😄" : mood === "sad" ? "😢" : "😐";
       quoteDiv.textContent = mood === "happy"
         ? "Happiness is a direction, not a place."
@@ -196,4 +197,3 @@ document.addEventListener("DOMContentLoaded", () => {
     return `<option disabled selected value="">Select</option><option value="pop">Pop</option><option value="lofi">Lofi</option><option value="classical">Classical</option>`;
   }
 });
-
