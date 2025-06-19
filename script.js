@@ -78,6 +78,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const memeVideo = document.getElementById("meme-video");
   const animationDiv = document.getElementById("mood-effect");
 
+  const heading = document.createElement("h1");
+  heading.textContent = "🎧 Welcome to MoodTunes!";
+  heading.style.margin = "20px auto";
+  heading.style.color = "#0077cc";
+  heading.style.textAlign = "center";
+  heading.style.fontSize = "2rem";
+  heading.style.animation = "slideDownFade 1s ease-out";
+  document.querySelector(".container").prepend(heading);
+
   const storyTemplates = [
     `🌞 Today, I feel <select id="q0">${moods()}</select> because something <select id="q1">${events()}</select> happened. ⚡ My energy level is <select id="q2">${energy()}</select> and I'm feeling more <select id="q3">${feels()}</select> lately. 🧸 My best friend would say I'm <select id="q4">${friends()}</select>. 🎶 It feels like a <select id="q5">${genres()}</select> kind of day.`,
     `🌅 Woke up feeling <select id="q0">${moods()}</select>. A <select id="q1">${events()}</select> moment occurred. ☕ I’m <select id="q2">${energy()}</select> energy-wise and <select id="q3">${feels()}</select> in thoughts. 😅 I'd describe myself as <select id="q4">${friends()}</select>. This moment calls for <select id="q5">${genres()}</select> music.`,
