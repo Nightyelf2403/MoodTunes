@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MoodTunes 🎧</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome To MoodTunes ❤️</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1 class="animated-heading">🎧 Welcome to MoodTunes! <span style="color: red">❤️</span></h1>
+    <!-- Heading is injected by JS -->
 
     <form id="storyForm" class="story-large"></form>
 
@@ -17,25 +17,27 @@
     <div id="emoji"></div>
     <div id="quote"></div>
 
+    <div id="songs"></div>
+
     <div id="mediaContent" class="media">
       <img id="mood-gif" alt="Mood GIF" />
       <video id="meme-video" autoplay muted loop playsinline></video>
     </div>
 
-    <div id="songs"></div>
-
-    <div id="audio-controls">
-      <span id="nowPlaying" class="now-playing">🎵 Now Playing: <em>None</em></span>
-      <span>🔊</span>
-      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.6">
-      <button type="button" id="muteBtn">🔇</button>
-      <button type="button" id="pauseBtn">⏸️</button>
+    <!-- 🎵 AUDIO CONTROLS -->
+    <div id="audio-controls" class="audio-controls">
+      <div id="nowPlaying">🎵 Now Playing: <em>None</em></div>
+      <label for="volumeSlider">🔊 Volume:</label>
+      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.6" />
+      <button id="muteBtn">🔇 Mute</button>
+      <button id="pauseBtn">⏸️ Pause</button>
     </div>
 
-    <footer>Made with ❤️ by Lalith Aditya Chunduri</footer>
+    <footer>Made with ❤️ by Lalith Aditya</footer>
   </div>
 
   <div id="mood-effect"></div>
+
   <script src="script.js"></script>
 </body>
 </html>
