@@ -3,28 +3,22 @@ document.addEventListener("DOMContentLoaded", () => {
   audio.loop = true;
   audio.volume = 0.6;
 
-  const volumeSlider = document.createElement("input");
-  volumeSlider.type = "range";
-  volumeSlider.min = 0;
-  volumeSlider.max = 1;
-  volumeSlider.step = 0.01;
-  volumeSlider.value = 0.6;
-  volumeSlider.addEventListener("input", () => {
-    audio.volume = volumeSlider.value;
-  });
+  const volumeSlider = document.getElementById("volumeSlider");
+  const muteBtn = document.getElementById("muteBtn");
+  const pauseBtn = document.getElementById("pauseBtn");
+  const nowPlaying = document.getElementById("nowPlaying");
+  const audioControls = document.getElementById("audio-controls");
+  audioControls.style.display = "none";
 
-  const muteBtn = document.createElement("button");
-  muteBtn.textContent = "🔇 Mute";
   let isMuted = false;
+  let isPaused = false;
+
   muteBtn.onclick = () => {
     isMuted = !isMuted;
     audio.muted = isMuted;
     muteBtn.textContent = isMuted ? "🔈 Unmute" : "🔇 Mute";
   };
 
-  const pauseBtn = document.createElement("button");
-  pauseBtn.textContent = "⏸️ Pause";
-  let isPaused = false;
   pauseBtn.onclick = () => {
     isPaused = !isPaused;
     if (isPaused) {
@@ -36,17 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  const nowPlaying = document.createElement("div");
-  nowPlaying.id = "nowPlaying";
-  nowPlaying.textContent = "🎵 Now Playing: None";
-
-  const audioControls = document.getElementById("audio-controls");
-  audioControls.innerHTML = "";
-  audioControls.appendChild(nowPlaying);
-  audioControls.appendChild(volumeSlider);
-  audioControls.appendChild(muteBtn);
-  audioControls.appendChild(pauseBtn);
-  audioControls.style.display = "none";
+  volumeSlider.oninput = () => {
+    audio.volume = volumeSlider.value;
+  };
 
   const genreAudios = {
     pop: "https://dl.sndup.net/q6p7/pop-ambience.mp3",
@@ -56,16 +42,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const recommendedTracks = {
     pop: [
-      { title: "Blinding Lights", url: "https://www.youtube.com/watch?v=fHI8X4OXluQ" },
-      { title: "Levitating", url: "https://www.youtube.com/watch?v=TUVcZfQe-Kw" }
+      { title: "Taylor Swift - Cruel Summer", url: "https://www.youtube.com/watch?v=ic8j13piAhQ" },
+      { title: "Dua Lipa - Houdini", url: "https://www.youtube.com/watch?v=8V1a5MJWQ5o" }
     ],
     lofi: [
-      { title: "Chillhop Essentials", url: "https://www.youtube.com/watch?v=5qap5aO4i9A" },
-      { title: "Lofi Hip Hop Radio", url: "https://www.youtube.com/watch?v=jfKfPfyJRdk" }
+      { title: "lofi hip hop radio - beats to relax/study to", url: "https://www.youtube.com/watch?v=jfKfPfyJRdk" },
+      { title: "chillhop - jazzy beats", url: "https://www.youtube.com/watch?v=5yx6BWlEVcY" }
     ],
     classical: [
-      { title: "Moonlight Sonata", url: "https://www.youtube.com/watch?v=4Tr0otuiQuU" },
-      { title: "Clair de Lune", url: "https://www.youtube.com/watch?v=CvFH_6DNRCY" }
+      { title: "Beethoven – Für Elise", url: "https://www.youtube.com/watch?v=_mVW8tgGY_w" },
+      { title: "Mozart - Piano Sonata No. 16", url: "https://www.youtube.com/watch?v=XEczDRZs0xY" }
     ]
   };
 
@@ -85,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
   heading.style.textAlign = "center";
   heading.style.fontSize = "2rem";
   heading.style.animation = "slideDownFade 1s ease-out";
-  document.querySelector(".container").prepend(heading);
+  document.body.insertBefore(heading, document.body.firstChild);
 
   const storyTemplates = [
     `🌞 Today, I feel <select id="q0">${moods()}</select> because something <select id="q1">${events()}</select> happened. ⚡ My energy level is <select id="q2">${energy()}</select> and I'm feeling more <select id="q3">${feels()}</select> lately. 🧸 My best friend would say I'm <select id="q4">${friends()}</select>. 🎶 It feels like a <select id="q5">${genres()}</select> kind of day.`,
