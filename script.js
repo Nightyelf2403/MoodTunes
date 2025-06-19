@@ -8,6 +8,29 @@ document.addEventListener("DOMContentLoaded", () => {
   volumeSlider.value = 0.6;
   audio.volume = volumeSlider.value;
 
+  const muteBtn = document.createElement("button");
+  muteBtn.textContent = "🔇 Mute";
+  let isMuted = false;
+  muteBtn.onclick = () => {
+    isMuted = !isMuted;
+    audio.muted = isMuted;
+    muteBtn.textContent = isMuted ? "🔈 Unmute" : "🔇 Mute";
+  };
+
+  const pauseBtn = document.createElement("button");
+  pauseBtn.textContent = "⏸️ Pause";
+  let isPaused = false;
+  pauseBtn.onclick = () => {
+    if (isPaused) {
+      audio.play();
+      pauseBtn.textContent = "⏸️ Pause";
+    } else {
+      audio.pause();
+      pauseBtn.textContent = "▶️ Resume";
+    }
+    isPaused = !isPaused;
+  };
+
   volumeSlider.addEventListener("input", () => {
     audio.volume = volumeSlider.value;
   });
@@ -18,6 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
   label.textContent = "🔊 Volume: ";
   audioControls.appendChild(label);
   audioControls.appendChild(volumeSlider);
+  audioControls.appendChild(muteBtn);
+  audioControls.appendChild(pauseBtn);
   document.body.appendChild(audioControls);
 
   const genreAudios = {
@@ -32,7 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const emojiDiv = document.getElementById("emoji");
   const quoteDiv = document.getElementById("quote");
   const songsDiv = document.getElementById("songs");
-  const moodGif = document.getElementById("mood-gif");
   const memeVideo = document.getElementById("meme-video");
   const animationDiv = document.getElementById("mood-effect");
 
@@ -78,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
     emojiDiv.textContent = "";
     quoteDiv.textContent = "";
     songsDiv.innerHTML = "";
-    moodGif.style.display = "none";
     memeVideo.src = "";
     memeVideo.style.display = "none";
     animationDiv.className = "";
@@ -99,6 +122,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const genre = values[5].toLowerCase();
       const confidence = (data.confidence * 100).toFixed(1);
 
+      if (navigator.vibrate) navigator.vibrate(300);
+
       document.body.style.background = mood === "happy" ? "#eaffea" : mood === "sad" ? "#fceaea" : "#f4f4f4";
       audio.src = genreAudios[genre] || genreAudios.lofi;
       audio.loop = true;
@@ -116,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ? "Tears come from the heart and not from the brain."
         : "Sometimes not feeling anything is a feeling too.";
 
-      songsDiv.innerHTML = `<h3 style="margin-top: 1rem;">🎵 Recommended Tracks:</h3><ul><li><a href="#">Explore more on YouTube</a></li></ul>`;
+      songsDiv.innerHTML = `<h3 style="margin-top: 1rem;">🎵 Recommended Tracks:</h3><ul><li><a href="https://www.youtube.com/results?search_query=${genre}+music" target="_blank">Explore more on YouTube</a></li></ul>`;
       songsDiv.style.display = "block";
 
       const memes = {
@@ -150,6 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         animationDiv.appendChild(p);
       }
+
     } catch (err) {
       loader.style.display = "none";
       resultDiv.textContent = "⚠️ Error detecting mood. Please try again.";
