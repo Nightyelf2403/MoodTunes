@@ -35,15 +35,42 @@ document.addEventListener("DOMContentLoaded", () => {
     audio.volume = volumeSlider.value;
   });
 
-  const audioControls = document.createElement("div");
+  let audioControls = document.getElementById("audio-controls");
+if (!audioControls) {
+  audioControls = document.createElement("div");
   audioControls.id = "audio-controls";
+
   const label = document.createElement("label");
   label.textContent = "🔊 Volume: ";
-  audioControls.appendChild(label);
-  audioControls.appendChild(volumeSlider);
-  audioControls.appendChild(muteBtn);
-  audioControls.appendChild(pauseBtn);
+
+  const muteBtn = document.createElement("button");
+  muteBtn.textContent = "Mute";
+  muteBtn.onclick = () => audio.muted = !audio.muted;
+
+  const pauseBtn = document.createElement("button");
+  pauseBtn.textContent = "Pause";
+  pauseBtn.onclick = () => {
+    if (audio.paused) {
+      audio.play();
+      pauseBtn.textContent = "Pause";
+    } else {
+      audio.pause();
+      pauseBtn.textContent = "▶️ Play";
+    }
+  };
+
+  volumeSlider.type = "range";
+  volumeSlider.min = 0;
+  volumeSlider.max = 1;
+  volumeSlider.step = 0.01;
+  volumeSlider.value = 0.6;
+  audio.volume = 0.6;
+  volumeSlider.oninput = () => (audio.volume = volumeSlider.value);
+
+  audioControls.append(label, volumeSlider, muteBtn, pauseBtn);
   document.body.appendChild(audioControls);
+}
+
 
   const genreAudios = {
     pop: "https://dl.sndup.net/q6p7/pop-ambience.mp3",
