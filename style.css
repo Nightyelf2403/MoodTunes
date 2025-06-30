@@ -6,9 +6,9 @@
 }
 
 body {
-  font-family: "Segoe UI", sans-serif;
-  background: linear-gradient(to right, #f8f9fa, #d9eaf7);
-  color: #333;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  background: linear-gradient(to right, #fdfbfb, #ebedee);
+  color: #2c3e50;
   text-align: center;
   padding: 1rem;
   min-height: 100vh;
@@ -16,29 +16,33 @@ body {
 }
 
 .container {
-  max-width: 800px;
+  max-width: 860px;
   margin: auto;
-  padding: 1rem;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  border-radius: 12px;
+  padding: 2rem;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  border-radius: 16px;
 }
 
 h1 {
-  font-size: 2.4rem;
-  margin-bottom: 0.5rem;
-  color: #0077cc;
+  font-size: 2.6rem;
+  margin-bottom: 0.75rem;
+  color: #2d98da;
   animation: slideDownFade 1.2s ease-out both;
 }
 
 p {
   font-size: 1.2rem;
   margin-bottom: 1rem;
-  transition: font-size 0.4s ease;
 }
 
 .story-large {
   font-size: 1.3rem;
+  margin-top: 1rem;
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .story-small {
@@ -52,25 +56,33 @@ form select {
   border-radius: 8px;
   font-size: 1rem;
   border: 1px solid #ccc;
-  min-width: 100px;
+  min-width: 120px;
+  background: #ffffff;
+  transition: border 0.3s;
+}
+
+form select:focus {
+  outline: none;
+  border-color: #2d98da;
 }
 
 button {
   margin-top: 1rem;
-  background-color: #28a745;
+  background-color: #27ae60;
   border: none;
   color: white;
-  padding: 10px 24px;
+  padding: 12px 26px;
   font-size: 1.1rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
-  background-color: #218838;
+  background-color: #1e8449;
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
 button:active {
@@ -82,7 +94,7 @@ button:active {
   display: none;
   margin: 1rem auto;
   border: 6px solid #eee;
-  border-top: 6px solid #28a745;
+  border-top: 6px solid #27ae60;
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -96,6 +108,7 @@ button:active {
 #result {
   margin-top: 1rem;
   font-size: 1.4rem;
+  font-weight: 500;
 }
 
 #emoji {
@@ -106,7 +119,8 @@ button:active {
 #quote {
   margin-top: 0.5rem;
   font-size: 1.2rem;
-  color: #444;
+  color: #555;
+  font-style: italic;
 }
 
 #songs ul {
@@ -118,17 +132,19 @@ button:active {
 #songs li {
   font-size: 1.2rem;
   padding: 0.4rem;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 #songs a {
   text-decoration: none;
-  color: #0077cc;
+  color: #2d98da;
   font-size: 1.3rem;
+  transition: color 0.3s;
 }
 
 #songs a:hover {
   text-decoration: underline;
+  color: #0c68b0;
 }
 
 .media {
@@ -185,7 +201,7 @@ button:active {
 footer {
   margin-top: 2rem;
   font-size: 0.9rem;
-  color: #555;
+  color: #777;
 }
 
 @keyframes slideDownFade {
@@ -195,7 +211,7 @@ footer {
 
 @media (max-width: 600px) {
   h1 {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
   p {
     font-size: 1rem;
@@ -243,72 +259,3 @@ footer {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Volume Slider & Audio Controls */
-#audio-controls {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.6rem;
-  margin-top: 1.2rem;
-  padding: 0.8rem;
-  background: #f1f1f1;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  max-width: 90vw;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#audio-controls.show {
-  display: flex;
-}
-
-#audio-controls button {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  font-size: 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-#audio-controls button:hover {
-  background: #0056b3;
-}
-
-#audio-controls input[type="range"] {
-  width: 140px;
-  accent-color: #007bff;
-}
-
-#nowPlaying {
-  font-size: 1rem;
-  color: #444;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
-
-/* Story select styling */
-.story-large select {
-  margin-top: 0.3rem;
-  margin-bottom: 0.3rem;
-}
-
-.story-large button {
-  margin-top: 1rem;
-  font-size: 1.2rem;
-}
-
-/* Audio context awareness */
-audio::-webkit-media-controls-panel {
-  background-color: #f1f1f1;
-}
-
-audio {
-  max-width: 100%;
-  margin-top: 10px;
-  border-radius: 8px;
-}
