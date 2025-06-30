@@ -1,3 +1,4 @@
+// Final Script.js with autoplay fix, single audio control, recommended songs, meme support, and all story options
 
 document.addEventListener("DOMContentLoaded", () => {
   const audio = new Audio();
@@ -129,9 +130,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       document.body.style.background = mood === "happy" ? "#eaffea" : mood === "sad" ? "#fceaea" : "#f4f4f4";
       audio.src = genreAudios[genre] || genreAudios.lofi;
-      audio.play();
+      audio.play().catch((err) => {
+        console.warn("⚠️ Autoplay blocked. Adding button.");
+        const playBtn = document.createElement("button");
+        playBtn.textContent = "🔊 Tap to Start Music";
+        playBtn.onclick = () => {
+          audio.play();
+          playBtn.remove();
+        };
+        resultDiv.appendChild(playBtn);
+      });
+
       audioControls.style.display = "flex";
-      nowPlaying.textContent = `🎵 Now Playing: ${genre.charAt(0).toUpperCase() + genre.slice(1)}`;
+      nowPlaying.innerHTML = `🎵 <strong>Now Playing:</strong> ${genre.charAt(0).toUpperCase() + genre.slice(1)}`;
 
       resultDiv.innerHTML = `<div>Your mood is: <strong>${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)</div>`;
       emojiDiv.textContent = mood === "happy" ? "😄" : mood === "sad" ? "😢" : "😐";
