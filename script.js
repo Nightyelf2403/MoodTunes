@@ -106,7 +106,9 @@ thumbsDown.addEventListener("click", () => {
       const confidence = (data.confidence * 100).toFixed(1);
 
       document.body.style.background = mood === "happy" ? "#eaffea" : mood === "sad" ? "#fceaea" : "#f4f4f4";
-      audioControls.style.display = "none";
+      const audioControls = document.getElementById("audio-controls");
+if (audioControls) audioControls.style.display = "none";
+
       nowPlaying.innerHTML = `🎵 <strong>Explore:</strong> ${genre.charAt(0).toUpperCase() + genre.slice(1)} tracks on YouTube`;
 
       resultDiv.innerHTML = `<div>Your mood is: <strong>${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)</div>`;
