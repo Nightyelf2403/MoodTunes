@@ -12,10 +12,6 @@ MoodTunes is an intelligent, mood-based music and meme recommendation web app. I
 ## 🔥 Live Demo
 👉 **[Launch MoodTunes](https://nightyelf2403.github.io/MoodTunes/)**
 
----
-
-## 🖼️ Preview
-![Preview](./assets/screenshot.png)
 
 ---
 
@@ -23,11 +19,9 @@ MoodTunes is an intelligent, mood-based music and meme recommendation web app. I
 1. **Fill in a playful story** — choose your mood, energy, etc.
 2. **AI detects your mood** using a HuggingFace sentiment model.
 3. You get:
-   - 🎧 Genre-based BGM (autoplays)
    - 🎬 Meme video matching your mood
    - 📝 Motivational quote
    - 🎶 Top recommended YouTube tracks
-   - 🌈 Visual background animations
 
 ---
 
@@ -47,29 +41,6 @@ MoodTunes/
   - **Pop**: `pop-ambience.mp3`
   - **Lofi**: `lofi-bg.mp3`
   - **Classical**: `classical-soft.mp3`
-
-- Controls (shown only after detection):
-  - 🔇 Mute / 🔈 Unmute
-  - ⏸️ Pause / ▶️ Resume
-  - 🔊 Volume Slider
-  - 🎵 Now Playing indicator
-
----
-
-## 🔗 Top Recommended Tracks
-Based on your selected genre:
-
-### 🌟 Pop
-- [Blinding Lights](https://www.youtube.com/watch?v=fHI8X4OXluQ)
-- [Levitating](https://www.youtube.com/watch?v=TUVcZfQe-Kw)
-
-### ☁️ Lofi
-- [Chillhop Essentials](https://www.youtube.com/watch?v=5qap5aO4i9A)
-- [Lofi Hip Hop Radio](https://www.youtube.com/watch?v=jfKfPfyJRdk)
-
-### 🎼 Classical
-- [Beethoven – Für Elise](https://www.youtube.com/watch?v=_mVW8tgGY_w)
-- [Mozart - Piano Sonata No. 16](https://www.youtube.com/watch?v=JcUh-ggBfzI)
 
 ---
 
@@ -96,7 +67,6 @@ Optional: Host your own backend using Express + HuggingFace API Key.
 ---
 
 ## 🧩 To-Do / Ideas
-- [ ] Dark Mode
 - [ ] Add more genres (EDM, Jazz, etc.)
 - [ ] Spotify Integration
 - [ ] Offline fallback quotes/music
