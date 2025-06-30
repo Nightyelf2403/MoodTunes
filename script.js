@@ -11,15 +11,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const recommendedTracks = {
     pop: [
       { title: "Taylor Swift - Cruel Summer", url: "https://www.youtube.com/watch?v=ic8j13piAhQ" },
-      { title: "Dua Lipa - Houdini", url: "https://www.youtube.com/watch?v=8V1a5MJWQ5o" }
+      { title: "Dua Lipa - Houdini", url: "https://www.youtube.com/watch?v=suAR1PYFNYA" }
     ],
     lofi: [
       { title: "lofi hip hop radio", url: "https://www.youtube.com/watch?v=jfKfPfyJRdk" },
       { title: "chillhop - jazzy beats", url: "https://www.youtube.com/watch?v=5yx6BWlEVcY" }
     ],
     classical: [
-      { title: "Beethoven – Für Elise", url: "https://www.youtube.com/watch?v=_mVW8tgGY_w" },
-      { title: "Mozart - Piano Sonata No. 16", url: "https://www.youtube.com/watch?v=XEczDRZs0xY" }
+      { title: "Beethoven – Für Elise", url: "https://www.youtube.com/watch?v=wfF0zHeU3Zs" },
+      { title: "Mozart - Piano Sonata No. 16", url: "https://www.youtube.com/watch?v=qjk-YRuQZDE&t=2s" }
     ]
   };
 
