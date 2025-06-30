@@ -1,12 +1,22 @@
 // Final Script.js with YouTube embed instead of autoplay music player, recommended songs, meme support, and all story options
 
 document.addEventListener("DOMContentLoaded", () => {
-  const volumeSlider = document.getElementById("volumeSlider");
-  const muteBtn = document.getElementById("muteBtn");
-  const pauseBtn = document.getElementById("pauseBtn");
-  const nowPlaying = document.getElementById("nowPlaying");
-  const audioControls = document.getElementById("audio-controls");
-  audioControls.style.display = "none";
+  const thumbsUp = document.getElementById("thumbs-up");
+const thumbsDown = document.getElementById("thumbs-down");
+const reviewMessage = document.getElementById("review-message");
+const reviewSection = document.querySelector(".review-section");
+
+thumbsUp.addEventListener("click", () => {
+  thumbsUp.classList.add("selected");
+  thumbsDown.classList.remove("selected");
+  reviewMessage.textContent = "Thanks! We're glad you enjoyed it! 🎉";
+});
+
+thumbsDown.addEventListener("click", () => {
+  thumbsDown.classList.add("selected");
+  thumbsUp.classList.remove("selected");
+  reviewMessage.textContent = "Thanks for the feedback. We'll try to improve. 🙏";
+});
 
   const recommendedTracks = {
     pop: [
