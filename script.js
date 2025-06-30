@@ -1,7 +1,5 @@
-// Final Script.js with YouTube embed instead of autoplay music player, recommended songs, meme support, and all story options
-
 document.addEventListener("DOMContentLoaded", () => {
-  const thumbsUp = document.getElementById("thumbs-up");
+const thumbsUp = document.getElementById("thumbs-up");
 const thumbsDown = document.getElementById("thumbs-down");
 const reviewMessage = document.getElementById("review-message");
 const reviewSection = document.querySelector(".review-section");
