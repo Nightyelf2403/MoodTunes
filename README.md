@@ -1,154 +1,114 @@
 # 🎧 MoodTunes — Feel the Vibe!
 
-MoodTunes is an intelligent, mood-detection-based music and meme recommendation web app. It analyzes your current mood using a short story-based form and plays background music to match your vibe, while also showing memes, quotes, and trending track recommendations!
-
-## 🚀 Live Demo
-**👉 Try it now:** [nightyelf2403.github.io/MoodTunes](https://nightyelf2403.github.io/MoodTunes)
-
----
-
-
----
-
-## 📦 Features
-
-- ✅ Mood prediction from a short interactive story
-- ✅ Auto-changing background based on mood
-- ✅ Background music (BGM) that matches the detected genre
-- ✅ Meme video based on mood
-- ✅ Inspirational quote based on emotion
-- ✅ Volume, mute, pause/resume controls
-- ✅ Dynamic track recommendations
-- ✅ Falling confetti/rain effects
-- ✅ Fully mobile-responsive design
+MoodTunes is an intelligent, mood-based music and meme recommendation web app. It analyzes your mood from a fun, story-like sentence and gives you:
+- 🎵 Background music matching your vibe
+- 🎭 Memes to laugh or cry with
+- 💬 Uplifting quotes
+- 🌧️ Visual effects (confetti/rain)
+- 📱 Mobile-friendly UI with audio controls
 
 ---
 
-## 🛠️ Tech Stack
-
-- **Frontend:** HTML, CSS, JavaScript
-- **AI API:** HuggingFace Transformers (BERT Sentiment Analysis)
-- **Deployment:** GitHub Pages
+## 🔥 Live Demo
+👉 **[Launch MoodTunes](https://nightyelf2403.github.io/MoodTunes/)**
 
 ---
 
-## 📁 Project Structure
+## 🖼️ Preview
+![Preview](./assets/screenshot.png)
 
+---
+
+## 🧠 How It Works
+1. **Fill in a playful story** — choose your mood, energy, etc.
+2. **AI detects your mood** using a HuggingFace sentiment model.
+3. You get:
+   - 🎧 Genre-based BGM (autoplays)
+   - 🎬 Meme video matching your mood
+   - 📝 Motivational quote
+   - 🎶 Top recommended YouTube tracks
+   - 🌈 Visual background animations
+
+---
+
+## 📦 Project Structure
+```bash
 MoodTunes/
-│
-├── index.html # Main HTML file
-├── style.css # All UI styling and responsive design
-├── script.js # Core logic: mood detection, audio, API, UI updates
-├── README.md # You're here!
-└── assets/ # (Optional) media files like icons, screenshots
-
-markdown
-Copy
-Edit
+├── index.html       # Main page structure
+├── style.css        # Styling and responsiveness
+├── script.js        # Mood detection logic, music, effects
+└── README.md        # Project details (this file)
+```
 
 ---
 
-## ✨ How It Works
+## 🎵 Music Features
+- Background music by genre:
+  - **Pop**: `pop-ambience.mp3`
+  - **Lofi**: `lofi-bg.mp3`
+  - **Classical**: `classical-soft.mp3`
 
-1. **Interactive Story Form**  
-   Users fill in a sentence like:  
-   `"Today I feel [Happy] because something [Exciting] happened..."`
-
-2. **Mood Prediction**  
-   On clicking "Detect Mood", the filled values are sent to a backend API powered by a BERT sentiment model hosted on HuggingFace.
-
-3. **Matching Actions:**
-   - Mood-based quote & emoji
-   - Genre-specific BGM plays automatically
-   - Meme matching your mood
-   - Music links for top YouTube tracks in that genre
-   - Rain/confetti visual effects
-   - Volume/mute/pause controls shown only after detection
+- Controls (shown only after detection):
+  - 🔇 Mute / 🔈 Unmute
+  - ⏸️ Pause / ▶️ Resume
+  - 🔊 Volume Slider
+  - 🎵 Now Playing indicator
 
 ---
 
-## 🔊 Audio Options
+## 🔗 Top Recommended Tracks
+Based on your selected genre:
 
-BGM automatically plays from these links:
-- **Pop:** [pop-ambience.mp3](https://dl.sndup.net/q6p7/pop-ambience.mp3)
-- **Lofi:** [lofi-bg.mp3](https://dl.sndup.net/t5mk/lofi-bg.mp3)
-- **Classical:** [classical-soft.mp3](https://dl.sndup.net/8xdp/classical-soft.mp3)
-
-Tracks are looped and controlled via:
-- Mute / Unmute
-- Pause / Resume
-- Volume Slider
-
----
-
-## 💡 Recommended Tracks
-
-Top music tracks for each genre:
-
-### Pop
+### 🌟 Pop
 - [Blinding Lights](https://www.youtube.com/watch?v=fHI8X4OXluQ)
 - [Levitating](https://www.youtube.com/watch?v=TUVcZfQe-Kw)
 
-### Lofi
+### ☁️ Lofi
 - [Chillhop Essentials](https://www.youtube.com/watch?v=5qap5aO4i9A)
 - [Lofi Hip Hop Radio](https://www.youtube.com/watch?v=jfKfPfyJRdk)
 
-### Classical
+### 🎼 Classical
 - [Beethoven – Für Elise](https://www.youtube.com/watch?v=_mVW8tgGY_w)
 - [Mozart - Piano Sonata No. 16](https://www.youtube.com/watch?v=JcUh-ggBfzI)
 
 ---
 
-## ⚠️ API Limitations
+## ⚠️ API Limitation (HuggingFace)
+This app uses a free API model (`distilbert-base-uncased-finetuned-sst-2-english`) for sentiment analysis. You may encounter a 429 (rate limit) error.
 
-The app uses HuggingFace's free sentiment model (`distilbert-base-uncased-finetuned-sst-2-english`). Due to **rate limits**, you may occasionally hit a 429 error.
-
-### To fix:
-- Get a free API key from [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
-- Add it to your backend in the `Authorization` header
+### 🔑 Fix:
+1. Get your token: https://huggingface.co/settings/tokens
+2. Add `Authorization: Bearer YOUR_TOKEN` in backend headers
 
 ---
 
-## 🧪 Local Development
-
+## 🛠️ Dev Setup
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/MoodTunes.git
-cd MoodTunes
+$ git clone https://github.com/your-username/MoodTunes.git
+$ cd MoodTunes
 
-# Open index.html in a browser
-open index.html  # or just drag into Chrome
-To use a local backend:
+# Just open index.html in your browser!
+```
 
-Create a simple Express.js server
+Optional: Host your own backend using Express + HuggingFace API Key.
 
-Add your HuggingFace API key
+---
 
-Enable CORS
+## 🧩 To-Do / Ideas
+- [ ] Dark Mode
+- [ ] Add more genres (EDM, Jazz, etc.)
+- [ ] Spotify Integration
+- [ ] Offline fallback quotes/music
 
-Deploy using Render or Railway
+---
 
-📝 To-Do / Future Ideas
- Add dark mode toggle
+## 👨‍💻 Author
+Built with 💖 by [Lalith Aditya Chunduri](https://github.com/nightyelf2403)
 
- Offline fallback mood rules
+## 📜 License
+MIT License
 
- More genres (EDM, Rock, Jazz)
+---
 
- User profile & history
-
- Spotify integration
-
-📄 License
-MIT License © 2025 Lalith Aditya Chunduri
-
-❤️ Credits
-Background Music: SndUp.net
-
-AI Model: HuggingFace Transformers
-
-Memes: Giphy
-
-UI Design & Logic: Lalith Aditya
-
-Happy Mood Detecting! 🎧✨
+Enjoy the vibes. MoodTunes is here to tune into *you*! ✨🎧
