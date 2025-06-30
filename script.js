@@ -83,6 +83,7 @@ thumbsDown.addEventListener("click", () => {
     resultDiv.textContent = "";
     emojiDiv.textContent = "";
     quoteDiv.textContent = "";
+    reviewSection.classList.add("show");
     songsDiv.innerHTML = "";
     memeVideo.src = "";
     memeVideo.style.display = "none";
@@ -115,7 +116,7 @@ thumbsDown.addEventListener("click", () => {
         : mood === "sad"
         ? "Tears come from the heart and not from the brain."
         : "Sometimes not feeling anything is a feeling too.";
-        document.querySelector('.review-section')?.classList.add('show');
+        
       const tracks = recommendedTracks[genre] || [];
       songsDiv.innerHTML = `<h3>🎵 Recommended Tracks:</h3><ul>` +
         tracks.map(track => `<li><a href="${track.url}" target="_blank">${track.title}</a></li>`).join("") +
