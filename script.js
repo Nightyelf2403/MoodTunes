@@ -108,7 +108,7 @@ thumbsDown.addEventListener("click", () => {
       document.body.style.background = mood === "happy" ? "#eaffea" : mood === "sad" ? "#fceaea" : "#f4f4f4";
 
 
-      nowPlaying.innerHTML = `🎵 <strong>Explore:</strong> ${genre.charAt(0).toUpperCase() + genre.slice(1)} tracks on YouTube`;
+      
 
       resultDiv.innerHTML = `<div>Your mood is: <strong>${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)</div>`;
       emojiDiv.textContent = mood === "happy" ? "😄" : mood === "sad" ? "😢" : "😐";
