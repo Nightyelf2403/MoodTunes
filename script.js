@@ -1,10 +1,6 @@
-// Final Script.js with autoplay fix, single audio control, recommended songs, meme support, and all story options
+// Final Script.js with YouTube embed instead of autoplay music player, recommended songs, meme support, and all story options
 
 document.addEventListener("DOMContentLoaded", () => {
-  const audio = new Audio();
-  audio.loop = true;
-  audio.volume = 0.6;
-
   const volumeSlider = document.getElementById("volumeSlider");
   const muteBtn = document.getElementById("muteBtn");
   const pauseBtn = document.getElementById("pauseBtn");
@@ -12,43 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const audioControls = document.getElementById("audio-controls");
   audioControls.style.display = "none";
 
-  let isMuted = false;
-  let isPaused = false;
-
-  muteBtn.onclick = () => {
-    isMuted = !isMuted;
-    audio.muted = isMuted;
-    muteBtn.textContent = isMuted ? "🔈 Unmute" : "🔇 Mute";
-  };
-
-  pauseBtn.onclick = () => {
-    isPaused = !isPaused;
-    if (isPaused) {
-      audio.pause();
-      pauseBtn.textContent = "▶️ Resume";
-    } else {
-      audio.play();
-      pauseBtn.textContent = "⏸️ Pause";
-    }
-  };
-
-  volumeSlider.oninput = () => {
-    audio.volume = volumeSlider.value;
-  };
-
-  const genreAudios = {
-    pop: "https://dl.sndup.net/q6p7/pop-ambience.mp3",
-    lofi: "https://dl.sndup.net/t5mk/lofi-bg.mp3",
-    classical: "https://dl.sndup.net/8xdp/classical-soft.mp3"
-  };
-
   const recommendedTracks = {
     pop: [
       { title: "Taylor Swift - Cruel Summer", url: "https://www.youtube.com/watch?v=ic8j13piAhQ" },
       { title: "Dua Lipa - Houdini", url: "https://www.youtube.com/watch?v=8V1a5MJWQ5o" }
     ],
     lofi: [
-      { title: "lofi hip hop radio - beats to relax/study to", url: "https://www.youtube.com/watch?v=jfKfPfyJRdk" },
+      { title: "lofi hip hop radio", url: "https://www.youtube.com/watch?v=jfKfPfyJRdk" },
       { title: "chillhop - jazzy beats", url: "https://www.youtube.com/watch?v=5yx6BWlEVcY" }
     ],
     classical: [
@@ -129,20 +95,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const confidence = (data.confidence * 100).toFixed(1);
 
       document.body.style.background = mood === "happy" ? "#eaffea" : mood === "sad" ? "#fceaea" : "#f4f4f4";
-      audio.src = genreAudios[genre] || genreAudios.lofi;
-      audio.play().catch((err) => {
-        console.warn("⚠️ Autoplay blocked. Adding button.");
-        const playBtn = document.createElement("button");
-        playBtn.textContent = "🔊 Tap to Start Music";
-        playBtn.onclick = () => {
-          audio.play();
-          playBtn.remove();
-        };
-        resultDiv.appendChild(playBtn);
-      });
-
-      audioControls.style.display = "flex";
-      nowPlaying.innerHTML = `🎵 <strong>Now Playing:</strong> ${genre.charAt(0).toUpperCase() + genre.slice(1)}`;
+      audioControls.style.display = "none";
+      nowPlaying.innerHTML = `🎵 <strong>Explore:</strong> ${genre.charAt(0).toUpperCase() + genre.slice(1)} tracks on YouTube`;
 
       resultDiv.innerHTML = `<div>Your mood is: <strong>${mood.toUpperCase()}</strong> (Confidence: ${confidence}%)</div>`;
       emojiDiv.textContent = mood === "happy" ? "😄" : mood === "sad" ? "😢" : "😐";
